@@ -21,3 +21,9 @@
 
 - Able to emulate Google/Apple approach. 
 - Build up basic connections like database and network
+
+#### Comparison of existing UI/UX
+- Flow diagrams and some notes
+
+#### Our UX Model
+- Brief overview of how we want our UX to look like
