@@ -1,0 +1,2 @@
+rootProject.name='contact_shield_demo'
+include ':app'

@@ -1,0 +1,12 @@
+{
+	"client":{
+		"cp_id":"890001000000000755",
+		"product_id":"736430079244517173",
+		"client_id":"386668704609338496",
+		"client_secret":"EFF238B14C9E121362A11D4F4A256926DA2D26FC2806F328C1B7B79CCF5EED2A",
+		"app_id":"102413929",
+		"package_name":"com.futurewei.contact_shield_demo",
+		"api_key":"CV8RIuQ/eZc/Qi75KL2q65qRXWjPf/9Op5055PcECiWnbsipbMwffD4MSSAKLdv09/8LhNnNxtAxxJeKDqo+GpJwPYE2"
+	},
+	"configuration_version":"1.0"
+}
