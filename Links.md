@@ -12,3 +12,5 @@ GCP functions URL
 
 - upload periodic keys:
   - https://us-central1-contact-tracing-demo-281120.cloudfunctions.net/function-1
+- download new keys:
+  - https://us-central1-contact-tracing-demo-281120.cloudfunctions.net/downloadNew
