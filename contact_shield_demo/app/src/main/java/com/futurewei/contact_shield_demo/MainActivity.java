@@ -1,5 +1,6 @@
 package com.futurewei.contact_shield_demo;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlarmManager;
@@ -7,6 +8,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +27,10 @@ import com.huawei.hms.contactshield.ContactShieldEngine;
 import com.huawei.hms.contactshield.ContactShieldSetting;
 import com.huawei.hms.contactshield.ContactSketch;
 import com.huawei.hms.contactshield.PeriodicKey;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -234,6 +241,8 @@ public class MainActivity extends AppCompatActivity {
                     Log.e("pk", pk.toString());
                 }
 
+                upload_periodic_keys(periodicKeys);
+
 //                putSharedKey(sharedKeys);
             }
         });
@@ -262,6 +271,31 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    void upload_periodic_keys(List<PeriodicKey> periodic_keys){
+
+        JSONArray jsonArray = new JSONArray();
+        try {
+
+            for(PeriodicKey periodicKey : periodic_keys){
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("pk", extract_pk_string(periodicKey.toString()));
+                jsonObject.put("valid_time", periodicKey.getPeriodKeyValidTime());
+                jsonObject.put("life_time", periodicKey.getPeriodKeyLifeTime());
+                jsonObject.put("risk_level", periodicKey.getInitialRiskLevel());
+                jsonArray.put(jsonObject);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    String extract_pk_string(String raw){
+        int s = raw.indexOf('[');
+        int e = raw.indexOf(']');
+        return raw.substring(s+1,e);
+    }
+
+
     void putSharedKey(List<PeriodicKey> sharedKeys){
 //        List<PeriodicKey> sks = new ArrayList<>();
 //        PeriodicKey.Builder builder = new PeriodicKey.Builder();
@@ -281,6 +315,27 @@ public class MainActivity extends AppCompatActivity {
         });
         Log.e("put shared key", "ok");
     }
+
+    Handler myHandler = new Handler(){
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            Bundle b;
+            int code;
+            switch (msg.what){
+                case 1:
+                    Log.e("upload pk message", msg.getData().getInt("response_code")+"");
+                    break;
+                case 2:
+
+                    break;
+
+                default:
+                    Log.e("default handler", "triggered");
+                    break;
+            }
+        }
+    };
+
 
 //    void alarm_test(){
 //        AlarmManager alarmManager =
