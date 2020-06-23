@@ -34,8 +34,6 @@ public class upload_periodic_key extends  Thread{
         this.handler = handler;
     }
 
-
-
     @Override
     public void run() {
         super.run();
@@ -47,7 +45,7 @@ public class upload_periodic_key extends  Thread{
         int last_download_timeStamp=sharedPreferences.getInt("last_download_timeStamp",0);
 
         RequestBody formBody = new FormBody.Builder()
-                .add("timeStamp", ""+last_download_timeStamp)
+//                .add("timeStamp", ""+last_download_timeStamp)
                 .build();
 
         OkHttpClient client = new OkHttpClient();
