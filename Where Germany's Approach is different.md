@@ -2,8 +2,11 @@
 
 ![image-20200612161639977](C:\Users\zxu\AppData\Roaming\Typora\typora-user-images\image-20200612161639977.png)
 
-- Use one set of tokens
-- Tokens and their exchange algorithms are different. They use Elliptic Curve Diffie-Hellman (ECDH) key exchange algorithm. Haven't looked into yet.
+#### Tokens and their exchange algorithms are different. They use Elliptic Curve Diffie-Hellman (ECDH) key exchange algorithm.
 
-![image-20200612162540829](C:\Users\zxu\AppData\Roaming\Typora\typora-user-images\image-20200612162540829.png)
+- How they generate and exchange tokens
+- ![image-20200612162540829](C:\Users\zxu\AppData\Roaming\Typora\typora-user-images\image-20200612162540829.png)
 
+- How they check exposure
+
+![image-20200615155100542](C:\Users\zxu\AppData\Roaming\Typora\typora-user-images\image-20200615155100542.png)
