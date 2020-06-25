@@ -40,19 +40,19 @@
         android:layout_marginTop="30dp"
         />
 
-    <EditText
-        android:id="@+id/periodical_key_et"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="30dp"
-        />
+<!--    <EditText-->
+<!--        android:id="@+id/periodical_key_et"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:layout_marginTop="30dp"-->
+<!--        />-->
 
-    <EditText
-        android:id="@+id/valid_time_et"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="30dp"
-        />
+<!--    <EditText-->
+<!--        android:id="@+id/valid_time_et"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:layout_marginTop="30dp"-->
+<!--        />-->
 
 
     <Button
@@ -68,6 +68,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="get contact sketch"
+        android:layout_marginTop="30dp"
+        />
+
+    <Button
+        android:id="@+id/push_notification_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="push notification"
         android:layout_marginTop="30dp"
         />
 
