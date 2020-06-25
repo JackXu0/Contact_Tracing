@@ -8,8 +8,9 @@
 
     <ScrollView
         android:id="@+id/scrollView"
-        android:layout_width="378dp"
-        android:layout_height="600dp"
+        android:layout_width="375dp"
+        android:layout_height="550dp"
+        android:layout_marginBottom="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -154,8 +155,8 @@
                     android:layout_marginLeft="30dp"
                     android:layout_marginTop="15dp"
                     android:text="4"
-                    android:textSize="36sp"
                     android:textColor="#000000"
+                    android:textSize="36sp"
                     android:textStyle="bold|italic"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/numberOfHitsText" />
@@ -196,6 +197,36 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="30dp"
                 android:text="refresh" />
+<!-- Scroll test-->
+<!--            <Button-->
+<!--                android:id="@+id/refreshButton1"-->
+<!--                android:layout_width="350dp"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:layout_marginTop="30dp"-->
+<!--                android:text="refresh" />-->
+<!--            <Button-->
+<!--                android:id="@+id/refreshButton2"-->
+<!--                android:layout_width="350dp"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:layout_marginTop="30dp"-->
+<!--                android:text="refresh" />-->
+<!--            <Button-->
+<!--                android:id="@+id/refreshButton3"-->
+<!--                android:layout_width="350dp"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:layout_marginTop="30dp"-->
+<!--                android:text="refresh" />-->
+<!--            <Button-->
+<!--                android:id="@+id/refreshButton4"-->
+<!--                android:layout_width="350dp"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:layout_marginTop="30dp"-->
+<!--                android:text="refresh" />-->
+
 
         </LinearLayout>
     </ScrollView>
