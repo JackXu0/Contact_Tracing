@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.Settings;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -51,6 +52,8 @@ public class upload_periodic_key extends  Thread{
             jsonObject.put("android_version", Build.VERSION.RELEASE);
             jsonObject.put("brand", Build.MANUFACTURER);
             jsonObject.put("model", Build.MODEL);
+            jsonObject.put("user_id", Settings.Secure.getString(context.getContentResolver(),
+                    Settings.Secure.ANDROID_ID));
         }catch(Exception e){
             e.printStackTrace();
         }

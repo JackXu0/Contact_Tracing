@@ -45,4 +45,6 @@ public class FAQFragment extends Fragment {
 
         return root;
     }
+
+
 }
