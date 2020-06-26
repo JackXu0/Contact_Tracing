@@ -1,10 +1,6 @@
 <resources>
-    <string name="app_name">contact_shield_demo</string>
-    <string name="title_activity_main2">MainActivity</string>
+    <string name="app_name">CTDemoApp</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
-
     <string name="title_FAQ">FAQ</string>
     <string name="title_settings">Settings</string>
 
@@ -33,5 +29,6 @@
     <string name="disable_notification_caption">"When notifications are turned off, your device will not receive any notifications for potential exposures or interactions with other users."</string>
     <string name="alert_heading"><b>"You have been in contact with a Covid-19 Patient!"</b></string>
     <string name="alert_body">"Someone you have been in contact with recently have self-reported positive. Please self-quarantine or get tested at your local testing center."</string>
+
 
 </resources>

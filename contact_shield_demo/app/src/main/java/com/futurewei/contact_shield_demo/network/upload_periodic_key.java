@@ -2,13 +2,12 @@ package com.futurewei.contact_shield_demo.network;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.Settings;
 import android.util.Log;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,13 +31,13 @@ public class upload_periodic_key extends  Thread{
 
     public Context context;
     public Handler handler;
-    public JsonArray jsonArray;
+    public JSONObject jsonObject;
     public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
-    public upload_periodic_key(Context context, Handler handler, JsonArray jsonArray){
+    public upload_periodic_key(Context context, Handler handler, JSONObject jsonObject){
         this.context = context;
         this.handler = handler;
-        this.jsonArray = jsonArray;
+        this.jsonObject = jsonObject;
     }
 
     @Override
@@ -48,11 +47,23 @@ public class upload_periodic_key extends  Thread{
         final Message msg=new Message();
         msg.what=1;
 
-        RequestBody body = RequestBody.create(jsonArray.toString(), JSON);
+        try{
+            jsonObject.put("api_level", Build.VERSION.SDK_INT);
+            jsonObject.put("android_version", Build.VERSION.RELEASE);
+            jsonObject.put("brand", Build.MANUFACTURER);
+            jsonObject.put("model", Build.MODEL);
+            jsonObject.put("user_id", Settings.Secure.getString(context.getContentResolver(),
+                    Settings.Secure.ANDROID_ID));
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+
+        RequestBody body = RequestBody.create(jsonObject.toString(), JSON);
 
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
-                .url("http://10.0.2.2:8000/downloadNew")
+                .url("https://us-central1-contact-tracing-demo-281120.cloudfunctions.net/function-1")
                 .post(body)
                 .build();
 
@@ -73,6 +84,7 @@ public class upload_periodic_key extends  Thread{
             public void onResponse(Call call, final Response response) throws IOException {
                 if(response.isSuccessful()){
                     Log.e("upload periodic key","response and success");
+                    Log.e("upload periodic key", response.body().string());
                     Bundle b =new Bundle();
                     b.putInt("response_code",1);
                     msg.setData(b);

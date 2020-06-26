@@ -1,29 +1,32 @@
-package com.futurewei.contact_shield_demo;
+package com.futurewei.contact_shield_demo.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
-import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.SystemClock;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 
-import com.huawei.hmf.tasks.OnCompleteListener;
+import com.futurewei.contact_shield_demo.BackgroundContactCheckingIntentService;
+import com.futurewei.contact_shield_demo.R;
 import com.huawei.hmf.tasks.OnFailureListener;
 import com.huawei.hmf.tasks.OnSuccessListener;
 import com.huawei.hmf.tasks.Task;
 import com.huawei.hms.contactshield.ContactDetail;
 import com.huawei.hms.contactshield.ContactShield;
-import com.huawei.hms.contactshield.ContactShieldCallback;
-import com.huawei.hms.contactshield.ContactShieldEngine;
 import com.huawei.hms.contactshield.ContactShieldSetting;
 import com.huawei.hms.contactshield.ContactSketch;
 import com.huawei.hms.contactshield.PeriodicKey;
@@ -32,33 +35,40 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import com.futurewei.contact_shield_demo.network.upload_periodic_key;
+import com.futurewei.contact_shield_demo.network.download_new;
 
 public class MainActivity extends AppCompatActivity {
 
     List<PeriodicKey> sharedKeys;
-    byte[] bytes_honor = new byte[]{-89, -52, 90, -14, 19, 11, -105, -61, 33, 96, -23, 22, 96, 72, 94, -124};
-    byte[] bytes_mate = new byte[]{50, 125, -44, 23, -109, 102, -124, -71, 11, -76, 118, 34, -101, -75, 79, -7};
 
     Button start_engine_btn;
     Button stop_engine_btn;
     Button get_periodical_key_btn;
     Button clear_data_btn;
-    EditText periodical_key_et;
-    EditText valid_time_et;
     Button put_shared_key_btn;
-    Button get_contact_sketch;
+    Button get_contact_sketch_btn;
+    Button push_notification_btn;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        context = this;
+
         initView();
 
-
-
+        Log.e("info1", Build.VERSION.SDK_INT+"");
+        Log.e("info2", Build.DEVICE);
+        Log.e("info3", Build.MANUFACTURER);
+        Log.e("info4", Build.MODEL);
+        Log.e("info5", Build.ID);
+        Log.e("info6", Settings.Secure.getString(this.getContentResolver(),
+                Settings.Secure.ANDROID_ID));
     }
 
     void initView(){
@@ -66,10 +76,9 @@ public class MainActivity extends AppCompatActivity {
         stop_engine_btn = findViewById(R.id.stop_engine_btn);
         get_periodical_key_btn = findViewById(R.id.get_periodical_key_btn);
         clear_data_btn = findViewById(R.id.clear_data_btn);
-        periodical_key_et = findViewById(R.id.periodical_key_et);
-        valid_time_et = findViewById(R.id.valid_time_et);
         put_shared_key_btn = findViewById(R.id.put_shared_key_btn);
-        get_contact_sketch = findViewById(R.id.get_contact_sketch_btn);
+        get_contact_sketch_btn = findViewById(R.id.get_contact_sketch_btn);
+        push_notification_btn = findViewById(R.id.push_notification_btn);
 
         start_engine_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,37 +111,23 @@ public class MainActivity extends AppCompatActivity {
         put_shared_key_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String periodical_key = periodical_key_et.getText().toString().replace("[","").replace("]","").replace(" ","");
-                byte[] bytes = new byte[16];
-                String[] byte_strings = periodical_key.split(";");
-                for(int i = 0; i<16; i++){
-                    bytes[i] = (byte) Integer.parseInt(byte_strings[i]);
-                }
-
-
-                int valid_time = Integer.parseInt(valid_time_et.getText().toString());
-
-                List<PeriodicKey> sks = new ArrayList<>();
-                PeriodicKey.Builder builder = new PeriodicKey.Builder();
-                builder.setContent(bytes);
-                builder.setInitialRiskLevel(1);
-                builder.setPeriodKeyLifeTime(4);
-                builder.setPeriodKeyValidTime(valid_time);
-                PeriodicKey pk = builder.build();
-                Log.e("input shared key", pk.toString());
-                sks.add(pk);
-
-                putSharedKey(sks);
+                new download_new(context, myHandler).start();
             }
         });
 
-        get_contact_sketch.setOnClickListener(new View.OnClickListener() {
+        get_contact_sketch_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getContactSketch();
             }
         });
 
+        push_notification_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                make_alert_window();
+            }
+        });
     }
 
     void engine_start_pre_check(){
@@ -248,7 +243,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-//    [76, 125, -110, -74, -36, 99, 90, -5, -97, 10, -53, -31, 21, -63, -100, 86]
     void getContactSketch(){
         Task<ContactSketch> contactSketchTask = ContactShield.getContactShieldEngine(getApplicationContext()).getContactSketch();
         contactSketchTask.addOnSuccessListener(new OnSuccessListener<ContactSketch>() {
@@ -284,6 +278,12 @@ public class MainActivity extends AppCompatActivity {
                 jsonObject.put("risk_level", periodicKey.getInitialRiskLevel());
                 jsonArray.put(jsonObject);
             }
+            JSONObject jo = new JSONObject();
+            jo.put("periodic_keys", jsonArray);
+
+            Log.e("json object", jo.toString());
+
+            (new upload_periodic_key(this, myHandler, jo)).start();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -292,25 +292,16 @@ public class MainActivity extends AppCompatActivity {
     String extract_pk_string(String raw){
         int s = raw.indexOf('[');
         int e = raw.indexOf(']');
-        return raw.substring(s+1,e);
+        return raw.substring(s+1,e).replace(" ","");
     }
 
 
     void putSharedKey(List<PeriodicKey> sharedKeys){
-//        List<PeriodicKey> sks = new ArrayList<>();
-//        PeriodicKey.Builder builder = new PeriodicKey.Builder();
-//        builder.setContent(bytes_honor);
-//        builder.setInitialRiskLevel(1);
-//        builder.setPeriodKeyLifeTime(10);
-//        builder.setPeriodKeyValidTime(2654344);
-//        PeriodicKey pk = builder.build();
-//        sks.add(pk);
         Task<Void> task = ContactShield.getContactShieldEngine(getApplicationContext()).putSharedKey(sharedKeys);
         task.addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Log.e("put key", "success");
-//                getContactSketch();
             }
         });
         Log.e("put shared key", "ok");
@@ -335,6 +326,46 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
+
+    void make_alert_window(){
+
+        NotificationManager notification_manager = (NotificationManager) this
+                .getSystemService(Context.NOTIFICATION_SERVICE);
+
+        Intent notificationIntent = new Intent(context, MainActivity.class);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent intent = PendingIntent.getActivity(context, 0,
+                notificationIntent, 0);
+        NotificationCompat.Builder notification_builder;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String chanel_id = "3000";
+            CharSequence name = "Channel Name";
+            String description = "Chanel Description";
+            int importance = NotificationManager.IMPORTANCE_LOW;
+            NotificationChannel mChannel = new NotificationChannel(chanel_id, name, importance);
+            mChannel.setDescription(description);
+            mChannel.enableLights(true);
+            mChannel.setLightColor(Color.BLUE);
+            notification_manager.createNotificationChannel(mChannel);
+            notification_builder = new NotificationCompat.Builder(this, chanel_id);
+        } else {
+            notification_builder = new NotificationCompat.Builder(this);
+        }
+        notification_builder.setSmallIcon(R.drawable.ic_launcher_background)
+                .setContentTitle("corona virus alert")
+                .setContentText("You have been exposed to a corona virus patient recently. Please practice self quarantine and contact your doctor if you are not feeling fine.")
+                .setAutoCancel(true)
+                .setContentIntent(intent);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+
+// notificationId is a unique int for each notification that you must define
+        notificationManager.notify(1, notification_builder.build());
+
+
+    }
 
 
 //    void alarm_test(){
