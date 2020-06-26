@@ -19,7 +19,7 @@ public class NotificationsActivity extends AppCompatActivity {
         backToHomeButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                //TODO::GO BACK TO HOME FRAGMENT
+                finish();
             }
         });
     }
