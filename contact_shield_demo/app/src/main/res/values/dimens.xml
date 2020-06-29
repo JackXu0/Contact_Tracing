@@ -14,4 +14,7 @@
 
     <dimen name="guideline_faq_start">24dp</dimen>
     <dimen name="guideline_faq_end"> 16dp</dimen>
+
+    <dimen name="guideline_verification_start"> 14dp</dimen>
+    <dimen name="guideline_verification_end">14dp</dimen>
 </resources>

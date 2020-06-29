@@ -23,11 +23,11 @@
 
         "</string>
     <string name="report_results"> <u> "Report your results >>" </u></string>
-    <string name="report_positive_heading"> <b>"Share your positive test result"</b></string>
+    <string name="report_positive_heading"> <b>"Share Your Positive Test Result"</b></string>
     <string name="report_positive_body">"If you have been tested positive for COVID-19, you can share your test results to help notify others who may have been in contact with you. This will let others know they should monitor for symptoms. Only those who have been exposed will receive a notification."</string>
-    <string name="verify_heading"> <b>"Enter your verification code"</b></string>
+    <string name="verify_heading"> <b>"Enter Your Verification Code"</b></string>
     <string name="verify_caption">"This unique verification code is provided by your testing center, and it is used to verify your positive test result."</string>
-    <string name="test_date_heading"><b>"Test date"</b></string>
+    <string name="test_date_heading"><b>"Test Date"</b></string>
     <string name="test_date_caption">"Your test date helps the app know when you may have been contagious and notify others who have been in contact with you from the past 14 days."</string>
     <string name="disable_app_caption">"When the App is disabled, your device will not send or receive signals from other users."</string>
     <string name="disable_notification_caption">"When notifications are turned off, your device will not receive any notifications for potential exposures or interactions with other users."</string>
