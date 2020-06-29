@@ -1,57 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RadioButton
-        android:id="@+id/disableAppButton"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="50dp"
-        android:buttonTint="#000000"
-        android:text="Disable App"
-        android:textSize="20dp"
-        android:checked="false"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/guideline_start" />
 
-    <TextView
-        android:id="@+id/disableAppCaption"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="100dp"
-        android:layout_marginRight="100dp"
-        android:text ="@string/disable_app_caption"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/disableAppButton"/>
-
-    <RadioButton
-        android:id="@+id/disableNotificationsButton"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="30dp"
-        android:buttonTint="#000000"
-        android:textSize="20dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/disableAppCaption"
-        android:text="Disable Notifications" />
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/guideline_end" />
 
-    <TextView
-        android:id="@+id/disableNotificationsCaption"
-        android:layout_width="300dp"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_top"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="100dp"
-        android:layout_marginRight="100dp"
-        android:text ="@string/disable_notification_caption"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/disableNotificationsButton"/>
-</LinearLayout>
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="@dimen/guideline_top" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="@dimen/guideline_bottom" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/overall"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toTopOf="@id/guideline_top">
+        <RadioButton
+            android:id="@+id/disableAppButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="#000000"
+            android:text="Disable App"
+            android:textSize="20dp"
+            android:checked="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/disableAppCaption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="20dp"
+            android:text ="@string/disable_app_caption"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/disableAppButton"/>
+
+        <RadioButton
+            android:id="@+id/disableNotificationsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:buttonTint="#000000"
+            android:textSize="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/disableAppCaption"
+            android:text="Disable Notifications" />
+
+        <TextView
+            android:id="@+id/disableNotificationsCaption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="20dp"
+            android:text ="@string/disable_notification_caption"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/disableNotificationsButton"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
