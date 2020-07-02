@@ -8,6 +8,12 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!--Camera permission-->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!--File reading permission-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
         android:allowBackup="true"
@@ -17,7 +23,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activities.NewMainActivity">
-            <intent-filter>-->
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -33,6 +39,7 @@
         <activity android:name=".activities.NotificationsActivity"/>
         <activity android:name=".activities.ReportTestResultActivity"/>
         <activity android:name=".activities.VerificationActivity"/>
+        <activity android:name=".activities.ReportTempActivity"/>
     </application>
 
 </manifest>

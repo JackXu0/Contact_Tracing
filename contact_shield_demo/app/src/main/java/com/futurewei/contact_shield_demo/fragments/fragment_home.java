@@ -30,6 +30,7 @@ import androidx.core.app.NotificationManagerCompat;
 import com.futurewei.contact_shield_demo.R;
 import com.futurewei.contact_shield_demo.activities.MainActivity;
 import com.futurewei.contact_shield_demo.activities.NotificationsActivity;
+import com.futurewei.contact_shield_demo.activities.ReportTempActivity;
 import com.futurewei.contact_shield_demo.activities.ReportTestResultActivity;
 import com.futurewei.contact_shield_demo.network.download_new;
 import com.huawei.hmf.tasks.OnSuccessListener;
@@ -108,7 +109,7 @@ public class fragment_home extends Fragment {
             @Override
             public void onClick(View v) {
                 System.out.println("reportButton pressed");
-                Intent intent = new Intent(getContext(), ReportTestResultActivity.class);
+                Intent intent = new Intent(getContext(), ReportTempActivity.class);
                 startActivity(intent);
             }
         });
