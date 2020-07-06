@@ -100,15 +100,14 @@
 
                 <Button
                     android:id="@+id/reportResults"
-                    style="@style/Widget.AppCompat.Button.Borderless"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:minHeight = "0dp"
                     android:visibility="gone"
                     android:text="@string/report_results"
-                    android:textColor="#000000"
                     android:textStyle="italic"
-                    android:textSize="12dp"
+                    android:textSize="15dp"
                     app:layout_constraintEnd_toEndOf="@+id/guideline_content_end"
                     app:layout_constraintTop_toTopOf="@+id/guideline_content_top" />
 
@@ -125,16 +124,16 @@
                         android:id="@+id/radioNegative"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:buttonTint="#000000"
                         android:checked="true"
+                        android:buttonTint="@color/colorPrimary"
                         android:text="@string/notPositiveStatus"
                         android:textSize="18sp" />
 
                     <RadioButton
                         android:id="@+id/radioPositive"
+                        android:buttonTint="@color/colorPrimary"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:buttonTint="#000000"
                         android:text="@string/positiveStatus"
                         android:textSize="18sp" />
                 </RadioGroup>
@@ -221,7 +220,7 @@
                     android:layout_marginStart="10dp"
                     android:text="4"
                     android:textSize="36sp"
-                    android:textColor="#000000"
+                    android:textColor="@color/colorPrimary"
                     android:textStyle="bold|italic"
                     app:layout_constraintStart_toStartOf="@id/guideline_data_start"
                     app:layout_constraintTop_toBottomOf="@+id/numberOfHitsText" />
@@ -233,7 +232,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginStart="10dp"
                     android:text="High"
-                    android:textColor="#000000"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="34sp"
                     android:textStyle="italic"
                     app:layout_constraintStart_toStartOf="@id/guideline_data_start"
@@ -246,7 +245,7 @@
                     android:layout_marginStart="40dp"
                     android:layout_marginTop="18dp"
                     android:text="users"
-                    android:textColor="#000000"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="30sp"
                     android:textStyle="italic"
                     app:layout_constraintStart_toStartOf="@id/guideline_data_start"
@@ -266,15 +265,16 @@
 
         </LinearLayout>
     </ScrollView>
+
     <Button
         android:id="@+id/refreshButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="30dp"
-        android:text="refresh"
+        android:text="Refresh"
+        android:backgroundTint="@color/colorPrimary"
+        android:textColor="@color/ButtonTextColor"
         app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
         app:layout_constraintStart_toStartOf="@id/guideline_start"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
