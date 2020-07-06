@@ -22,7 +22,7 @@ public class ReportTestResultActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //next page
-                Intent intent = new Intent(getApplicationContext(), VerificationActivity.class);
+                Intent intent = new Intent(getApplicationContext(), VerificationMethodsActivity.class);
                 startActivity(intent);
                 finish();
             }

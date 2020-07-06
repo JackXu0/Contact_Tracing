@@ -25,7 +25,7 @@
     <string name="report_results"> <u> "Report your results >>" </u></string>
     <string name="report_positive_heading"> <b>"Share Your Positive Test Result"</b></string>
     <string name="report_positive_body">"If you have been tested positive for COVID-19, you can share your test results to help notify others who may have been in contact with you. This will let others know they should monitor for symptoms. Only those who have been exposed will receive a notification."</string>
-    <string name="verify_heading"> <b>"Enter Your Verification Code"</b></string>
+    <string name="verify_heading"> <b>"Enter Your TAN Code"</b></string>
     <string name="verify_caption">"This unique verification code is provided by your testing center, and it is used to verify your positive test result."</string>
     <string name="test_date_heading"><b>"Test Date"</b></string>
     <string name="test_date_caption">"Your test date helps the app know when you may have been contagious and notify others who have been in contact with you from the past 14 days."</string>
@@ -33,5 +33,14 @@
     <string name="disable_notification_caption">"When notifications are turned off, your device will not receive any notifications for potential exposures or interactions with other users."</string>
     <string name="alert_heading"><b>"You have been in contact with a Covid-19 Patient!"</b></string>
     <string name="alert_body">"Someone you have been in contact with recently have self-reported positive. Please self-quarantine or get tested at your local testing center."</string>
+    <string name="verification_methods_heading">"Choose Verification Method"</string>
+    <string name="verification_method1_heading">"Scan QR code"</string>
+    <string name="verification_method1_description">"Register your test by scanning the QR code that can be found in your testing documents."</string>
+    <string name="verification_method2_heading">"Request TAN code"</string>
+    <string name="verification_method2_description">"Please call us if you have been diagnosed of COVID-19 but do not have a QR code."</string>
+    <string name="teleTAN_heading">"How this works"</string>
+    <string name="teleTAN_description">"Call the hotline to request a TAN:"</string>
+    <string name="teleTAN_hotline">"+1(213)-425-8730"</string>
+
 
 </resources>
