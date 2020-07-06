@@ -11,14 +11,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="@dimen/guideline_start" />
+        app:layout_constraintGuide_begin="@dimen/guideline_verification_start" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_end="@dimen/guideline_end" />
+        app:layout_constraintGuide_end="@dimen/guideline_verification_end" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_top"
@@ -38,7 +38,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/border"
         app:layout_constraintTop_toTopOf="@id/guideline_top"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
         app:layout_constraintEnd_toEndOf="@id/guideline_end">
@@ -48,14 +47,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="@dimen/guideline_verification_start" />
+            app:layout_constraintGuide_begin="@dimen/guideline_verification_content_start" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_content_end"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_end="@dimen/guideline_verification_end" />
+            app:layout_constraintGuide_end="@dimen/guideline_verification_content_end" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_content_top"
@@ -72,56 +71,59 @@
             android:textSize="22dp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@id/guideline_content_start"
+            app:layout_constraintEnd_toEndOf="@id/guideline_content_end"
             app:layout_constraintTop_toTopOf="@id/guideline_content_top" />
 
-        <EditText
-            android:id="@+id/editVerificationCode"
-            android:layout_width="wrap_content"
+        <com.chaos.view.PinView
             android:layout_height="wrap_content"
-            android:ems="10"
+            android:layout_width="wrap_content"
+            android:id="@+id/firstPinView"
+            style="@style/PinWidget.PinView"
             android:inputType="number"
-            app:layout_constraintStart_toStartOf="@+id/guideline_content_start"
-            app:layout_constraintTop_toBottomOf="@+id/verifyHeading" />
-
-        <TextView
-            android:id="@+id/verificationCaption"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/verify_caption"
-            app:layout_constraintStart_toStartOf="@id/guideline_content_start"
-            app:layout_constraintEnd_toEndOf="@+id/guideline_content_end"
-            app:layout_constraintTop_toBottomOf="@id/editVerificationCode" />
-
-        <TextView
-            android:id="@+id/testDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:text="@string/test_date_heading"
-            android:textSize="22dp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@id/guideline_content_start"
-            app:layout_constraintTop_toBottomOf="@id/verificationCaption" />
-
-        <EditText
-            android:id="@+id/editTestDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="date"
-            app:layout_constraintStart_toStartOf="@id/guideline_content_start"
-            app:layout_constraintTop_toBottomOf="@+id/testDate" />
-
-        <TextView
-            android:id="@+id/testDateCaption"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/test_date_caption"
+            android:layout_marginTop="30dp"
             app:layout_constraintStart_toStartOf="@id/guideline_content_start"
             app:layout_constraintEnd_toEndOf="@id/guideline_content_end"
-            app:layout_constraintTop_toBottomOf="@id/editTestDate" />
+            app:layout_constraintTop_toBottomOf="@id/verifyHeading"/>
+
+<!--        <TextView-->
+<!--            android:id="@+id/verificationCaption"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:text="@string/verify_caption"-->
+<!--            app:layout_constraintStart_toStartOf="@id/guideline_content_start"-->
+<!--            app:layout_constraintEnd_toEndOf="@+id/guideline_content_end"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/editVerificationCode" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/testDate"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="50dp"-->
+<!--            android:text="@string/test_date_heading"-->
+<!--            android:textSize="22dp"-->
+<!--            android:textStyle="bold"-->
+<!--            app:layout_constraintStart_toStartOf="@id/guideline_content_start"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/verificationCaption" />-->
+
+<!--        <EditText-->
+<!--            android:id="@+id/editTestDate"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:ems="10"-->
+<!--            android:inputType="date"-->
+<!--            app:layout_constraintStart_toStartOf="@id/guideline_content_start"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/testDate" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/testDateCaption"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:text="@string/test_date_caption"-->
+<!--            app:layout_constraintStart_toStartOf="@id/guideline_content_start"-->
+<!--            app:layout_constraintEnd_toEndOf="@id/guideline_content_end"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/editTestDate" />-->
 
 
             <Button
@@ -129,19 +131,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
+                android:backgroundTint="@color/colorPrimary"
+                android:textColor="@color/ButtonTextColor"
                 android:text="SUBMIT RESULT"
                 android:textSize="18dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/testDateCaption" />
+                app:layout_constraintTop_toBottomOf="@id/firstPinView" />
 
             <Button
                 android:id="@+id/cancelButton"
-                style="@style/Widget.AppCompat.Button.Borderless"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:text="CANCEL"
+                android:textSize="15dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/submitButton" />
