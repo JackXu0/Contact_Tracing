@@ -64,8 +64,15 @@ public class fragment_home extends Fragment {
 
         init_risk_level_map();
 
+        initView(root);
 
+        check_is_scanning();
 
+        return root;
+
+    }
+
+    void initView(View root){
         refresh_btn = (Button) root.findViewById(R.id.refreshButton);
         radioGroup = (RadioGroup) root.findViewById(R.id.radioGroup);
         positiveButton = (RadioButton) root.findViewById(R.id.radioPositive);
@@ -79,7 +86,7 @@ public class fragment_home extends Fragment {
         risk_level_tv.setText(sharedPreferences.getString("risk_level", "NO RISK"));
 
 
-        check_is_scanning();
+
 
         //EventListener for refresh button
         refresh_btn.setOnClickListener(new View.OnClickListener(){
@@ -113,10 +120,6 @@ public class fragment_home extends Fragment {
                 startActivity(intent);
             }
         });
-
-
-        return root;
-
     }
 
     void init_risk_level_map(){
@@ -141,6 +144,7 @@ public class fragment_home extends Fragment {
                 int number_of_hits = contactSketch.getNumberOfHits();
                 String risk_level = risk_level_map.get(contactSketch.getMaxRiskLevel());
 
+                sharedPreferences = getContext().getSharedPreferences("dashboard_info",MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putInt("number_of_hits", number_of_hits);
                 editor.putString("risk_level", risk_level);
@@ -149,6 +153,7 @@ public class fragment_home extends Fragment {
                 number_of_hits_tv.setText(""+number_of_hits);
                 risk_level_tv.setText(risk_level);
 
+                sharedPreferences = getContext().getSharedPreferences("settings",MODE_PRIVATE);
                 boolean is_notification_disabled = sharedPreferences.getBoolean("is_notification_disabled", false);
                 if(!is_notification_disabled && contactSketch.getMaxRiskLevel() >= 2){
                     make_alert_window();

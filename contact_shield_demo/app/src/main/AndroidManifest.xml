@@ -45,6 +45,14 @@
         <activity android:name=".activities.ReportTestResultActivity"/>
         <activity android:name=".activities.VerificationActivity"/>
         <activity android:name=".activities.ReportTempActivity"/>
+        <service
+            android:name="com.futurewei.contact_shield_demo.BackgroundContactCheckingIntentService"
+            android:enabled="true"
+            android:exported="true"/>
+        <meta-data
+            android:name="com.huawei.hms.client.appid"
+            android:value="102413929" />
+
     </application>
 
 </manifest>
