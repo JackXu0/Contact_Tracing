@@ -165,17 +165,14 @@ public class fragment_home extends Fragment {
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     void check_is_scanning(){
-        Task<Boolean> isRunningTask = ContactShield.getContactShieldEngine(getContext()).isContactShieldRunning();
-        isRunningTask.addOnSuccessListener(new OnSuccessListener<Boolean>() {
-            @Override
-            public void onSuccess(Boolean aBoolean) {
-                if(!aBoolean){
-                    scanning_tv.setVisibility(View.INVISIBLE);
-                }else{
-                    scanning_tv.setVisibility(View.VISIBLE);
-                }
-            }
-        });
+        sharedPreferences = getContext().getSharedPreferences("settings",MODE_PRIVATE);
+        boolean is_app_disabled = sharedPreferences.getBoolean("is_app_disabled", false);
+        if(!is_app_disabled){
+            scanning_tv.setVisibility(View.VISIBLE);
+        }else{
+            scanning_tv.setVisibility(View.INVISIBLE);
+        }
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)

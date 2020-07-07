@@ -126,7 +126,7 @@ public class NewMainActivity extends AppCompatActivity {
     }
 
     void engine_start(){
-        PendingIntent pendingIntent = PendingIntent.getService(this, 0, new Intent(this, BackgroundContactCheckingIntentService.class),
+        PendingIntent pendingIntent = PendingIntent.getService(getApplicationContext(), 0, new Intent(getApplicationContext(), BackgroundContactCheckingIntentService.class),
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
 

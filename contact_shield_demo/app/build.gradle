@@ -19,6 +19,15 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    repositories{
+        flatDir {
+            dirs 'libs'
+        }
+        maven {
+            url 'https://developer.huawei.com/repo/'
+        }
+    }
+
     signingConfigs {
         release {
             storeFile file('hms.jks')
@@ -46,6 +55,8 @@ android {
 }
 
 dependencies {
+
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation 'androidx.appcompat:appcompat:1.1.0'
@@ -59,6 +70,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     implementation 'com.squareup.okhttp3:okhttp:4.7.2'
+    // for okhttp conscrypt issues
+    implementation 'org.conscrypt:conscrypt-android:2.2.1'
     implementation 'com.huawei.hms:contactshield:4.1.0.300'
     implementation 'com.huawei.agconnect:agconnect-core:1.0.0.300'
 
