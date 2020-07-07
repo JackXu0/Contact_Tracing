@@ -28,6 +28,7 @@
     <string name="test_date_heading"><b>"Test Date"</b></string>
     <string name="test_date_caption">"Your test date helps the app know when you may have been contagious and notify others who have been in contact with you from the past 14 days."</string>
     <string name="disable_app_caption">"When the App is disabled, your device will not send or receive signals from other users."</string>
+    <string name="disable_PK_caption">"When Periodic Key upload is disabled, the device will stop uploading your periodic keys to the server, and others will not be able to download your periodic key if you are tested positive. New periodic keys will be generated and stored locally on the device."</string>
     <string name="disable_notification_caption">"When notifications are turned off, your device will not receive any notifications for potential exposures or interactions with other users."</string>
     <string name="alert_heading"><b>"You have been in contact with a Covid-19 Patient!"</b></string>
     <string name="alert_body">"Someone you have been in contact with recently have self-reported positive. Please self-quarantine or get tested at your local testing center."</string>
