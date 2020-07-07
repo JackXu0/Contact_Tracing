@@ -1,0 +1,35 @@
+import secrets
+import string
+from hashlib import sha256
+
+alphabet = string.ascii_letters + string.digits
+digits = string.digits
+
+guid = ''.join(secrets.choice(alphabet) for i in range(32))
+tan = ''.join(secrets.choice(alphabet) for i in range(16))
+registration_key = ''.join(secrets.choice(alphabet) for i in range(32))
+teletan = ''.join(secrets.choice(digits) for i in range(6))
+
+guid_hased = sha256(guid.encode('ascii')).hexdigest()
+tan_hashed = sha256(tan.encode('ascii')).hexdigest()
+registration_key_hashed = sha256(registration_key.encode('ascii')).hexdigest()
+teletan_hashed = sha256(teletan.encode('ascii')).hexdigest()
+
+# 8T8LvXAyIfxoWN2Pb4FhFd0BgS2ddc2
+
+print('guid', guid)
+print('guid_hashed', guid_hased)
+print('tan', tan)
+print('tan_hashed', tan_hashed)
+print('registration_key', registration_key)
+print('registration_key_hashed', registration_key_hashed)
+print('teletan', teletan)
+print('teletan_hashed', teletan_hashed)
+
+# registration_key received BaDki46t7tBdvOHPFI62YBvYnCpMET3u
+# tan received lZLWC9KmYzl2uYAq
+
+
+# print(sha256('8T8LvXAyIfxoWN2Pb4FhFd0BgS2ddc29'.encode('ascii')).hexdigest())
+#
+# print('delete from tan where registration_key_hashed = "'+str(registration_key_hashed)+'"; insert into tan (registration_key_hashed, tan_hashed) values ("'+registration_key_hashed+'", "'+tan_hashed+'");')
