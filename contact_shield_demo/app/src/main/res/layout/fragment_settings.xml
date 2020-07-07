@@ -41,50 +41,80 @@
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
         app:layout_constraintTop_toTopOf="@id/guideline_top">
-        <RadioButton
+
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/disableAppButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:buttonTint="@color/colorPrimary"
-            android:text="Disable App"
             android:textSize="20dp"
             android:checked="false"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="Disable App"/>
 
         <TextView
             android:id="@+id/disableAppCaption"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginLeft="20dp"
             android:text ="@string/disable_app_caption"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/disableAppButton"/>
 
-        <RadioButton
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/disablePKUploadButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:textSize="20dp"
+            android:checked="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/disableAppCaption"
+            android:text="Disable Periodic Key Upload"/>
+
+        <TextView
+            android:id="@+id/disablePKUploadCaption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text ="@string/disable_PK_caption"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/disablePKUploadButton"/>
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/disableNotificationsButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:buttonTint="@color/colorPrimary"
             android:textSize="20dp"
+            android:checked="false"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/disableAppCaption"
-            android:text="Disable Notifications" />
+            app:layout_constraintTop_toBottomOf="@id/disablePKUploadCaption"
+            android:text="Disable Notification"/>
 
         <TextView
             android:id="@+id/disableNotificationsCaption"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginLeft="20dp"
             android:text ="@string/disable_notification_caption"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/disableNotificationsButton"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/clearDataButton"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_marginTop="50dp"
+        android:textColor="@color/colorPrimary"
+        android:text="CLEAR DATA"
+        android:textSize="18dp"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintBottom_toBottomOf="@id/guideline_bottom" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
