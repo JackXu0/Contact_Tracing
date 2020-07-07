@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
 
@@ -20,6 +21,7 @@ import androidx.annotation.RequiresApi;
 
 import com.futurewei.contact_shield_demo.BackgroundContactCheckingIntentService;
 import com.futurewei.contact_shield_demo.R;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.huawei.hmf.tasks.OnFailureListener;
 import com.huawei.hmf.tasks.OnSuccessListener;
 import com.huawei.hmf.tasks.Task;
@@ -32,8 +34,10 @@ public class fragment_setting extends Fragment {
 
     private View root;
     SharedPreferences sharedPreferences;
-    RadioButton disable_app_btn;
-    RadioButton disable_notification_btn;
+    SwitchMaterial disable_app_btn;
+    SwitchMaterial disable_notification_btn;
+    SwitchMaterial disable_pk_btn;
+    Button clear_data_btn;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Nullable
@@ -50,12 +54,17 @@ public class fragment_setting extends Fragment {
         sharedPreferences = getContext().getSharedPreferences("settings", MODE_PRIVATE);
         boolean is_app_disabled = sharedPreferences.getBoolean("is_app_disabled", false);
         boolean is_notification_disabled = sharedPreferences.getBoolean("is_notification_disabled", false);
+        boolean is_PK_upload_disabled = sharedPreferences.getBoolean("is_PK_upload_disabled", false);
+
 
         disable_app_btn = root.findViewById(R.id.disableAppButton);
         disable_notification_btn = root.findViewById(R.id.disableNotificationsButton);
+        disable_pk_btn = root.findViewById(R.id.disablePKUploadButton);
+        clear_data_btn = root.findViewById(R.id.clearDataButton);
 
         disable_app_btn.setChecked(is_app_disabled);
         disable_notification_btn.setChecked(is_notification_disabled);
+        disable_pk_btn.setChecked(is_PK_upload_disabled);
 
         disable_app_btn.setOnClickListener(new View.OnClickListener() {
             @Override
