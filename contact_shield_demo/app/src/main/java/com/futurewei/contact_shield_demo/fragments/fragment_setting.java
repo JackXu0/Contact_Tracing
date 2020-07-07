@@ -30,7 +30,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class fragment_setting extends Fragment {
 
-    private View view;
+    private View root;
     SharedPreferences sharedPreferences;
     RadioButton disable_app_btn;
     RadioButton disable_notification_btn;
@@ -39,14 +39,20 @@ public class fragment_setting extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view= inflater.inflate(R.layout.fragment_settings, container, false);
+        root= inflater.inflate(R.layout.fragment_settings, container, false);
 
+        initView(root);
+
+        return root;
+    }
+
+    void initView(View root){
         sharedPreferences = getContext().getSharedPreferences("settings", MODE_PRIVATE);
         boolean is_app_disabled = sharedPreferences.getBoolean("is_app_disabled", false);
         boolean is_notification_disabled = sharedPreferences.getBoolean("is_notification_disabled", false);
 
-        disable_app_btn = view.findViewById(R.id.disableAppButton);
-        disable_notification_btn = view.findViewById(R.id.disableNotificationsButton);
+        disable_app_btn = root.findViewById(R.id.disableAppButton);
+        disable_notification_btn = root.findViewById(R.id.disableNotificationsButton);
 
         disable_app_btn.setChecked(is_app_disabled);
         disable_notification_btn.setChecked(is_notification_disabled);
@@ -86,10 +92,6 @@ public class fragment_setting extends Fragment {
                 editor.commit();
             }
         });
-
-
-
-        return view;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
