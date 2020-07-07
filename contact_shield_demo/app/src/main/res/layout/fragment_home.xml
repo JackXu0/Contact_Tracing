@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="250dp"
                 android:text="Scanning.."
-                android:visibility="invisible"
+                android:visibility="visible"
                 android:textSize="19dp"
                 android:textStyle="bold|italic" />
 
