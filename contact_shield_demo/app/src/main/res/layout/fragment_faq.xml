@@ -49,195 +49,202 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <LinearLayout
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card1"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/colorPrimaryDark"
+                app:cardElevation="1dp">
 
-<!--                <Switch-->
-<!--                    android:id="@+id/switch1"-->
-<!--                    android:layout_width="330dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="@string/FAQ1"-->
-<!--                    android:textSize="18sp"-->
-<!--                    android:textStyle="bold"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="parent" />-->
-
-                <TextView
-                    android:id="@+id/FAQ1"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/FAQ1"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="#000000"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_margin="8dp">
 
-                <TextView
-                    android:id="@+id/answer1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/answer1"
-                    android:textSize="18sp" />
+                    <TextView
+                        android:id="@+id/FAQ1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/FAQ1"
+                        android:textAppearance="?attr/textAppearanceSubtitle1"
+                        android:textStyle="bold"
+                        android:textColor="#000000"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/answer1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/answer1"
+                        android:textAppearance="?attr/textAppearanceSubtitle2"
+                        android:textColor="?android:attr/textColorSecondary" />
 
-            <LinearLayout
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card2"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginTop="20dp">
-
-<!--                <Switch-->
-<!--                    android:id="@+id/switch2"-->
-<!--                    android:layout_width="330dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="@string/FAQ2"-->
-<!--                    android:textSize="18sp"-->
-<!--                    android:textStyle="bold"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="parent" />-->
-                <TextView
-                    android:id="@+id/FAQ2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/FAQ2"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="#000000"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/answer2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/answer2"
-                    android:textSize="18sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:orientation="vertical">
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/colorPrimaryDark"
+                app:cardElevation="1dp">
 
-                <!--                <Switch-->
-                <!--                    android:id="@+id/switch3"-->
-                <!--                    android:layout_width="330dp"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:text="@string/FAQ3"-->
-                <!--                    android:textSize="18sp"-->
-                <!--                    android:textStyle="bold"-->
-                <!--                    app:layout_constraintEnd_toEndOf="parent"-->
-                <!--                    app:layout_constraintStart_toStartOf="parent"-->
-                <!--                    app:layout_constraintTop_toTopOf="parent" />-->
-                <TextView
-                    android:id="@+id/FAQ3"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/FAQ3"
-                    android:textColor="#000000"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_margin="8dp">
+                    <TextView
+                        android:id="@+id/FAQ2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/FAQ2"
+                        android:textAppearance="?attr/textAppearanceSubtitle1"
+                        android:textStyle="bold"
+                        android:textColor="#000000"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/answer3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/answer3"
-                    android:textSize="18sp" />
+                    <TextView
+                        android:id="@+id/answer2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/answer2"
+                        android:textAppearance="?attr/textAppearanceSubtitle2"
+                        android:textColor="?android:attr/textColorSecondary" />
 
-            </LinearLayout>
+                </LinearLayout>
 
-            <LinearLayout
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card3"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginTop="20dp">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/colorPrimaryDark"
+                app:cardElevation="1dp">
 
-<!--                <Switch-->
-<!--                    android:id="@+id/switch4"-->
-<!--                    android:layout_width="330dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="@string/FAQ4"-->
-<!--                    android:textSize="18sp"-->
-<!--                    android:textStyle="bold"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="parent" />-->
-                <TextView
-                    android:id="@+id/FAQ4"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/FAQ4"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="#000000"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:layout_height="match_parent"
+                    android:layout_margin="8dp"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/answer4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/answer4"
-                    android:textSize="18sp" />
+                    <TextView
+                        android:id="@+id/FAQ3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/FAQ3"
+                        android:textColor="#000000"
+                        android:textAppearance="?attr/textAppearanceSubtitle1"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/answer3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/answer3"
+                        android:textAppearance="?attr/textAppearanceSubtitle2"
+                        android:textColor="?android:attr/textColorSecondary" />
 
-            <LinearLayout
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card4"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginTop="20dp">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/colorPrimaryDark"
+                app:cardElevation="1dp">
 
-<!--                <Switch-->
-<!--                    android:id="@+id/switch5"-->
-<!--                    android:layout_width="330dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="@string/FAQ5"-->
-<!--                    android:textSize="18sp"-->
-<!--                    android:textStyle="bold"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toTopOf="parent" />-->
-                <TextView
-                    android:id="@+id/FAQ5"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/FAQ5"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="#000000"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_margin="8dp">
 
-                <TextView
-                    android:id="@+id/answer5"
+                    <TextView
+                        android:id="@+id/FAQ4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/FAQ4"
+                        android:textAppearance="?attr/textAppearanceSubtitle1"
+                        android:textStyle="bold"
+                        android:textColor="#000000"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/answer4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/answer4"
+                        android:textAppearance="?attr/textAppearanceSubtitle2"
+                        android:textColor="?android:attr/textColorSecondary" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/colorPrimaryDark"
+                app:cardElevation="1dp">
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/answer5"
-                    android:textSize="18sp" />
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_margin="8dp">
 
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/FAQ5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/FAQ5"
+                        android:textAppearance="?attr/textAppearanceSubtitle1"
+                        android:textStyle="bold"
+                        android:textColor="#000000"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/answer5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/answer5"
+                        android:textAppearance="?attr/textAppearanceSubtitle2"
+                        android:textColor="?android:attr/textColorSecondary" />
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
     </ScrollView>

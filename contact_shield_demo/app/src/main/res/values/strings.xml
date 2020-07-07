@@ -19,9 +19,7 @@
     <string name="FAQ4">"Where can I get tested?"</string>
     <string name="answer4">"Covid-19 tests can be done at the testing centers and health departments. To get tested, contact your state and local health department or your medical provider"</string>
     <string name="FAQ5">"Does this App really work without my personal information?"</string>
-    <string name="answer5">"Anonymity is our top priority. No personal details are required when you download and use the App.
-
-        "</string>
+    <string name="answer5">"Anonymity is our top priority. No personal details are required when you download and use the App."</string>
     <string name="report_results"> <u> "Report your results >>" </u></string>
     <string name="report_positive_heading"> <b>"Share Your Positive Test Result"</b></string>
     <string name="report_positive_body">"If you have been tested positive for COVID-19, you can share your test results to help notify others who may have been in contact with you. This will let others know they should monitor for symptoms. Only those who have been exposed will receive a notification."</string>
