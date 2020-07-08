@@ -9,12 +9,12 @@ import android.widget.Button;
 
 import com.futurewei.contact_shield_demo.R;
 
-public class TeleTANVerificationActivity extends AppCompatActivity {
+public class request_teletan_activity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tele_t_a_n_verification);
+        setContentView(R.layout.request_teletan_activity);
         //TODO:: Call number
         Button callButton = (Button) findViewById(R.id.call_button);
         callButton.setOnClickListener(new View.OnClickListener(){
@@ -32,7 +32,7 @@ public class TeleTANVerificationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //next page
-                Intent intent = new Intent(getApplicationContext(), VerificationActivity.class);
+                Intent intent = new Intent(getApplicationContext(), submit_via_teletan_activity.class);
                 startActivity(intent);
                 finish();
             }

@@ -22,8 +22,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.App">
-        <activity android:name=".activities.TeleTANVerificationActivity"></activity>
-        <activity android:name=".activities.VerificationMethodsActivity" />
+
+
         <activity android:name=".activities.NewMainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,8 +41,12 @@
         </activity>
 
         <activity android:name=".activities.NotificationsActivity"/>
-        <activity android:name=".activities.ReportTestResultActivity"/>
-        <activity android:name=".activities.VerificationActivity"/>
+        <activity android:name=".activities.report_test_result_pre_activity"/>
+
+        <activity android:name=".activities.report_method_choose_activity" />
+        <activity android:name=".activities.request_teletan_activity"></activity>
+        <activity android:name=".activities.submit_via_guid_activity"/>
+        <activity android:name=".activities.submit_via_teletan_activity"/>
         <activity android:name=".activities.ReportTempActivity"/>
         <service
             android:name="com.futurewei.contact_shield_demo.BackgroundContactCheckingIntentService"

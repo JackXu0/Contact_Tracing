@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.futurewei.contact_shield_demo.R;
 
-public class ReportTestResultActivity extends AppCompatActivity {
+public class report_test_result_pre_activity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +22,7 @@ public class ReportTestResultActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //next page
-                Intent intent = new Intent(getApplicationContext(), VerificationMethodsActivity.class);
+                Intent intent = new Intent(getApplicationContext(), report_method_choose_activity.class);
                 startActivity(intent);
                 finish();
             }

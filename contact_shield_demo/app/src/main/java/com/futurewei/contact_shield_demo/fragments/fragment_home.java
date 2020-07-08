@@ -28,17 +28,23 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.futurewei.contact_shield_demo.R;
-import com.futurewei.contact_shield_demo.activities.MainActivity;
 import com.futurewei.contact_shield_demo.activities.NotificationsActivity;
-import com.futurewei.contact_shield_demo.activities.ReportTempActivity;
-import com.futurewei.contact_shield_demo.activities.ReportTestResultActivity;
+import com.futurewei.contact_shield_demo.activities.report_test_result_pre_activity;
 import com.futurewei.contact_shield_demo.network.download_new;
+import com.futurewei.contact_shield_demo.network.get_tan;
+import com.futurewei.contact_shield_demo.network.upload_periodic_key;
 import com.huawei.hmf.tasks.OnSuccessListener;
 import com.huawei.hmf.tasks.Task;
 import com.huawei.hms.contactshield.ContactShield;
 import com.huawei.hms.contactshield.ContactSketch;
+import com.huawei.hms.contactshield.PeriodicKey;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -55,12 +61,14 @@ public class fragment_home extends Fragment {
     HashMap<Integer, String> risk_level_map;
     SharedPreferences sharedPreferences;
 
+    public static final int UPLOAD_INTERVAL_IN_DAYS = 7;
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        root= inflater.inflate(R.layout.fragment_home, container, false);
+        root= inflater.inflate(R.layout.home_fragment, container, false);
 
         init_risk_level_map();
 
@@ -116,10 +124,28 @@ public class fragment_home extends Fragment {
             @Override
             public void onClick(View v) {
                 System.out.println("reportButton pressed");
-                Intent intent = new Intent(getContext(), ReportTestResultActivity.class);
+                Intent intent = new Intent(getContext(), report_test_result_pre_activity.class);
                 startActivity(intent);
             }
         });
+    }
+
+    boolean check_if_allows_manual_upload(){
+        sharedPreferences = getContext().getSharedPreferences("upload_pk_history", MODE_PRIVATE);
+        String registration_key = sharedPreferences.getString("registration_key","");
+        int latest_uploading_time = sharedPreferences.getInt("timestamp", 0);
+
+        // if registration_key is missing or corrupted, or it has been more than one interval (7 days) since last manual upload, needs upload manually again.
+        if(registration_key.length() != 32 || latest_uploading_time > ((int) System.currentTimeMillis()/600000 - UPLOAD_INTERVAL_IN_DAYS*24*6)){
+            return true;
+        }else if(registration_key.length() == 32 || latest_uploading_time < ((int) System.currentTimeMillis()/600000 - 24 * 6)){
+            //If registration_key exists, but has not uploaded in 24 hours, needs one auto upload
+            upload_PK_automatically(registration_key);
+            return false;
+        }else{
+            //If registration_key exists, and has auto uploaded within 24 hours, no need for further operations
+            return false;
+        }
     }
 
     void init_risk_level_map(){
@@ -216,14 +242,64 @@ public class fragment_home extends Fragment {
 
     }
 
+    void upload_PK_automatically(String registration_key){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("registration_key", registration_key);
+            new get_tan(getContext(), myHandler, jsonObject).start();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     Handler myHandler = new Handler(){
         @RequiresApi(api = Build.VERSION_CODES.M)
         @Override
         public void handleMessage(@NonNull Message msg) {
+            Bundle b = msg.getData();
+
+            int response_code;
+            String registration_key;
+            String tan;
+            JSONObject jsonObject;
+
             switch (msg.what){
 
-                case 2:
-//                    getContactSketch();
+                // Step 1 : handler for get tan
+                case 5:
+                    Log.e("handler info", "get registraion key handler activated");
+                    response_code = b.getInt("response_code");
+
+                    //If Tan is obtained successfully, use the TAN to upload Periodic keys
+                    if(response_code == 1){
+                        tan = b.getString("tan");
+                        Log.e("tan handler", tan);
+                        jsonObject = new JSONObject();
+                        try {
+                            jsonObject.put("tan", tan);
+                            getPeriodicalKey(tan);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+
+                    break;
+
+                // Step 2 : handler for upload periodic key
+                case 1:
+                    response_code = b.getInt("response_code");
+                    Log.e("upload pk message", response_code+"");
+
+                    //If the periodic Keys are uploaded successfully, update the latest upload timestamp on local storage
+                    if(response_code == 1){
+                        //store the latest upload timestamp locally
+                        sharedPreferences = getContext().getSharedPreferences("upload_pk_history", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putInt("timestamp", (int) (System.currentTimeMillis()/1000/600));
+                        editor.commit();
+                    }
+
                     break;
 
                 default:
@@ -232,5 +308,59 @@ public class fragment_home extends Fragment {
             }
         }
     };
+
+    // This methods get PKs from Contact Shield API and then call upload_periodic_keys
+    void getPeriodicalKey(String tan){
+        Task<List<PeriodicKey>> task_pk = ContactShield.getContactShieldEngine(getContext()).getPeriodicKey();
+
+        task_pk.addOnSuccessListener(new OnSuccessListener<List<PeriodicKey>>() {
+            @Override
+            public void onSuccess(List<PeriodicKey> periodicKeys) {
+                Log.e("get periodical key","success");
+                Log.e("length", periodicKeys.size()+"");
+                for(PeriodicKey pk : periodicKeys){
+                    byte[] bs = pk.getContent();
+                    for(byte b : bs){
+                        Log.e("bytee", b+"");
+                    }
+                    Log.e("pk", pk.toString());
+                }
+
+                upload_periodic_keys(periodicKeys, tan);
+
+            }
+        });
+    }
+
+    // This method prepares data for making the internet request
+    void upload_periodic_keys(List<PeriodicKey> periodic_keys, String tan){
+
+        JSONArray jsonArray = new JSONArray();
+        try {
+
+            for(PeriodicKey periodicKey : periodic_keys){
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("pk", extract_pk_string(periodicKey.toString()));
+                jsonObject.put("valid_time", periodicKey.getPeriodKeyValidTime());
+                jsonObject.put("life_time", periodicKey.getPeriodKeyLifeTime());
+                jsonObject.put("risk_level", periodicKey.getInitialRiskLevel());
+                jsonArray.put(jsonObject);
+            }
+            JSONObject jo = new JSONObject();
+            jo.put("periodic_keys", jsonArray);
+            jo.put("tan", tan);
+            Log.e("json object", jo.toString());
+
+            (new upload_periodic_key(getContext(), myHandler, jo)).start();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    String extract_pk_string(String raw){
+        int s = raw.indexOf('[');
+        int e = raw.indexOf(']');
+        return raw.substring(s+1,e).replace(" ","");
+    }
 
 }

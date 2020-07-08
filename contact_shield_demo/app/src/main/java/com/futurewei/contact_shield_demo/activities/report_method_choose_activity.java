@@ -9,7 +9,7 @@ import android.widget.Button;
 
 import com.futurewei.contact_shield_demo.R;
 
-public class VerificationMethodsActivity extends AppCompatActivity {
+public class report_method_choose_activity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,9 +22,9 @@ public class VerificationMethodsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //next page
-//                Intent intent = new Intent(getApplicationContext(), VerificationMethodsActivity.class);
-//                startActivity(intent);
-//                finish();
+                Intent intent = new Intent(getApplicationContext(), submit_via_guid_activity.class);
+                startActivity(intent);
+                finish();
             }
         });
 
@@ -33,7 +33,7 @@ public class VerificationMethodsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //next page
-                Intent intent = new Intent(getApplicationContext(), TeleTANVerificationActivity.class);
+                Intent intent = new Intent(getApplicationContext(), request_teletan_activity.class);
                 startActivity(intent);
                 finish();
             }
