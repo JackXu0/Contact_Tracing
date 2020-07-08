@@ -33,12 +33,11 @@
         </activity>
         <activity android:name=".activities.MainActivity">
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
+<!--             <intent-filter>-->
+<!--             <action android:name="android.intent.action.MAIN" />-->
 
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
+<!--             <category android:name="android.intent.category.LAUNCHER" />-->
+<!--             </intent-filter>-->
         </activity>
 
         <activity android:name=".activities.NotificationsActivity"/>
@@ -48,10 +47,8 @@
         <service
             android:name="com.futurewei.contact_shield_demo.BackgroundContactCheckingIntentService"
             android:enabled="true"
-            android:exported="true"/>
-<!--        <meta-data-->
-<!--            android:name="com.huawei.hms.client.appid"-->
-<!--            android:value="102413929" />-->
+            android:exported="true">
+        </service>
 
     </application>
 
