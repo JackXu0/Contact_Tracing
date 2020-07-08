@@ -116,7 +116,7 @@ public class fragment_home extends Fragment {
             @Override
             public void onClick(View v) {
                 System.out.println("reportButton pressed");
-                Intent intent = new Intent(getContext(), ReportTempActivity.class);
+                Intent intent = new Intent(getContext(), ReportTestResultActivity.class);
                 startActivity(intent);
             }
         });

@@ -43,7 +43,6 @@ public class VerificationActivity extends AppCompatActivity {
                 ResourcesCompat.getColor(getResources(), R.color.colorPrimary, getTheme()));
         pinView.setLineColor(
                 ResourcesCompat.getColorStateList(getResources(), R.color.colorPrimary, getTheme()));
-        pinView.setItemCount(6);
         pinView.setItemHeight(getResources().getDimensionPixelSize(R.dimen.pv_pin_view_item_size));
         pinView.setItemWidth(getResources().getDimensionPixelSize(R.dimen.pv_pin_view_item_size));
         pinView.setItemRadius(getResources().getDimensionPixelSize(R.dimen.pv_pin_view_item_radius));

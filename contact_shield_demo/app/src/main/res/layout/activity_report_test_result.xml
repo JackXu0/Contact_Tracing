@@ -11,14 +11,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="@dimen/guideline_start" />
+        app:layout_constraintGuide_begin="@dimen/guideline_verification_start" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_end="@dimen/guideline_end" />
+        app:layout_constraintGuide_end="@dimen/guideline_verification_end" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_top"
@@ -57,7 +57,6 @@
                 android:gravity="center"
                 android:text="@string/report_positive_heading"
                 android:textAppearance="?attr/textAppearanceHeadline6"
-
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
