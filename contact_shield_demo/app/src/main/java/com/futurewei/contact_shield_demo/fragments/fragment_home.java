@@ -20,10 +20,12 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
@@ -33,6 +35,7 @@ import com.futurewei.contact_shield_demo.activities.report_test_result_pre_activ
 import com.futurewei.contact_shield_demo.network.download_new;
 import com.futurewei.contact_shield_demo.network.get_tan;
 import com.futurewei.contact_shield_demo.network.upload_periodic_key;
+import com.google.android.material.card.MaterialCardView;
 import com.huawei.hmf.tasks.OnSuccessListener;
 import com.huawei.hmf.tasks.Task;
 import com.huawei.hms.contactshield.ContactShield;
@@ -51,17 +54,24 @@ import static android.content.Context.MODE_PRIVATE;
 public class fragment_home extends Fragment {
 
     private View root;
-    Button refresh_btn;
+    MaterialCardView my_status_card;
+    ConstraintLayout heading;
+    TextView scanning_tv;
+    TextView headling_tv;
     RadioGroup radioGroup;
-    RadioButton positiveButton;
+    RadioButton radio_positive;
+    RadioButton radio_negtive;
     Button reportButton;
+    Button refresh_btn;
     TextView number_of_hits_tv;
     TextView risk_level_tv;
-    TextView scanning_tv;
+
     HashMap<Integer, String> risk_level_map;
     SharedPreferences sharedPreferences;
 
+
     public static final int UPLOAD_INTERVAL_IN_DAYS = 7;
+    public static final boolean FLEXIBLE_MY_STATUS_ENABLED = false;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Nullable
@@ -80,41 +90,42 @@ public class fragment_home extends Fragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        refresh_UI();
+    }
+
     void initView(View root){
+        my_status_card = root.findViewById(R.id.card1);
+        heading = root.findViewById(R.id.Heading);
+        headling_tv = root.findViewById(R.id.heading_tv);
         refresh_btn = (Button) root.findViewById(R.id.refreshButton);
         radioGroup = (RadioGroup) root.findViewById(R.id.radioGroup);
-        positiveButton = (RadioButton) root.findViewById(R.id.radioPositive);
+        radio_positive = (RadioButton) root.findViewById(R.id.radioPositive);
+        radio_negtive = root.findViewById(R.id.radioNegative);
         reportButton = (Button) root.findViewById(R.id.reportResults);
         number_of_hits_tv = root.findViewById(R.id.number_of_hits_tv);
         risk_level_tv = root.findViewById(R.id.risk_level_tv);
         scanning_tv = root.findViewById(R.id.scanning_tv);
 
-        sharedPreferences = getContext().getSharedPreferences("dashboard_info",MODE_PRIVATE);
-        number_of_hits_tv.setText(""+sharedPreferences.getInt("number_of_hits",0));
-        risk_level_tv.setText(sharedPreferences.getString("risk_level", "NO RISK"));
 
 
-
-
-        //EventListener for refresh button
-        refresh_btn.setOnClickListener(new View.OnClickListener(){
-            @RequiresApi(api = Build.VERSION_CODES.M)
-            @Override
-            public void onClick(View v){
-                new download_new(getContext(), myHandler).start();
-            }
-        });
 
         //EventListener for radio button
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                System.out.println("checkedID is " + checkedId);
-                if(checkedId == positiveButton.getId()){
+                sharedPreferences = getContext().getSharedPreferences("my staus choice", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                if(checkedId == radio_positive.getId()){
                     reportButton.setVisibility(View.VISIBLE);
+                    editor.putBoolean("choice", true);
                 } else{
                     reportButton.setVisibility(View.GONE);
+                    editor.putBoolean("choice", false);
                 }
+                editor.commit();
             }
         });
 
@@ -128,6 +139,56 @@ public class fragment_home extends Fragment {
                 startActivity(intent);
             }
         });
+
+        //EventListener for refresh button
+        refresh_btn.setOnClickListener(new View.OnClickListener(){
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(View v){
+                new download_new(getContext(), myHandler).start();
+            }
+        });
+    }
+
+    void refresh_UI(){
+
+        //refresh my status choices
+        sharedPreferences = getContext().getSharedPreferences("my staus choice", MODE_PRIVATE);
+        boolean choice = sharedPreferences.getBoolean("choice", false);
+        radio_negtive.setChecked(!choice);
+        radio_positive.setChecked(choice);
+
+        //refresh dashboard
+        sharedPreferences = getContext().getSharedPreferences("dashboard_info",MODE_PRIVATE);
+        number_of_hits_tv.setText(""+sharedPreferences.getInt("number_of_hits",0));
+        risk_level_tv.setText(sharedPreferences.getString("risk_level", "NO RISK"));
+
+
+
+        // Check is manually upload is needed
+        if(FLEXIBLE_MY_STATUS_ENABLED && !check_if_allows_manual_upload()){
+            // disable two radio buttons
+            radio_negtive.setEnabled(false);
+            radio_positive.setEnabled(false);
+
+            //set positive button checked
+            radio_positive.setChecked(true);
+            radio_negtive.setChecked(false);
+
+            // gray background for my status panel and change heading text
+            my_status_card.setBackgroundColor(getResources().getColor(R.color.disable_gray));
+            headling_tv.setText("Result Reported");
+//            headling_tv.setTextColor(getResources().getColor(R.color.disable_gray));
+            reportButton.setVisibility(View.GONE);
+
+            // alert user when click my status panel
+            my_status_card.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getContext(), "Your result has been reported", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     boolean check_if_allows_manual_upload(){
@@ -136,7 +197,7 @@ public class fragment_home extends Fragment {
         int latest_uploading_time = sharedPreferences.getInt("timestamp", 0);
 
         // if registration_key is missing or corrupted, or it has been more than one interval (7 days) since last manual upload, needs upload manually again.
-        if(registration_key.length() != 32 || latest_uploading_time > ((int) System.currentTimeMillis()/600000 - UPLOAD_INTERVAL_IN_DAYS*24*6)){
+        if(registration_key.length() != 32 || latest_uploading_time < ((int) System.currentTimeMillis()/600000 - UPLOAD_INTERVAL_IN_DAYS*24*6)){
             return true;
         }else if(registration_key.length() == 32 || latest_uploading_time < ((int) System.currentTimeMillis()/600000 - 24 * 6)){
             //If registration_key exists, but has not uploaded in 24 hours, needs one auto upload
