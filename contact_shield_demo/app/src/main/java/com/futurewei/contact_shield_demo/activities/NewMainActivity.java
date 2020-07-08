@@ -38,6 +38,7 @@ public class NewMainActivity extends AppCompatActivity {
     private int page = 0;
 
     SharedPreferences sharedPreferences;
+    private static final String TAG = "NewMainActivity";
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -101,48 +102,40 @@ public class NewMainActivity extends AppCompatActivity {
         boolean is_app_disabled = sharedPreferences.getBoolean("is_app_disabled", false);
 
         //If not disabled, start the engine
-        if(!is_app_disabled){
-            Log.e("eee", "eeeeeee");
-            engine_start_pre_check();
-        }
+//        if(!is_app_disabled){
+//            Log.d(TAG, "onCreate >> !is_app_disabled");
+//            engine_start_pre_check();
+//        }
+//        engine_start();
 
 
 
     }
 
     void engine_start_pre_check(){
+        Log.d(TAG, "engine_start_pre_check");
         Task<Boolean> isRunningTask = ContactShield.getContactShieldEngine(this).isContactShieldRunning();
-        isRunningTask.addOnSuccessListener(new OnSuccessListener<Boolean>() {
-            @Override
-            public void onSuccess(Boolean aBoolean) {
-                if(!aBoolean){
-                    engine_start();
-                    Log.e("Is running", "NO");
-                }else{
-                    Log.e("Is running", "YES");
-                }
+        isRunningTask.addOnSuccessListener(aBoolean -> {
+            if(!aBoolean){
+                engine_start();
+                Log.e(TAG, "isContactShieldRunning >> NO");
+            }else{
+                Log.e(TAG, "isContactShieldRunning >> YES");
             }
         });
     }
 
     void engine_start(){
+        Log.d(TAG, "engine_start");
         PendingIntent pendingIntent = PendingIntent.getService(getApplicationContext(), 0, new Intent(getApplicationContext(), BackgroundContactCheckingIntentService.class),
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
 
-        Task<Void> engine_start_task = ContactShield.getContactShieldEngine(this).startContactShield(pendingIntent, ContactShieldSetting.DEFAULT)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d("Engine start", "Success");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(Exception e) {
-                        e.printStackTrace();
-                        Log.e("Engine start", "Failure");
-                    }
+        ContactShield.getContactShieldEngine(this).startContactShield(pendingIntent, ContactShieldSetting.DEFAULT)
+                .addOnSuccessListener(aVoid -> Log.d(TAG, "startContactShield >> Success"))
+                .addOnFailureListener(e -> {
+                    e.printStackTrace();
+                    Log.e(TAG, "startContactShield >> Failure");
                 });
 
 

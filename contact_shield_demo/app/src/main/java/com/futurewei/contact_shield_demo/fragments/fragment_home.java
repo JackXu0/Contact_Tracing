@@ -223,7 +223,7 @@ public class fragment_home extends Fragment {
             switch (msg.what){
 
                 case 2:
-                    getContactSketch();
+//                    getContactSketch();
                     break;
 
                 default:
