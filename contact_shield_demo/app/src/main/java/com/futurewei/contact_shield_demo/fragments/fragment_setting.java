@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,6 +25,9 @@ import com.huawei.hmf.tasks.OnSuccessListener;
 import com.huawei.hmf.tasks.Task;
 import com.huawei.hms.contactshield.ContactShield;
 import com.huawei.hms.contactshield.ContactShieldSetting;
+import com.huawei.hms.contactshield.PeriodicKey;
+
+import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -96,6 +100,13 @@ public class fragment_setting extends Fragment {
                     editor.putBoolean("is_notification_disabled", false);
                 }
                 editor.commit();
+            }
+        });
+
+        clear_data_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clear_data();
             }
         });
     }
@@ -172,5 +183,17 @@ public class fragment_setting extends Fragment {
                         Log.e("Engine stop", "Failure");
                     }
                 });
+    }
+
+    void clear_data(){
+        Task<Void> task = ContactShield.getContactShieldEngine(getContext()).clearData();
+
+        task.addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.e("clear data","success");
+                Toast.makeText(getContext(), "Data Cleared", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
