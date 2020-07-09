@@ -6,14 +6,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.RadioButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,6 +25,9 @@ import com.huawei.hmf.tasks.OnSuccessListener;
 import com.huawei.hmf.tasks.Task;
 import com.huawei.hms.contactshield.ContactShield;
 import com.huawei.hms.contactshield.ContactShieldSetting;
+import com.huawei.hms.contactshield.PeriodicKey;
+
+import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -43,7 +44,7 @@ public class fragment_setting extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        root= inflater.inflate(R.layout.fragment_settings, container, false);
+        root= inflater.inflate(R.layout.settings_fragment, container, false);
 
         initView(root);
 
@@ -99,6 +100,13 @@ public class fragment_setting extends Fragment {
                     editor.putBoolean("is_notification_disabled", false);
                 }
                 editor.commit();
+            }
+        });
+
+        clear_data_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clear_data();
             }
         });
     }
@@ -175,5 +183,17 @@ public class fragment_setting extends Fragment {
                         Log.e("Engine stop", "Failure");
                     }
                 });
+    }
+
+    void clear_data(){
+        Task<Void> task = ContactShield.getContactShieldEngine(getContext()).clearData();
+
+        task.addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.e("clear data","success");
+                Toast.makeText(getContext(), "Data Cleared", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

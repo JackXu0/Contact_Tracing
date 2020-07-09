@@ -18,8 +18,8 @@
     <dimen name="guideline_faq_start">24dp</dimen>
     <dimen name="guideline_faq_end"> 16dp</dimen>
 
-    <dimen name="guideline_verification_start">20dp</dimen>
-    <dimen name="guideline_verification_end">20dp</dimen>
+    <dimen name="guideline_verification_start">16dp</dimen>
+    <dimen name="guideline_verification_end">16dp</dimen>
     <dimen name="guideline_verification_content_start"> 10dp</dimen>
     <dimen name="guideline_verification_content_end">10dp</dimen>
 </resources>

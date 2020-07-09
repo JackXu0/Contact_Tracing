@@ -59,6 +59,7 @@ public class download_new extends Thread {
             e.printStackTrace();
         }
 
+        Log.e("download new", last_download_timeStamp+"");
         RequestBody formBody = RequestBody.create(jsonObject.toString(), JSON);
 
         OkHttpClient client = new OkHttpClient();
@@ -105,7 +106,10 @@ public class download_new extends Thread {
                             pks.add(pk);
                         }
 
-                        int current_time = (int) (System.currentTimeMillis()/1000/600);
+                        // 27 = 24 + 3
+                        // minus 24 here because there are 4 hours (4*6 epochs) margin with the time used by contact shield API
+                        // minus 3 here for a half hour buffer
+                        int current_time = (int) (System.currentTimeMillis()/1000/600) - 27;
                         final SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putInt("last_download_timeStamp",current_time);
                         editor.commit();
