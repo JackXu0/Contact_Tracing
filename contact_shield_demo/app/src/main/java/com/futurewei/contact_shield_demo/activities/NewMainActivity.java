@@ -76,6 +76,8 @@ public class NewMainActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
         boolean is_app_disabled = sharedPreferences.getBoolean("is_app_disabled", false);
 
+        is_app_disabled = false;
+
         if(!is_app_disabled)
             engine_start_pre_check();
     }

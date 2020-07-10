@@ -3,6 +3,7 @@ package com.futurewei.contact_shield_demo;
 import android.app.IntentService;
 import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -21,6 +22,7 @@ public class BackgroundContactCheckingIntentService extends IntentService {
 
     private static final String TAG = "ContactShielddd";
     private ContactShieldEngine contactEngine;
+    private SharedPreferences sharedPreferences;
 
     public BackgroundContactCheckingIntentService() {
         super(TAG);
@@ -58,6 +60,11 @@ public class BackgroundContactCheckingIntentService extends IntentService {
             @Override
             public void onSuccess(ContactSketch contactSketch) {
                 Log.e("sketch", contactSketch.toString());
+                sharedPreferences = getApplicationContext().getSharedPreferences("dashboard_info",MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt("number_of_hits", contactSketch.getNumberOfHits());
+                editor.putInt("risk_level", contactSketch.getMaxRiskLevel());
+                editor.commit();
             }
         });
     }

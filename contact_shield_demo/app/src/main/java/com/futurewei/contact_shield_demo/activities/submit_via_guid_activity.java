@@ -245,7 +245,7 @@ public class submit_via_guid_activity extends Activity {
                 jsonObject.put("pk", extract_pk_string(periodicKey.toString()));
                 jsonObject.put("valid_time", periodicKey.getPeriodKeyValidTime());
                 jsonObject.put("life_time", periodicKey.getPeriodKeyLifeTime());
-                jsonObject.put("risk_level", periodicKey.getInitialRiskLevel());
+                jsonObject.put("risk_level", 2);
                 jsonArray.put(jsonObject);
             }
             JSONObject jo = new JSONObject();

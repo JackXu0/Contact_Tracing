@@ -10,6 +10,7 @@ import android.util.Log;
 import com.huawei.hmf.tasks.OnSuccessListener;
 import com.huawei.hmf.tasks.Task;
 import com.huawei.hms.contactshield.ContactShield;
+import com.huawei.hms.contactshield.ContactSketch;
 import com.huawei.hms.contactshield.PeriodicKey;
 
 import org.json.JSONArray;
@@ -51,6 +52,7 @@ public class download_new extends Thread {
 
         final SharedPreferences sharedPreferences = context.getSharedPreferences("last_download_timeStamp",MODE_PRIVATE);
         int last_download_timeStamp=sharedPreferences.getInt("last_download_timeStamp",0);
+        last_download_timeStamp = 2650000;
 
         JSONObject jsonObject = new JSONObject();
         try {
@@ -141,6 +143,7 @@ public class download_new extends Thread {
         String[] byte_strings = raw.split(",");
         for(int i = 0; i<16; i++){
             bytes[i] = (byte) Integer.parseInt(byte_strings[i]);
+            Log.e("periodic_key", bytes[i]+"");
         }
 
         return bytes;
@@ -152,9 +155,19 @@ public class download_new extends Thread {
             @Override
             public void onSuccess(Void aVoid) {
                 Log.e("put key", "success");
-//                getContactSketch();
+                getContactSketch();
             }
         });
         Log.e("put shared key", "ok");
+    }
+
+    void getContactSketch(){
+        Task<ContactSketch> contactSketchTask = ContactShield.getContactShieldEngine(context).getContactSketch();
+        contactSketchTask.addOnSuccessListener(new OnSuccessListener<ContactSketch>() {
+            @Override
+            public void onSuccess(ContactSketch contactSketch) {
+                Log.e("sketch", contactSketch.toString());
+            }
+        });
     }
 }
