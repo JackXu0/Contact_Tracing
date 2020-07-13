@@ -4,7 +4,10 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -110,8 +113,22 @@ public class NewMainActivity extends AppCompatActivity {
 //        }
 //        engine_start();
 
+        //push
+        NewMainActivity.MyReceiver receiver = new NewMainActivity.MyReceiver();
+        IntentFilter filter=new IntentFilter();
+        filter.addAction("com.huawei.codelabpush.ON_NEW_TOKEN");
+        NewMainActivity.this.registerReceiver(receiver,filter);
+    }
 
-
+    //push kit
+    public class MyReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if ("com.huawei.codelabpush.ON_NEW_TOKEN".equals(intent.getAction())) {
+                String token = intent.getStringExtra("token");
+//                tvToken.setText(token);
+            }
+        }
     }
 
     void engine_start_pre_check(){
