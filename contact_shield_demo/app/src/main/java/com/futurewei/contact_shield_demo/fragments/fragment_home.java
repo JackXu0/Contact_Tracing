@@ -32,6 +32,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.futurewei.contact_shield_demo.R;
+
 import com.futurewei.contact_shield_demo.activities.MainActivity;
 import com.futurewei.contact_shield_demo.activities.NewMainActivity;
 import com.futurewei.contact_shield_demo.activities.NotificationsActivity;
