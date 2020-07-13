@@ -10,4 +10,5 @@
     <color name="ButtonTextColor">#ffffff</color>
     <color name="cardPrimary">#6200EE</color>
     <color name="cardSurface">#ffffff</color>
+    <color name="disable_gray">#22000000</color>
 </resources>

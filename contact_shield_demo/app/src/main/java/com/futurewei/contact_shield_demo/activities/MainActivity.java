@@ -2,14 +2,17 @@ package com.futurewei.contact_shield_demo.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import android.Manifest;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,14 +22,19 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
+import android.widget.TextView;
 
 import com.futurewei.contact_shield_demo.BackgroundContactCheckingIntentService;
 import com.futurewei.contact_shield_demo.R;
+import com.huawei.hmf.tasks.OnCompleteListener;
 import com.huawei.hmf.tasks.OnFailureListener;
 import com.huawei.hmf.tasks.OnSuccessListener;
 import com.huawei.hmf.tasks.Task;
 import com.huawei.hms.contactshield.ContactDetail;
 import com.huawei.hms.contactshield.ContactShield;
+import com.huawei.hms.contactshield.ContactShieldEngine;
 import com.huawei.hms.contactshield.ContactShieldSetting;
 import com.huawei.hms.contactshield.ContactSketch;
 import com.huawei.hms.contactshield.PeriodicKey;
@@ -35,351 +43,192 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import com.futurewei.contact_shield_demo.network.upload_periodic_key;
-import com.futurewei.contact_shield_demo.network.download_new;
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    private static final String TAG = "ContactShield_MainActivity";
 
-public class MainActivity extends AppCompatActivity {
+    private static final byte[] CONTENT_BYTE =
+            new byte[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16};
 
-    List<PeriodicKey> sharedKeys;
+    private static final int VALID_TIME = 100;
 
-    Button start_engine_btn;
-    Button stop_engine_btn;
-    Button get_periodical_key_btn;
-    Button clear_data_btn;
-    Button put_shared_key_btn;
-    Button get_contact_sketch_btn;
-    Button push_notification_btn;
-    Context context;
+    private static final int LIFE_TIME = 100;
+
+    private static final int INITIALRISKLEVEL = 0;
+
+    private ContactShieldEngine mEngine;
+
+    private Switch mStatusButton;
+    private Button mReportButton;
+    private Button mCheckButton;
+    private Button mSummaryButton;
+    private Button mDetailButton;
+    private TextView mSumResult;
+    private TextView mDetailResult;
+
+    private  List<PeriodicKey> reportedList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION},
+                    940);
+        }
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_COARSE_LOCATION},
+                    940);
+        }
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.BLUETOOTH},
+                    940);
+        }
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.BLUETOOTH_ADMIN) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.BLUETOOTH_ADMIN},
+                    940);
+        }
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.INTERNET},
+                    940);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        context = this;
-
         initView();
-
-        Log.e("info1", Build.VERSION.SDK_INT+"");
-        Log.e("info2", Build.DEVICE);
-        Log.e("info3", Build.MANUFACTURER);
-        Log.e("info4", Build.MODEL);
-        Log.e("info5", Build.ID);
-        Log.e("info6", Settings.Secure.getString(this.getContentResolver(),
-                Settings.Secure.ANDROID_ID));
+        mEngine = ContactShield.getContactShieldEngine(this);
     }
 
-    void initView(){
-        start_engine_btn = findViewById(R.id.start_engine_btn);
-        stop_engine_btn = findViewById(R.id.stop_engine_btn);
-        get_periodical_key_btn = findViewById(R.id.get_periodical_key_btn);
-        clear_data_btn = findViewById(R.id.clear_data_btn);
-        put_shared_key_btn = findViewById(R.id.put_shared_key_btn);
-        get_contact_sketch_btn = findViewById(R.id.get_contact_sketch_btn);
-        push_notification_btn = findViewById(R.id.push_notification_btn);
-
-        start_engine_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                engine_start_pre_check();
-            }
-        });
-
-        stop_engine_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                engine_stop_pre_check();
-            }
-        });
-
-        get_periodical_key_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getPeriodicalKey();
-            }
-        });
-
-        clear_data_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clear_data();
-            }
-        });
-
-        put_shared_key_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new download_new(context, myHandler).start();
-            }
-        });
-
-        get_contact_sketch_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getContactSketch();
-            }
-        });
-
-        push_notification_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                make_alert_window();
-            }
-        });
-    }
-
-    void engine_start_pre_check(){
-        Task<Boolean> isRunningTask = ContactShield.getContactShieldEngine(this).isContactShieldRunning();
-        isRunningTask.addOnSuccessListener(new OnSuccessListener<Boolean>() {
-            @Override
-            public void onSuccess(Boolean aBoolean) {
-                if(!aBoolean){
-                    engine_start();
-                    Log.e("Is running", "NO");
-                }else{
-                    Log.e("Is running", "YES");
-                }
-            }
-        });
-    }
-
-    void engine_stop_pre_check(){
-        Task<Boolean> isRunningTask = ContactShield.getContactShieldEngine(this).isContactShieldRunning();
-        isRunningTask.addOnSuccessListener(new OnSuccessListener<Boolean>() {
-            @Override
-            public void onSuccess(Boolean aBoolean) {
-                if(!aBoolean){
-                    Log.e("Is running", "NO");
-                }else{
-                    engine_stop();
-                    Log.e("Is running", "YES");
-                }
-            }
-        });
-    }
-
-    void engine_start(){
-        PendingIntent pendingIntent = PendingIntent.getService(this, 0, new Intent(this, BackgroundContactCheckingIntentService.class),
-                PendingIntent.FLAG_UPDATE_CURRENT);
-
-
-        Task<Void> engine_start_task = ContactShield.getContactShieldEngine(this).startContactShield(pendingIntent, ContactShieldSetting.DEFAULT)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d("Engine start", "Success");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(Exception e) {
-                        e.printStackTrace();
-                        Log.e("Engine start", "Failure");
-                    }
-                });
-
-
-    }
-
-    void engine_stop(){
-        Task<Void> engine_start_task = ContactShield.getContactShieldEngine(this).stopContactShield()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d("Engine stop", "Success");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(Exception e) {
-                        e.printStackTrace();
-                        Log.e("Engine stop", "Failure");
-                    }
-                });
-    }
-
-    void clear_data(){
-        Task<Void> engine_start_task = ContactShield.getContactShieldEngine(this).clearData()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d("clear data", "Success");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(Exception e) {
-                        e.printStackTrace();
-                        Log.e("clear data", "Failure");
-                    }
-                });
-    }
-
-
-
-    void getPeriodicalKey(){
-        Task<List<PeriodicKey>> task_pk = ContactShield.getContactShieldEngine(this).getPeriodicKey();
-
-        task_pk.addOnSuccessListener(new OnSuccessListener<List<PeriodicKey>>() {
-            @Override
-            public void onSuccess(List<PeriodicKey> periodicKeys) {
-                sharedKeys = periodicKeys;
-                Log.e("get periodical key","success");
-                Log.e("length", periodicKeys.size()+"");
-                for(PeriodicKey pk : periodicKeys){
-                    byte[] bs = pk.getContent();
-                    for(byte b : bs){
-                        Log.e("bytee", b+"");
-                    }
-                    Log.e("pk", pk.toString());
-                }
-
-                upload_periodic_keys(periodicKeys);
-
-//                putSharedKey(sharedKeys);
-            }
-        });
-    }
-
-    void getContactSketch(){
-        Task<ContactSketch> contactSketchTask = ContactShield.getContactShieldEngine(getApplicationContext()).getContactSketch();
-        contactSketchTask.addOnSuccessListener(new OnSuccessListener<ContactSketch>() {
-            @Override
-            public void onSuccess(ContactSketch contactSketch) {
-                Log.e("sketch", contactSketch.toString());
-            }
-        });
-    }
-
-    void getContactDetail(){
-        Task<List<ContactDetail>> contactDetailTask = ContactShield.getContactShieldEngine(getApplicationContext()).getContactDetail();
-        contactDetailTask.addOnSuccessListener(new OnSuccessListener<List<ContactDetail>>() {
-            @Override
-            public void onSuccess(List<ContactDetail> contactDetails) {
-                for(ContactDetail cd : contactDetails){
-                    Log.e("detail", cd.toString());
-                }
-            }
-        });
-    }
-
-    void upload_periodic_keys(List<PeriodicKey> periodic_keys){
-
-        JSONArray jsonArray = new JSONArray();
-        try {
-
-            for(PeriodicKey periodicKey : periodic_keys){
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("pk", extract_pk_string(periodicKey.toString()));
-                jsonObject.put("valid_time", periodicKey.getPeriodKeyValidTime());
-                jsonObject.put("life_time", periodicKey.getPeriodKeyLifeTime());
-                jsonObject.put("risk_level", periodicKey.getInitialRiskLevel());
-                jsonArray.put(jsonObject);
-            }
-            JSONObject jo = new JSONObject();
-            jo.put("periodic_keys", jsonArray);
-
-            Log.e("json object", jo.toString());
-
-            (new upload_periodic_key(this, myHandler, jo)).start();
-        } catch (JSONException e) {
-            e.printStackTrace();
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.reportButton:
+                reportPeriodicKeys();
+                break;
+            case R.id.checkButton:
+                putKeysButtonOnClick();
+                break;
+            case R.id.summary:
+                getSketchButtonOnClick();
+                break;
+            case R.id.detail:
+                getDetailButtonOnClick();
+                break;
         }
     }
 
-    String extract_pk_string(String raw){
-        int s = raw.indexOf('[');
-        int e = raw.indexOf(']');
-        return raw.substring(s+1,e).replace(" ","");
-    }
-
-
-    void putSharedKey(List<PeriodicKey> sharedKeys){
-        Task<Void> task = ContactShield.getContactShieldEngine(getApplicationContext()).putSharedKey(sharedKeys);
-        task.addOnSuccessListener(new OnSuccessListener<Void>() {
+    private void initView() {
+        mStatusButton = findViewById(R.id.ContactShieldStatus);
+        mStatusButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onSuccess(Void aVoid) {
-                Log.e("put key", "success");
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                startContactCtrl(isChecked);
             }
         });
-        Log.e("put shared key", "ok");
+
+        mReportButton = findViewById(R.id.reportButton);
+        mReportButton.setOnClickListener(this);
+
+        mCheckButton = findViewById(R.id.checkButton);
+        mCheckButton.setOnClickListener(this);
+
+        mSummaryButton = findViewById(R.id.summary);
+        mSummaryButton.setOnClickListener(this);
+
+        mDetailButton = findViewById(R.id.detail);
+        mDetailButton.setOnClickListener(this);
+
+        mSumResult = findViewById(R.id.sumResult);
+        mDetailResult = findViewById(R.id.detailResult);
     }
 
-    Handler myHandler = new Handler(){
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            Bundle b;
-            int code;
-            switch (msg.what){
-                case 1:
-                    Log.e("upload pk message", msg.getData().getInt("response_code")+"");
-                    break;
-                case 2:
-
-                    break;
-
-                default:
-                    Log.e("default handler", "triggered");
-                    break;
-            }
-        }
-    };
-
-    void make_alert_window(){
-
-        NotificationManager notification_manager = (NotificationManager) this
-                .getSystemService(Context.NOTIFICATION_SERVICE);
-
-        Intent notificationIntent = new Intent(context, MainActivity.class);
-        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-                | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent intent = PendingIntent.getActivity(context, 0,
-                notificationIntent, 0);
-        NotificationCompat.Builder notification_builder;
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            String chanel_id = "3000";
-            CharSequence name = "Channel Name";
-            String description = "Chanel Description";
-            int importance = NotificationManager.IMPORTANCE_LOW;
-            NotificationChannel mChannel = new NotificationChannel(chanel_id, name, importance);
-            mChannel.setDescription(description);
-            mChannel.enableLights(true);
-            mChannel.setLightColor(Color.BLUE);
-            notification_manager.createNotificationChannel(mChannel);
-            notification_builder = new NotificationCompat.Builder(this, chanel_id);
+    private void startContactCtrl(boolean onOff) {
+        if (onOff) {
+            mStatusButton.setText("ON");
+            PendingIntent pendingIntent = PendingIntent.getService(this, 0,
+                    new Intent(this, BackgroundContactCheckingIntentService.class),
+                    PendingIntent.FLAG_UPDATE_CURRENT);
+            mEngine.startContactShield(pendingIntent,
+                    ContactShieldSetting.DEFAULT).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(Exception e) {
+                    e.printStackTrace();
+//                    Log.d(TAG, "startNearbyContactChecking onFailure," + e.getMessage());
+                }
+            });
         } else {
-            notification_builder = new NotificationCompat.Builder(this);
+            mStatusButton.setText("OFF");
+            mEngine.stopContactShield().addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(Exception e) {
+                    Log.d(TAG, "stopNearbyContactChecking onFailure," + e.getMessage());
+                }
+            });
+            resetAllButtonOnClick();
         }
-        notification_builder.setSmallIcon(R.drawable.ic_launcher_background)
-                .setContentTitle("corona virus alert")
-                .setContentText("You have been exposed to a corona virus patient recently. Please practice self quarantine and contact your doctor if you are not feeling fine.")
-                .setAutoCancel(true)
-                .setContentIntent(intent);
-
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-
-// notificationId is a unique int for each notification that you must define
-        notificationManager.notify(1, notification_builder.build());
-
-
     }
 
+    public void reportPeriodicKeys() {
+        getKeysButtonOnClick();
+    }
 
-//    void alarm_test(){
-//        AlarmManager alarmManager =
-//                (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
-//        PendingIntent pendingIntent =
-//                PendingIntent.getService(getApplicationContext(), 0, new Intent(getApplicationContext(), AlarmReceiver.class),
-//                        PendingIntent.FLAG_NO_CREATE);
-//        if (pendingIntent != null && alarmManager != null) {
-//            alarmManager.cancel(pendingIntent);
-//        }
-//
-//        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-//                SystemClock.elapsedRealtime() +
-//                        60 * 1000, new Intent(getApplicationContext(), AlarmReceiver.class));
-//    }
+    public void putKeysButtonOnClick() {
+        List<PeriodicKey> putList = new ArrayList<>();
+        PeriodicKey periodicKey = new PeriodicKey.Builder()
+                .setContent(CONTENT_BYTE)
+                .setPeriodKeyValidTime(VALID_TIME)
+                .setPeriodKeyLifeTime(LIFE_TIME)
+                .setInitialRiskLevel(INITIALRISKLEVEL)
+                .build();
+        putList.add(periodicKey);
+        mEngine.putSharedKey(putList);
+    }
+
+    public void getKeysButtonOnClick() {
+        mEngine.getPeriodicKey().addOnCompleteListener(new OnCompleteListener<List<PeriodicKey>>() {
+            @Override
+            public void onComplete(Task<List<PeriodicKey>> task) {
+                reportedList = task.getResult();
+                Log.d(TAG, "getKeysButtonOnClick getKeySize: " + reportedList.size());
+            }
+        });
+    }
+
+    public void getSketchButtonOnClick() {
+        mEngine.getContactSketch().addOnCompleteListener(new OnCompleteListener<ContactSketch>() {
+            @Override
+            public void onComplete(Task<ContactSketch> task) {
+                ContactSketch sketch = task.getResult();
+                mSumResult.setText(sketch.toString());
+                Log.d(TAG, "getSketchButtonOnClick " + sketch.toString());
+            }
+        });
+    }
+
+    public void getDetailButtonOnClick() {
+        mEngine.getContactDetail().addOnCompleteListener(new OnCompleteListener<List<ContactDetail>>() {
+            @Override
+            public void onComplete(Task<List<ContactDetail>> task) {
+                List<ContactDetail> details = task.getResult();
+                for (ContactDetail detail : details) {
+                    Log.d(TAG, "getDetailButtonOnClick " + detail.toString());
+                }
+                mDetailResult.setText(String.valueOf(details));
+            }
+        });
+    }
+
+    public void resetAllButtonOnClick() {
+        mEngine.clearData().addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(Exception e) {
+                Log.d(TAG, "resetAllButtonOnClick onFailure," + e.getMessage());
+            }
+        });
+    }
 }

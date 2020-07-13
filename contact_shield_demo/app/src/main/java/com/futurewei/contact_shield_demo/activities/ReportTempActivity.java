@@ -1,3 +1,4 @@
+
 package com.futurewei.contact_shield_demo.activities;
 
 import android.Manifest;
@@ -251,3 +252,4 @@ public class ReportTempActivity extends Activity {
         return raw.substring(s+1,e).replace(" ","");
     }
 }
+

@@ -32,6 +32,8 @@
     <string name="disable_notification_caption">"When notifications are turned off, your device will not receive any notifications for potential exposures or interactions with other users."</string>
     <string name="alert_heading"><b>"You have been in contact with a Covid-19 Patient!"</b></string>
     <string name="alert_body">"Someone you have been in contact with recently have self-reported positive. Please self-quarantine or get tested at your local testing center."</string>
+    <string name="notification_heading">"You have received an announcement"</string>
+    <string name="notification_body">"There has been an announcement for you: There is a curfew from 9 p.m. tonight until 5 a.m. tomorrow morning. Please stay indoors tonight."</string>
     <string name="verification_methods_heading">"Choose Verification Method"</string>
     <string name="verification_method1_heading">"Scan QR code"</string>
     <string name="verification_method1_description">"Register your test by scanning the QR code that can be found in your testing documents."</string>
@@ -40,6 +42,9 @@
     <string name="teleTAN_heading">"How this works"</string>
     <string name="teleTAN_description">"Call the hotline to request a TAN:"</string>
     <string name="teleTAN_hotline">"+1(213)-425-8730"</string>
+    <string name="submission_intro_heading">"Please help all of us"</string>
+    <string name="submission_intro_body">"You can allow our CT App to share your periodic keys from the past 14 days. By doing this, you can warn others that you have been in contact with and help remind them to self-quarantine.
+        Since only your periodic keys are transmitted, your identity remains anonymous. By clicking on "Accept", your periodic keys will be uploaded to our server."</string>
 
 
 </resources>
