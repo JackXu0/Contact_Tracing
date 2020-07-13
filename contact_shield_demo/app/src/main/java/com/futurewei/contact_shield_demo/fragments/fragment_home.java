@@ -73,7 +73,7 @@ public class fragment_home extends Fragment {
 
 
     public static final int UPLOAD_INTERVAL_IN_DAYS = 7;
-    public static final boolean FLEXIBLE_MY_STATUS_ENABLED = false;
+    public static final boolean FLEXIBLE_MY_STATUS_ENABLED = true;
 
     @Override
     public void onAttach(Context context) {
@@ -169,7 +169,7 @@ public class fragment_home extends Fragment {
         //refresh dashboard
         sharedPreferences = context.getSharedPreferences("dashboard_info",MODE_PRIVATE);
         number_of_hits_tv.setText(""+sharedPreferences.getInt("number_of_hits",0));
-        risk_level_tv.setText(sharedPreferences.getString("risk_level", "NO RISK"));
+        risk_level_tv.setText(risk_level_map.get(sharedPreferences.getInt("risk_level", 0)));
 
 
 

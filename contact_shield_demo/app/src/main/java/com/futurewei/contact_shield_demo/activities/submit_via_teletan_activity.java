@@ -10,6 +10,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -85,6 +86,7 @@ public class submit_via_teletan_activity extends Activity {
                     e.printStackTrace();
                 }
                 finish();
+                Toast.makeText(getApplicationContext(),"Thanks for reporting", Toast.LENGTH_LONG).show();
             }
         });
 
