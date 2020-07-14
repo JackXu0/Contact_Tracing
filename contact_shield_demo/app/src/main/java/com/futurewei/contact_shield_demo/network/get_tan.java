@@ -23,6 +23,8 @@ import okhttp3.Response;
 import static android.content.Context.MODE_PRIVATE;
 
 public class get_tan extends Thread{
+
+    private static final String TAG = "get_tan";
     public Context context;
     public Handler handler;
     public JSONObject jsonObject;
@@ -45,7 +47,7 @@ public class get_tan extends Thread{
         RequestBody body = RequestBody.create(jsonObject.toString(), JSON);
 
         try {
-            Log.e("rkey thread", jsonObject.getString("registration_key"));
+            Log.e(TAG, "registration key: "+ jsonObject.getString("registration_key"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -62,7 +64,7 @@ public class get_tan extends Thread{
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.e("Get TAN","on Failure");
+                Log.e(TAG,"on Failure");
                 Bundle b =new Bundle();
                 b.putInt("response_code",0);
                 msg.setData(b);
@@ -73,8 +75,8 @@ public class get_tan extends Thread{
             public void onResponse(Call call, final Response response) throws IOException {
                 if(response.isSuccessful()){
                     String tan = response.body().string();
-                    Log.e("Get TAN","response and success");
-                    Log.e("Get TAN", tan);
+                    Log.e(TAG,"response and success");
+                    Log.e(TAG, "tan: "+tan);
 
                     sharedPreferences = context.getSharedPreferences("tan", MODE_PRIVATE);
                     final SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -87,8 +89,8 @@ public class get_tan extends Thread{
                     msg.setData(b);
                     handler.sendMessage(msg);
                 }else{
-                    Log.e("Get TAN","response but failed");
-                    Log.e("Get TAN", response.body().string());
+                    Log.e(TAG,"response but failed");
+                    Log.e(TAG, response.body().string());
                     Bundle b =new Bundle();
                     b.putInt("response_code",2);
                     msg.setData(b);
