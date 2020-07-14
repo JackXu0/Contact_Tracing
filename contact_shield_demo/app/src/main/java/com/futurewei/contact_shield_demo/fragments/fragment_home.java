@@ -143,9 +143,15 @@ public class fragment_home extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
-                System.out.println("reportButton pressed");
-                Intent intent = new Intent(context, report_test_result_pre_activity.class);
-                startActivity(intent);
+                sharedPreferences = getContext().getSharedPreferences("settings", MODE_PRIVATE);
+                boolean is_app_disabled = sharedPreferences.getBoolean("is_app_disabled", false);
+                // report is only supported when contact shield API is running
+                if(!is_app_disabled){
+                    Intent intent = new Intent(context, report_test_result_pre_activity.class);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(context, "Please enable the app before reporting", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -403,7 +409,6 @@ public class fragment_home extends Fragment {
                 Log.e(TAG, "periodic key list length: "+periodicKeys.size()+"");
                 for(PeriodicKey pk : periodicKeys){
                     byte[] bs = pk.getContent();
-                    Log.e(TAG, "pk: "+pk.toString());
                 }
 
                 upload_periodic_keys(periodicKeys, tan);
