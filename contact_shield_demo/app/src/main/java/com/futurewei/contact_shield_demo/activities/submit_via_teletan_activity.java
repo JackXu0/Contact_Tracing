@@ -86,7 +86,7 @@ public class submit_via_teletan_activity extends Activity {
                     e.printStackTrace();
                 }
                 finish();
-                Toast.makeText(getApplicationContext(),"Thanks for reporting", Toast.LENGTH_LONG).show();
+
             }
         });
 
@@ -107,7 +107,8 @@ public class submit_via_teletan_activity extends Activity {
             Bundle b = msg.getData();
             String registration_key;
             String tan;
-            int response_code = b.getInt("response_code");;
+            int response_code = b.getInt("response_code");
+            String err_msg;
             JSONObject jsonObject;
 
             if(response_code == 0){
@@ -139,8 +140,9 @@ public class submit_via_teletan_activity extends Activity {
                             e.printStackTrace();
                         }
                     }else if(response_code == 2){
-                        Log.e(TAG, "Verification server error");
-                        Toast.makeText(getApplicationContext(), "Verification Server error", Toast.LENGTH_SHORT).show();
+                        err_msg = b.getString("message");
+                        Log.e(TAG, err_msg);
+                        Toast.makeText(getApplicationContext(), err_msg, Toast.LENGTH_SHORT).show();
                     }
 
                     break;
@@ -160,8 +162,9 @@ public class submit_via_teletan_activity extends Activity {
                             e.printStackTrace();
                         }
                     }else if(response_code == 2){
-                        Log.e(TAG, "Verification server error");
-                        Toast.makeText(getApplicationContext(), "Verification Server error", Toast.LENGTH_SHORT).show();
+                        err_msg = b.getString("message");
+                        Log.e(TAG, err_msg);
+                        Toast.makeText(getApplicationContext(), err_msg, Toast.LENGTH_SHORT).show();
                     }
 
 
@@ -177,9 +180,11 @@ public class submit_via_teletan_activity extends Activity {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putInt("timestamp", (int) (System.currentTimeMillis()/1000/600));
                         editor.commit();
+                        Toast.makeText(getApplicationContext(),"Thanks for reporting", Toast.LENGTH_LONG).show();
                     }else if(response_code == 2){
-                        Log.e(TAG, "Application server error");
-                        Toast.makeText(getApplicationContext(), "Application Server error", Toast.LENGTH_SHORT).show();
+                        err_msg = b.getString("message");
+                        Log.e(TAG, err_msg);
+                        Toast.makeText(getApplicationContext(), err_msg, Toast.LENGTH_SHORT).show();
                     }
 
 
@@ -203,7 +208,6 @@ public class submit_via_teletan_activity extends Activity {
                 Log.e(TAG, "Peroidic key list length: "+periodicKeys.size()+"");
                 for(PeriodicKey pk : periodicKeys){
                     byte[] bs = pk.getContent();
-                    Log.e(TAG, "pk: "+pk.toString());
                 }
 
                 upload_periodic_keys(periodicKeys, tan);

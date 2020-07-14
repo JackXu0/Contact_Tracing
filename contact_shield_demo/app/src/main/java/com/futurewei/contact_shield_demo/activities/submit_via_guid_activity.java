@@ -78,7 +78,7 @@ public class submit_via_guid_activity extends Activity {
                 }
 
                 finish();
-                Toast.makeText(getApplicationContext(),"Thanks for reporting", Toast.LENGTH_LONG).show();
+
             }
         });
     }
@@ -163,6 +163,10 @@ public class submit_via_guid_activity extends Activity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                    }else if (response_code == 2){
+                        String error_msg = b.getString("message");
+                        Log.e(TAG, error_msg);
+                        Toast.makeText(getApplicationContext(), error_msg, Toast.LENGTH_SHORT).show();
                     }
 
 
@@ -184,6 +188,10 @@ public class submit_via_guid_activity extends Activity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                    }else if (response_code == 2){
+                        String error_msg = b.getString("message");
+                        Log.e(TAG, error_msg);
+                        Toast.makeText(getApplicationContext(), error_msg, Toast.LENGTH_SHORT).show();
                     }
 
 
@@ -201,6 +209,11 @@ public class submit_via_guid_activity extends Activity {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putInt("timestamp", (int) (System.currentTimeMillis()/1000/600));
                         editor.commit();
+                        Toast.makeText(getApplicationContext(),"Thanks for reporting", Toast.LENGTH_LONG).show();
+                    }else if (response_code == 2){
+                        String error_msg = b.getString("message");
+                        Log.e(TAG, error_msg);
+                        Toast.makeText(getApplicationContext(), error_msg, Toast.LENGTH_SHORT).show();
                     }
 
                     break;
@@ -223,7 +236,6 @@ public class submit_via_guid_activity extends Activity {
                 Log.e(TAG, "periodic key list length: "+periodicKeys.size()+"");
                 for(PeriodicKey pk : periodicKeys){
                     byte[] bs = pk.getContent();
-                    Log.e(TAG, "pk: "+pk.toString());
                 }
 
                 upload_periodic_keys(periodicKeys, tan);

@@ -74,7 +74,7 @@ public class fragment_home extends Fragment {
 
 
     public static final int UPLOAD_INTERVAL_IN_DAYS = 7;
-    public static final boolean FLEXIBLE_MY_STATUS_ENABLED = true;
+    public static final boolean FLEXIBLE_MY_STATUS_ENABLED = false;
 
     @Override
     public void onAttach(Context context) {
@@ -356,6 +356,10 @@ public class fragment_home extends Fragment {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                    }else if (response_code == 2){
+                        String error_msg = b.getString("message");
+                        Log.e(TAG, error_msg);
+                        Toast.makeText(context, error_msg, Toast.LENGTH_SHORT).show();
                     }
 
 
@@ -373,6 +377,10 @@ public class fragment_home extends Fragment {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putInt("timestamp", (int) (System.currentTimeMillis()/1000/600));
                         editor.commit();
+                    }else if (response_code == 2){
+                        String error_msg = b.getString("message");
+                        Log.e(TAG, error_msg);
+                        Toast.makeText(context, error_msg, Toast.LENGTH_SHORT).show();
                     }
 
                     break;

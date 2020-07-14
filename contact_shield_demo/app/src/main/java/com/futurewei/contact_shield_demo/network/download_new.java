@@ -131,6 +131,7 @@ public class download_new extends Thread {
                     Log.e(TAG,"responded but failed");
                     Bundle b =new Bundle();
                     b.putInt("response_code",2);
+                    b.putString("message", response.body().string());
                     msg.setData(b);
                     handler.sendMessage(msg);
                 }

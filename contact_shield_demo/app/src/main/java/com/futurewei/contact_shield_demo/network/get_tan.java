@@ -93,6 +93,7 @@ public class get_tan extends Thread{
                     Log.e(TAG, response.body().string());
                     Bundle b =new Bundle();
                     b.putInt("response_code",2);
+                    b.putString("message", response.body().string());
                     msg.setData(b);
                     handler.sendMessage(msg);
                 }

@@ -85,6 +85,7 @@ public class get_registration_key_teletan extends Thread {
                     Log.e(TAG,"response but failed");
                     Bundle b =new Bundle();
                     b.putInt("response_code",2);
+                    b.putString("message", response.body().string());
                     msg.setData(b);
                     handler.sendMessage(msg);
                 }
