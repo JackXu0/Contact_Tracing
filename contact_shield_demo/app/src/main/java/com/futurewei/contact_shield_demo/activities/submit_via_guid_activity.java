@@ -38,6 +38,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 import static com.futurewei.contact_shield_demo.activities.ReportTempActivity.DEFAULT_VIEW;
 
@@ -69,6 +70,10 @@ public class submit_via_guid_activity extends Activity {
             @Override
             public void onClick(View v) {
                 String guid = guid_tv.getText().toString();
+                if(!Pattern.matches("[a-zA-Z0-9]{32}", guid)){
+                    Toast.makeText(getApplicationContext(), "GUID NOT VALID", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 JSONObject jsonObject = new JSONObject();
                 try {
                     jsonObject.put("guid", guid);

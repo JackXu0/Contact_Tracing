@@ -33,6 +33,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class submit_via_teletan_activity extends Activity {
 
@@ -76,7 +77,11 @@ public class submit_via_teletan_activity extends Activity {
             public void onClick(View v) {
                 Log.e("verrification","Submit Button successfully pressed.");
                 String teletan = pinView.getText().toString();
-                //TODO: Check if teletan is 6 digit number
+                //Check if teletan is 6 digit number
+                if(!Pattern.matches("[0-9]{6}", teletan)){
+                    Toast.makeText(getApplicationContext(), "Please enter the valid TELETAN", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Log.e(TAG, "teletan pinview: "+teletan+";;");
                 JSONObject jsonObject = new JSONObject();
                 try {
