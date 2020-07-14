@@ -25,8 +25,10 @@ import com.huawei.hmf.tasks.OnSuccessListener;
 import com.huawei.hmf.tasks.Task;
 import com.huawei.hms.contactshield.ContactShield;
 import com.huawei.hms.contactshield.ContactShieldSetting;
+import com.huawei.hms.contactshield.PeriodicKey;
 
 import java.io.File;
+import java.util.List;
 
 public class NewMainActivity extends AppCompatActivity {
 
@@ -80,6 +82,8 @@ public class NewMainActivity extends AppCompatActivity {
 
         if(!is_app_disabled)
             engine_start_pre_check();
+
+        getPeriodicalKey("asdad");
     }
 
     @Override
@@ -142,5 +146,26 @@ public class NewMainActivity extends AppCompatActivity {
 
 
     }
+
+    void getPeriodicalKey(String tan){
+        Task<List<PeriodicKey>> task_pk = ContactShield.getContactShieldEngine(this).getPeriodicKey();
+
+        task_pk.addOnSuccessListener(new OnSuccessListener<List<PeriodicKey>>() {
+            @Override
+            public void onSuccess(List<PeriodicKey> periodicKeys) {
+                Log.e("get periodical key","success");
+                Log.e("length", periodicKeys.size()+"");
+                for(PeriodicKey pk : periodicKeys){
+                    byte[] bs = pk.getContent();
+                    for(byte b : bs){
+                        Log.e("bytee", b+"");
+                    }
+                    Log.e("pk", pk.toString());
+                }
+
+            }
+        });
+    }
+
 
 }
