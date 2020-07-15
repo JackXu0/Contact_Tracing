@@ -34,6 +34,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class download_new extends Thread {
 
+    private static final String TAG = "download new";
     public Context context;
     public Handler handler;
     public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
@@ -61,7 +62,7 @@ public class download_new extends Thread {
             e.printStackTrace();
         }
 
-        Log.e("download new", last_download_timeStamp+"");
+        Log.e(TAG, "last download timestamp: "+last_download_timeStamp+"");
         RequestBody formBody = RequestBody.create(jsonObject.toString(), JSON);
 
         OkHttpClient client = new OkHttpClient();
@@ -76,7 +77,7 @@ public class download_new extends Thread {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.e("download new ","on failure");
+                Log.e(TAG,"on failure");
                 Bundle b =new Bundle();
                 b.putInt("response_code",0);
                 msg.setData(b);
@@ -87,11 +88,11 @@ public class download_new extends Thread {
             public void onResponse(Call call, final Response response) throws IOException {
                 if(response.isSuccessful()){
                     List<PeriodicKey> pks = new ArrayList();
-                    Log.e("download new ","responded and success");
+                    Log.e(TAG,"responded and success");
                     try{
                         String responseBody = response.body().string();
                         responseBody = "{ \"list\": " + responseBody + "}";
-                        Log.e("eee", responseBody);
+                        Log.e(TAG, "response body: "+responseBody);
                         JSONObject object = new JSONObject(responseBody);
                         JSONArray ja = (JSONArray) object.get("list");
 
@@ -127,9 +128,10 @@ public class download_new extends Thread {
                     msg.setData(b);
                     handler.sendMessage(msg);
                 }else{
-                    Log.e("download new ","responded but failed");
+                    Log.e(TAG,"responded but failed");
                     Bundle b =new Bundle();
                     b.putInt("response_code",2);
+                    b.putString("message", response.body().string());
                     msg.setData(b);
                     handler.sendMessage(msg);
                 }
@@ -143,7 +145,6 @@ public class download_new extends Thread {
         String[] byte_strings = raw.split(",");
         for(int i = 0; i<16; i++){
             bytes[i] = (byte) Integer.parseInt(byte_strings[i]);
-            Log.e("periodic_key", bytes[i]+"");
         }
 
         return bytes;
@@ -154,11 +155,10 @@ public class download_new extends Thread {
         task.addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Log.e("put key", "success");
+                Log.e(TAG, "put key success");
                 getContactSketch();
             }
         });
-        Log.e("put shared key", "ok");
     }
 
     void getContactSketch(){
@@ -166,7 +166,7 @@ public class download_new extends Thread {
         contactSketchTask.addOnSuccessListener(new OnSuccessListener<ContactSketch>() {
             @Override
             public void onSuccess(ContactSketch contactSketch) {
-                Log.e("sketch", contactSketch.toString());
+                Log.e(TAG, "sketch"+contactSketch.toString());
             }
         });
     }

@@ -59,7 +59,7 @@ public class BackgroundContactCheckingIntentService extends IntentService {
         contactSketchTask.addOnSuccessListener(new OnSuccessListener<ContactSketch>() {
             @Override
             public void onSuccess(ContactSketch contactSketch) {
-                Log.e("sketch", contactSketch.toString());
+                Log.e(TAG, "sketch: "+contactSketch.toString());
                 sharedPreferences = getApplicationContext().getSharedPreferences("dashboard_info",MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putInt("number_of_hits", contactSketch.getNumberOfHits());

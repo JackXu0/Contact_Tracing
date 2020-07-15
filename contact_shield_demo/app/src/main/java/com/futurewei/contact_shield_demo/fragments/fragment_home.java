@@ -75,6 +75,7 @@ public class fragment_home extends Fragment {
 
     HashMap<Integer, String> risk_level_map;
     SharedPreferences sharedPreferences;
+    private static final String TAG = "fragment home";
 
 
     public static final int UPLOAD_INTERVAL_IN_DAYS = 7;
@@ -147,9 +148,15 @@ public class fragment_home extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
-                System.out.println("reportButton pressed");
-                Intent intent = new Intent(context, report_test_result_pre_activity.class);
-                startActivity(intent);
+                sharedPreferences = getContext().getSharedPreferences("settings", MODE_PRIVATE);
+                boolean is_app_disabled = sharedPreferences.getBoolean("is_app_disabled", false);
+                // report is only supported when contact shield API is running
+                if(!is_app_disabled){
+                    Intent intent = new Intent(context, report_test_result_pre_activity.class);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(context, "Please enable the app before reporting", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -174,7 +181,7 @@ public class fragment_home extends Fragment {
         //refresh dashboard
         sharedPreferences = context.getSharedPreferences("dashboard_info",MODE_PRIVATE);
         number_of_hits_tv.setText(""+sharedPreferences.getInt("number_of_hits",0));
-        risk_level_tv.setText(sharedPreferences.getString("risk_level", "NO RISK"));
+        risk_level_tv.setText(risk_level_map.get(sharedPreferences.getInt("risk_level", 0)));
 
 
 
@@ -208,13 +215,18 @@ public class fragment_home extends Fragment {
         sharedPreferences = context.getSharedPreferences("upload_pk_history", MODE_PRIVATE);
         String registration_key = sharedPreferences.getString("registration_key","");
         int latest_uploading_time = sharedPreferences.getInt("timestamp", 0);
+        sharedPreferences = getContext().getSharedPreferences("settings", MODE_PRIVATE);
+        boolean is_PK_upload_disabled = sharedPreferences.getBoolean("is_PK_upload_disabled", false);
 
         // if registration_key is missing or corrupted, or it has been more than one interval (7 days) since last manual upload, needs upload manually again.
         if(registration_key.length() != 32 || latest_uploading_time < ((int) System.currentTimeMillis()/600000 - UPLOAD_INTERVAL_IN_DAYS*24*6)){
             return true;
-        }else if(registration_key.length() == 32 || latest_uploading_time < ((int) System.currentTimeMillis()/600000 - 24 * 6)){
-            //If registration_key exists, but has not uploaded in 24 hours, needs one auto upload
-            upload_PK_automatically(registration_key);
+        }
+        //If registration_key exists, but has not uploaded in 24 hours, needs one auto upload
+        else if(registration_key.length() == 32 || latest_uploading_time < ((int) System.currentTimeMillis()/600000 - 24 * 6)){
+            //check if uploading PK has been disabled by the user
+            if(!is_PK_upload_disabled)
+                upload_PK_automatically(registration_key);
             return false;
         }else{
             //If registration_key exists, and has auto uploaded within 24 hours, no need for further operations
@@ -258,7 +270,7 @@ public class fragment_home extends Fragment {
                 if(!is_notification_disabled && contactSketch.getMaxRiskLevel() >= 2){
                     make_alert_window();
                 }
-                Log.e("sketch", contactSketch.toString());
+                Log.e(TAG, "sketch"+contactSketch.toString());
             }
         });
     }
@@ -341,7 +353,7 @@ public class fragment_home extends Fragment {
 
                 // Step 1 : handler for get tan
                 case 5:
-                    Log.e("handler info", "get registraion key handler activated");
+                    Log.e(TAG, "get registraion key handler activated");
                     response_code = b.getInt("response_code");
 
                     //If Tan is obtained successfully, use the TAN to upload Periodic keys
@@ -355,6 +367,10 @@ public class fragment_home extends Fragment {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                    }else if (response_code == 2){
+                        String error_msg = b.getString("message");
+                        Log.e(TAG, error_msg);
+                        Toast.makeText(context, error_msg, Toast.LENGTH_SHORT).show();
                     }
 
 
@@ -363,7 +379,7 @@ public class fragment_home extends Fragment {
                 // Step 2 : handler for upload periodic key
                 case 1:
                     response_code = b.getInt("response_code");
-                    Log.e("upload pk message", response_code+"");
+                    Log.e(TAG, "upload pk message response code: "+response_code+"");
 
                     //If the periodic Keys are uploaded successfully, update the latest upload timestamp on local storage
                     if(response_code == 1){
@@ -372,12 +388,16 @@ public class fragment_home extends Fragment {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putInt("timestamp", (int) (System.currentTimeMillis()/1000/600));
                         editor.commit();
+                    }else if (response_code == 2){
+                        String error_msg = b.getString("message");
+                        Log.e(TAG, error_msg);
+                        Toast.makeText(context, error_msg, Toast.LENGTH_SHORT).show();
                     }
 
                     break;
 
                 default:
-                    Log.e("default handler", "triggered");
+                    Log.e(TAG, "default handler triggered");
                     break;
             }
         }
@@ -390,14 +410,10 @@ public class fragment_home extends Fragment {
         task_pk.addOnSuccessListener(new OnSuccessListener<List<PeriodicKey>>() {
             @Override
             public void onSuccess(List<PeriodicKey> periodicKeys) {
-                Log.e("get periodical key","success");
-                Log.e("length", periodicKeys.size()+"");
+                Log.e(TAG,"get periodical key success");
+                Log.e(TAG, "periodic key list length: "+periodicKeys.size()+"");
                 for(PeriodicKey pk : periodicKeys){
                     byte[] bs = pk.getContent();
-                    for(byte b : bs){
-                        Log.e("bytee", b+"");
-                    }
-                    Log.e("pk", pk.toString());
                 }
 
                 upload_periodic_keys(periodicKeys, tan);
@@ -423,7 +439,7 @@ public class fragment_home extends Fragment {
             JSONObject jo = new JSONObject();
             jo.put("periodic_keys", jsonArray);
             jo.put("tan", tan);
-            Log.e("json object", jo.toString());
+            Log.e(TAG, "json object: "+jo.toString());
 
             (new upload_periodic_key(context, myHandler, jo)).start();
         } catch (JSONException e) {

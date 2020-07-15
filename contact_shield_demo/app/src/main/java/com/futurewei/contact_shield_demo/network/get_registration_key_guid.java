@@ -24,6 +24,8 @@ import okhttp3.Response;
 import static android.content.Context.MODE_PRIVATE;
 
 public class get_registration_key_guid extends Thread {
+
+    private static final String TAG = "get_registration_key_guid";
     public Context context;
     public Handler handler;
     public JSONObject jsonObject;
@@ -52,13 +54,12 @@ public class get_registration_key_guid extends Thread {
                 .build();
 
         Call call=client.newCall(request);
-        Log.e("kkkk", "kkkkk");
 
         //execute contact_list_child
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.e("Get registration key","on Failure");
+                Log.e(TAG,"on Failure");
                 Bundle b =new Bundle();
                 b.putInt("response_code",0);
                 msg.setData(b);
@@ -69,8 +70,8 @@ public class get_registration_key_guid extends Thread {
             public void onResponse(Call call, final Response response) throws IOException {
                 if(response.isSuccessful()){
                     String registration_key = response.body().string();
-                    Log.e("Get registration key","response and success");
-                    Log.e("Get registration key", registration_key);
+                    Log.e(TAG,"response and success");
+                    Log.e(TAG, "registration key: "+registration_key);
 
                     sharedPreferences = context.getSharedPreferences("registration_key", MODE_PRIVATE);
                     final SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -83,9 +84,10 @@ public class get_registration_key_guid extends Thread {
                     msg.setData(b);
                     handler.sendMessage(msg);
                 }else{
-                    Log.e("Get registration key","response but failed");
+                    Log.e(TAG,"response but failed");
                     Bundle b =new Bundle();
                     b.putInt("response_code",2);
+                    b.putString("message", response.body().string());
                     msg.setData(b);
                     handler.sendMessage(msg);
                 }

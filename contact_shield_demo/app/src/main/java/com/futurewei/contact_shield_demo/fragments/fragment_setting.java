@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -67,38 +68,29 @@ public class fragment_setting extends Fragment {
         disable_notification_btn.setChecked(is_notification_disabled);
         disable_pk_btn.setChecked(is_PK_upload_disabled);
 
-        disable_app_btn.setOnClickListener(new View.OnClickListener() {
+        disable_app_btn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                if (!disable_app_btn.isSelected()) {
-                    disable_app_btn.setChecked(true);
-                    disable_app_btn.setSelected(true);
-                    editor.putBoolean("is_app_disabled", true);
-                    engine_stop_pre_check();
-                } else {
-                    disable_app_btn.setChecked(false);
-                    disable_app_btn.setSelected(false);
-                    editor.putBoolean("is_app_disabled", false);
-                    engine_start_pre_check();
-                }
+                editor.putBoolean("is_app_disabled", isChecked);
                 editor.commit();
             }
         });
 
-        disable_notification_btn.setOnClickListener(new View.OnClickListener() {
+        disable_notification_btn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                if (!disable_notification_btn.isSelected()) {
-                    disable_notification_btn.setChecked(true);
-                    disable_notification_btn.setSelected(true);
-                    editor.putBoolean("is_notification_disabled", true);
-                } else {
-                    disable_notification_btn.setChecked(false);
-                    disable_notification_btn.setSelected(false);
-                    editor.putBoolean("is_notification_disabled", false);
-                }
+                editor.putBoolean("is_notification_disabled", isChecked);
+                editor.commit();
+            }
+        });
+
+        disable_pk_btn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("is_PK_upload_disabled", isChecked);
                 editor.commit();
             }
         });
@@ -111,79 +103,7 @@ public class fragment_setting extends Fragment {
         });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    void engine_start_pre_check(){
-        Task<Boolean> isRunningTask = ContactShield.getContactShieldEngine(getContext()).isContactShieldRunning();
-        isRunningTask.addOnSuccessListener(new OnSuccessListener<Boolean>() {
-            @Override
-            public void onSuccess(Boolean aBoolean) {
-                if(!aBoolean){
-                    engine_start();
-                    Log.e("Is running", "NO");
-                }else{
-                    Log.e("Is running", "YES");
-                }
-            }
-        });
-    }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    void engine_stop_pre_check(){
-        Task<Boolean> isRunningTask = ContactShield.getContactShieldEngine(getContext()).isContactShieldRunning();
-        isRunningTask.addOnSuccessListener(new OnSuccessListener<Boolean>() {
-            @Override
-            public void onSuccess(Boolean aBoolean) {
-                if(!aBoolean){
-                    Log.e("Is running", "NO");
-                }else{
-                    engine_stop();
-                    Log.e("Is running", "YES");
-                }
-            }
-        });
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    void engine_start(){
-        PendingIntent pendingIntent = PendingIntent.getService(getContext(), 0, new Intent(getContext(), BackgroundContactCheckingIntentService.class),
-                PendingIntent.FLAG_UPDATE_CURRENT);
-
-
-        Task<Void> engine_start_task = ContactShield.getContactShieldEngine(getContext()).startContactShield(pendingIntent, ContactShieldSetting.DEFAULT)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d("Engine start", "Success");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(Exception e) {
-                        e.printStackTrace();
-                        Log.e("Engine start", "Failure");
-                    }
-                });
-
-
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    void engine_stop(){
-        Task<Void> engine_start_task = ContactShield.getContactShieldEngine(getContext()).stopContactShield()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d("Engine stop", "Success");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(Exception e) {
-                        e.printStackTrace();
-                        Log.e("Engine stop", "Failure");
-                    }
-                });
-    }
 
     void clear_data(){
         Task<Void> task = ContactShield.getContactShieldEngine(getContext()).clearData();
