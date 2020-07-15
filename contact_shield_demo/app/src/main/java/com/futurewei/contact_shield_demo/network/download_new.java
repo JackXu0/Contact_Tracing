@@ -20,6 +20,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -65,7 +66,12 @@ public class download_new extends Thread {
         Log.e(TAG, "last download timestamp: "+last_download_timeStamp+"");
         RequestBody formBody = RequestBody.create(jsonObject.toString(), JSON);
 
-        OkHttpClient client = new OkHttpClient();
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(5, TimeUnit.SECONDS)
+                .writeTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .build();
+
         Request request = new Request.Builder()
                 .url("https://us-central1-contact-tracing-demo-281120.cloudfunctions.net/downloadNew")
                 .post(formBody)
