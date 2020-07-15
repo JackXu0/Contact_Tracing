@@ -38,11 +38,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 import static com.futurewei.contact_shield_demo.activities.ReportTempActivity.DEFAULT_VIEW;
 
 public class submit_via_guid_activity extends Activity {
 
+    private static final String TAG = "submit_via_guid_activity";
     public static final int DEFAULT_VIEW = 0x22;
     private static final int REQUEST_CODE_SCAN = 0X01;
 
@@ -68,6 +70,10 @@ public class submit_via_guid_activity extends Activity {
             @Override
             public void onClick(View v) {
                 String guid = guid_tv.getText().toString();
+                if(!Pattern.matches("[a-zA-Z0-9]{32}", guid)){
+                    Toast.makeText(getApplicationContext(), "GUID NOT VALID", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 JSONObject jsonObject = new JSONObject();
                 try {
                     jsonObject.put("guid", guid);
@@ -77,7 +83,7 @@ public class submit_via_guid_activity extends Activity {
                 }
 
                 finish();
-                Toast.makeText(getApplicationContext(),"Thanks for reporting", Toast.LENGTH_LONG).show();
+
             }
         });
     }
@@ -140,13 +146,13 @@ public class submit_via_guid_activity extends Activity {
 
                 // Step 1 : handler for get registration key via GUID
                 case 3:
-                    Log.e("handler info", "get registraion key handler activated");
+                    Log.e(TAG, "get registraion key handler activated");
                     response_code = b.getInt("response_code");
 
 
                     if(response_code == 1){
                         registration_key = b.getString("registration_key", "");
-                        Log.e("registrationkey handler", registration_key);
+                        Log.e(TAG, "registration key: "+registration_key);
 
                         //store the registration key locally
                         sharedPreferences = getSharedPreferences("upload_pk_history", MODE_PRIVATE);
@@ -162,6 +168,10 @@ public class submit_via_guid_activity extends Activity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                    }else if (response_code == 2){
+                        String error_msg = b.getString("message");
+                        Log.e(TAG, error_msg);
+                        Toast.makeText(getApplicationContext(), error_msg, Toast.LENGTH_SHORT).show();
                     }
 
 
@@ -169,13 +179,13 @@ public class submit_via_guid_activity extends Activity {
 
                 // Step 2 : handler for get tan
                 case 5:
-                    Log.e("handler info", "get registraion key handler activated");
+                    Log.e(TAG, "get registraion key handler activated");
                     response_code = b.getInt("response_code");
 
                     //If Tan is obtained successfully, use the TAN to upload Periodic keys
                     if(response_code == 1){
                         tan = b.getString("tan");
-                        Log.e("tan handler", tan);
+                        Log.e(TAG, "TAN: "+tan);
                         jsonObject = new JSONObject();
                         try {
                             jsonObject.put("tan", tan);
@@ -183,6 +193,10 @@ public class submit_via_guid_activity extends Activity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                    }else if (response_code == 2){
+                        String error_msg = b.getString("message");
+                        Log.e(TAG, error_msg);
+                        Toast.makeText(getApplicationContext(), error_msg, Toast.LENGTH_SHORT).show();
                     }
 
 
@@ -191,7 +205,7 @@ public class submit_via_guid_activity extends Activity {
                 // Step 3 : handler for upload periodic key
                 case 1:
                     response_code = b.getInt("response_code");
-                    Log.e("upload pk message", response_code+"");
+                    Log.e(TAG, "upload pk message response code: "+response_code+"");
 
                     //If the periodic Keys are uploaded successfully, update the latest upload timestamp on local storage
                     if(response_code == 1){
@@ -200,12 +214,17 @@ public class submit_via_guid_activity extends Activity {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putInt("timestamp", (int) (System.currentTimeMillis()/1000/600));
                         editor.commit();
+                        Toast.makeText(getApplicationContext(),"Thanks for reporting", Toast.LENGTH_LONG).show();
+                    }else if (response_code == 2){
+                        String error_msg = b.getString("message");
+                        Log.e(TAG, error_msg);
+                        Toast.makeText(getApplicationContext(), error_msg, Toast.LENGTH_SHORT).show();
                     }
 
                     break;
 
                 default:
-                    Log.e("default handler", "triggered");
+                    Log.e(TAG, "default handler triggered");
                     break;
             }
         }
@@ -218,14 +237,10 @@ public class submit_via_guid_activity extends Activity {
         task_pk.addOnSuccessListener(new OnSuccessListener<List<PeriodicKey>>() {
             @Override
             public void onSuccess(List<PeriodicKey> periodicKeys) {
-                Log.e("get periodical key","success");
-                Log.e("length", periodicKeys.size()+"");
+                Log.e(TAG,"get periodical key success");
+                Log.e(TAG, "periodic key list length: "+periodicKeys.size()+"");
                 for(PeriodicKey pk : periodicKeys){
                     byte[] bs = pk.getContent();
-                    for(byte b : bs){
-                        Log.e("bytee", b+"");
-                    }
-                    Log.e("pk", pk.toString());
                 }
 
                 upload_periodic_keys(periodicKeys, tan);
@@ -245,13 +260,13 @@ public class submit_via_guid_activity extends Activity {
                 jsonObject.put("pk", extract_pk_string(periodicKey.toString()));
                 jsonObject.put("valid_time", periodicKey.getPeriodKeyValidTime());
                 jsonObject.put("life_time", periodicKey.getPeriodKeyLifeTime());
-                jsonObject.put("risk_level", periodicKey.getInitialRiskLevel());
+                jsonObject.put("risk_level", 2);
                 jsonArray.put(jsonObject);
             }
             JSONObject jo = new JSONObject();
             jo.put("periodic_keys", jsonArray);
             jo.put("tan", tan);
-            Log.e("json object", jo.toString());
+            Log.e(TAG, "json object: "+jo.toString());
 
             (new upload_periodic_key(this, myHandler, jo)).start();
         } catch (JSONException e) {

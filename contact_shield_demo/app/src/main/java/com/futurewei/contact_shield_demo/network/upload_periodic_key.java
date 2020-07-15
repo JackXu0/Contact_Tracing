@@ -29,6 +29,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class upload_periodic_key extends  Thread{
 
+    private static final String TAG = "upload periodic keys";
     public Context context;
     public Handler handler;
     public JSONObject jsonObject;
@@ -73,7 +74,7 @@ public class upload_periodic_key extends  Thread{
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.e("upload periodic key","on Failure");
+                Log.e(TAG,"on Failure");
                 Bundle b =new Bundle();
                 b.putInt("response_code",0);
                 msg.setData(b);
@@ -83,16 +84,17 @@ public class upload_periodic_key extends  Thread{
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
                 if(response.isSuccessful()){
-                    Log.e("upload periodic key","response and success");
-                    Log.e("upload periodic key", response.body().string());
+                    Log.e(TAG,"response and success");
+                    Log.e(TAG, response.body().string());
                     Bundle b =new Bundle();
                     b.putInt("response_code",1);
                     msg.setData(b);
                     handler.sendMessage(msg);
                 }else{
-                    Log.e("upload periodic key","response but failed");
+                    Log.e(TAG,"response but failed");
                     Bundle b =new Bundle();
                     b.putInt("response_code",2);
+                    b.putString("message", response.body().string());
                     msg.setData(b);
                     handler.sendMessage(msg);
                 }

@@ -10,6 +10,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -32,6 +33,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class submit_via_teletan_activity extends Activity {
 
@@ -75,8 +77,12 @@ public class submit_via_teletan_activity extends Activity {
             public void onClick(View v) {
                 Log.e("verrification","Submit Button successfully pressed.");
                 String teletan = pinView.getText().toString();
-                //TODO: Check if teletan is 6 digit number
-                Log.e("pinview", teletan+";;");
+                //Check if teletan is 6 digit number
+                if(!Pattern.matches("[0-9]{6}", teletan)){
+                    Toast.makeText(getApplicationContext(), "Please enter the valid TELETAN", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Log.e(TAG, "teletan pinview: "+teletan+";;");
                 JSONObject jsonObject = new JSONObject();
                 try {
                     jsonObject.put("teletan", teletan);
@@ -85,6 +91,7 @@ public class submit_via_teletan_activity extends Activity {
                     e.printStackTrace();
                 }
                 finish();
+
             }
         });
 
@@ -103,24 +110,25 @@ public class submit_via_teletan_activity extends Activity {
         @Override
         public void handleMessage(@NonNull Message msg) {
             Bundle b = msg.getData();
-
-
             String registration_key;
             String tan;
-            int response_code;
+            int response_code = b.getInt("response_code");
+            String err_msg;
             JSONObject jsonObject;
+
+            if(response_code == 0){
+                Toast.makeText(getApplicationContext(), "No Internet Connection!", Toast.LENGTH_SHORT).show();
+            }
 
             switch (msg.what){
 
                 // Step 1 : handler for get registration key via teletan
                 case 4:
-                    Log.e("handler info", "get registraion key handler activated");
-                    response_code = b.getInt("response_code");
-
+                    Log.e(TAG, "get registraion key handler activated");
                     // If registration key obtained successfully, use the registration key to fetch the TAN and store the registration key locally
                     if(response_code == 1){
                         registration_key = b.getString("registration_key");
-                        Log.e("registrationkey handler", registration_key);
+                        Log.e(TAG, "registration key: "+registration_key);
 
                         //store the registration key locally
                         sharedPreferences = getSharedPreferences("upload_pk_history", MODE_PRIVATE);
@@ -136,19 +144,21 @@ public class submit_via_teletan_activity extends Activity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                    }else if(response_code == 2){
+                        err_msg = b.getString("message");
+                        Log.e(TAG, err_msg);
+                        Toast.makeText(getApplicationContext(), err_msg, Toast.LENGTH_SHORT).show();
                     }
 
                     break;
 
                 // Step 2 : handler for get tan
                 case 5:
-                    Log.e("handler info", "get registraion key handler activated");
-                    response_code = b.getInt("response_code");
-
+                    Log.e(TAG, "get registraion key handler activated");
                     //If Tan is obtained successfully, use the TAN to upload Periodic keys
                     if(response_code == 1){
                         tan = b.getString("tan");
-                        Log.e("tan handler", tan);
+                        Log.e(TAG, "TAN: "+tan);
                         jsonObject = new JSONObject();
                         try {
                             jsonObject.put("tan", tan);
@@ -156,6 +166,10 @@ public class submit_via_teletan_activity extends Activity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                    }else if(response_code == 2){
+                        err_msg = b.getString("message");
+                        Log.e(TAG, err_msg);
+                        Toast.makeText(getApplicationContext(), err_msg, Toast.LENGTH_SHORT).show();
                     }
 
 
@@ -163,9 +177,7 @@ public class submit_via_teletan_activity extends Activity {
 
                 // Step 3 : handler for upload periodic key
                 case 1:
-                    response_code = b.getInt("response_code");
-                    Log.e("upload pk message", response_code+"");
-
+                    Log.e(TAG, "handler for upload periodic key activated");
                     //If the periodic Keys are uploaded successfully, update the latest upload timestamp on local storage
                     if(response_code == 1){
                         //store the latest upload timestamp locally
@@ -173,12 +185,18 @@ public class submit_via_teletan_activity extends Activity {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putInt("timestamp", (int) (System.currentTimeMillis()/1000/600));
                         editor.commit();
+                        Toast.makeText(getApplicationContext(),"Thanks for reporting", Toast.LENGTH_LONG).show();
+                    }else if(response_code == 2){
+                        err_msg = b.getString("message");
+                        Log.e(TAG, err_msg);
+                        Toast.makeText(getApplicationContext(), err_msg, Toast.LENGTH_SHORT).show();
                     }
+
 
                     break;
 
                 default:
-                    Log.e("default handler", "triggered");
+                    Log.e(TAG, "default handler triggered");
                     break;
             }
         }
@@ -191,14 +209,10 @@ public class submit_via_teletan_activity extends Activity {
         task_pk.addOnSuccessListener(new OnSuccessListener<List<PeriodicKey>>() {
             @Override
             public void onSuccess(List<PeriodicKey> periodicKeys) {
-                Log.e("get periodical key","success");
-                Log.e("length", periodicKeys.size()+"");
+                Log.e(TAG,"get periodical key success");
+                Log.e(TAG, "Peroidic key list length: "+periodicKeys.size()+"");
                 for(PeriodicKey pk : periodicKeys){
                     byte[] bs = pk.getContent();
-                    for(byte b : bs){
-                        Log.e("bytee", b+"");
-                    }
-                    Log.e("pk", pk.toString());
                 }
 
                 upload_periodic_keys(periodicKeys, tan);
@@ -223,7 +237,7 @@ public class submit_via_teletan_activity extends Activity {
             JSONObject jo = new JSONObject();
             jo.put("periodic_keys", jsonArray);
             jo.put("tan", tan);
-            Log.e("json object", jo.toString());
+            Log.e(TAG, "JSON object: "+jo.toString());
 
             (new upload_periodic_key(this, myHandler, jo)).start();
         } catch (JSONException e) {

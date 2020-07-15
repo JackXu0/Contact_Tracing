@@ -58,6 +58,8 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class fragment_home extends Fragment {
 
+    Context context;
+
     private View root;
     MaterialCardView my_status_card;
     ConstraintLayout heading;
@@ -73,10 +75,17 @@ public class fragment_home extends Fragment {
 
     HashMap<Integer, String> risk_level_map;
     SharedPreferences sharedPreferences;
+    private static final String TAG = "fragment home";
 
 
     public static final int UPLOAD_INTERVAL_IN_DAYS = 7;
     public static final boolean FLEXIBLE_MY_STATUS_ENABLED = false;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.context = context;
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Nullable
@@ -121,7 +130,7 @@ public class fragment_home extends Fragment {
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                sharedPreferences = getContext().getSharedPreferences("my staus choice", MODE_PRIVATE);
+                sharedPreferences = context.getSharedPreferences("my staus choice", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 if(checkedId == radio_positive.getId()){
                     reportButton.setVisibility(View.VISIBLE);
@@ -139,9 +148,15 @@ public class fragment_home extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
-                System.out.println("reportButton pressed");
-                Intent intent = new Intent(getContext(), report_test_result_pre_activity.class);
-                startActivity(intent);
+                sharedPreferences = getContext().getSharedPreferences("settings", MODE_PRIVATE);
+                boolean is_app_disabled = sharedPreferences.getBoolean("is_app_disabled", false);
+                // report is only supported when contact shield API is running
+                if(!is_app_disabled){
+                    Intent intent = new Intent(context, report_test_result_pre_activity.class);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(context, "Please enable the app before reporting", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -150,7 +165,7 @@ public class fragment_home extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v){
-                new download_new(getContext(), myHandler).start();
+                new download_new(context, myHandler).start();
             }
         });
     }
@@ -158,15 +173,15 @@ public class fragment_home extends Fragment {
     void refresh_UI(){
 
         //refresh my status choices
-        sharedPreferences = getContext().getSharedPreferences("my staus choice", MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences("my staus choice", MODE_PRIVATE);
         boolean choice = sharedPreferences.getBoolean("choice", false);
         radio_negtive.setChecked(!choice);
         radio_positive.setChecked(choice);
 
         //refresh dashboard
-        sharedPreferences = getContext().getSharedPreferences("dashboard_info",MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences("dashboard_info",MODE_PRIVATE);
         number_of_hits_tv.setText(""+sharedPreferences.getInt("number_of_hits",0));
-        risk_level_tv.setText(sharedPreferences.getString("risk_level", "NO RISK"));
+        risk_level_tv.setText(risk_level_map.get(sharedPreferences.getInt("risk_level", 0)));
 
 
 
@@ -190,23 +205,28 @@ public class fragment_home extends Fragment {
             my_status_card.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getContext(), "Your result has been reported", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Your result has been reported", Toast.LENGTH_SHORT).show();
                 }
             });
         }
     }
 
     boolean check_if_allows_manual_upload(){
-        sharedPreferences = getContext().getSharedPreferences("upload_pk_history", MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences("upload_pk_history", MODE_PRIVATE);
         String registration_key = sharedPreferences.getString("registration_key","");
         int latest_uploading_time = sharedPreferences.getInt("timestamp", 0);
+        sharedPreferences = getContext().getSharedPreferences("settings", MODE_PRIVATE);
+        boolean is_PK_upload_disabled = sharedPreferences.getBoolean("is_PK_upload_disabled", false);
 
         // if registration_key is missing or corrupted, or it has been more than one interval (7 days) since last manual upload, needs upload manually again.
         if(registration_key.length() != 32 || latest_uploading_time < ((int) System.currentTimeMillis()/600000 - UPLOAD_INTERVAL_IN_DAYS*24*6)){
             return true;
-        }else if(registration_key.length() == 32 || latest_uploading_time < ((int) System.currentTimeMillis()/600000 - 24 * 6)){
-            //If registration_key exists, but has not uploaded in 24 hours, needs one auto upload
-            upload_PK_automatically(registration_key);
+        }
+        //If registration_key exists, but has not uploaded in 24 hours, needs one auto upload
+        else if(registration_key.length() == 32 || latest_uploading_time < ((int) System.currentTimeMillis()/600000 - 24 * 6)){
+            //check if uploading PK has been disabled by the user
+            if(!is_PK_upload_disabled)
+                upload_PK_automatically(registration_key);
             return false;
         }else{
             //If registration_key exists, and has auto uploaded within 24 hours, no need for further operations
@@ -229,7 +249,7 @@ public class fragment_home extends Fragment {
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     void getContactSketch(){
-        Task<ContactSketch> contactSketchTask = ContactShield.getContactShieldEngine(getContext()).getContactSketch();
+        Task<ContactSketch> contactSketchTask = ContactShield.getContactShieldEngine(context).getContactSketch();
         contactSketchTask.addOnSuccessListener(new OnSuccessListener<ContactSketch>() {
             @Override
             public void onSuccess(ContactSketch contactSketch) {
@@ -250,7 +270,7 @@ public class fragment_home extends Fragment {
                 if(!is_notification_disabled && contactSketch.getMaxRiskLevel() >= 2){
                     make_alert_window();
                 }
-                Log.e("sketch", contactSketch.toString());
+                Log.e(TAG, "sketch"+contactSketch.toString());
             }
         });
     }
@@ -270,13 +290,13 @@ public class fragment_home extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.M)
     void make_alert_window(){
 
-        NotificationManager notification_manager = (NotificationManager) getContext()
+        NotificationManager notification_manager = (NotificationManager) context
                 .getSystemService(Context.NOTIFICATION_SERVICE);
 
-        Intent notificationIntent = new Intent(getContext(), NotificationsActivity.class);
+        Intent notificationIntent = new Intent(context, NotificationsActivity.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                 | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent intent = PendingIntent.getActivity(getContext(), 0,
+        PendingIntent intent = PendingIntent.getActivity(context, 0,
                 notificationIntent, 0);
         NotificationCompat.Builder notification_builder;
 
@@ -290,9 +310,9 @@ public class fragment_home extends Fragment {
             mChannel.enableLights(true);
             mChannel.setLightColor(Color.BLUE);
             notification_manager.createNotificationChannel(mChannel);
-            notification_builder = new NotificationCompat.Builder(getContext(), chanel_id);
+            notification_builder = new NotificationCompat.Builder(context, chanel_id);
         } else {
-            notification_builder = new NotificationCompat.Builder(getContext());
+            notification_builder = new NotificationCompat.Builder(context);
         }
         notification_builder.setSmallIcon(R.drawable.ic_launcher_background)
                 .setContentTitle("corona virus alert")
@@ -300,7 +320,7 @@ public class fragment_home extends Fragment {
                 .setAutoCancel(true)
                 .setContentIntent(intent);
 
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getContext());
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
 
 // notificationId is a unique int for each notification that you must define
         notificationManager.notify(1, notification_builder.build());
@@ -312,7 +332,7 @@ public class fragment_home extends Fragment {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("registration_key", registration_key);
-            new get_tan(getContext(), myHandler, jsonObject).start();
+            new get_tan(context, myHandler, jsonObject).start();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -333,7 +353,7 @@ public class fragment_home extends Fragment {
 
                 // Step 1 : handler for get tan
                 case 5:
-                    Log.e("handler info", "get registraion key handler activated");
+                    Log.e(TAG, "get registraion key handler activated");
                     response_code = b.getInt("response_code");
 
                     //If Tan is obtained successfully, use the TAN to upload Periodic keys
@@ -347,6 +367,10 @@ public class fragment_home extends Fragment {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                    }else if (response_code == 2){
+                        String error_msg = b.getString("message");
+                        Log.e(TAG, error_msg);
+                        Toast.makeText(context, error_msg, Toast.LENGTH_SHORT).show();
                     }
 
 
@@ -355,7 +379,7 @@ public class fragment_home extends Fragment {
                 // Step 2 : handler for upload periodic key
                 case 1:
                     response_code = b.getInt("response_code");
-                    Log.e("upload pk message", response_code+"");
+                    Log.e(TAG, "upload pk message response code: "+response_code+"");
 
                     //If the periodic Keys are uploaded successfully, update the latest upload timestamp on local storage
                     if(response_code == 1){
@@ -364,12 +388,16 @@ public class fragment_home extends Fragment {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putInt("timestamp", (int) (System.currentTimeMillis()/1000/600));
                         editor.commit();
+                    }else if (response_code == 2){
+                        String error_msg = b.getString("message");
+                        Log.e(TAG, error_msg);
+                        Toast.makeText(context, error_msg, Toast.LENGTH_SHORT).show();
                     }
 
                     break;
 
                 default:
-                    Log.e("default handler", "triggered");
+                    Log.e(TAG, "default handler triggered");
                     break;
             }
         }
@@ -377,19 +405,15 @@ public class fragment_home extends Fragment {
 
     // This methods get PKs from Contact Shield API and then call upload_periodic_keys
     void getPeriodicalKey(String tan){
-        Task<List<PeriodicKey>> task_pk = ContactShield.getContactShieldEngine(getContext()).getPeriodicKey();
+        Task<List<PeriodicKey>> task_pk = ContactShield.getContactShieldEngine(context).getPeriodicKey();
 
         task_pk.addOnSuccessListener(new OnSuccessListener<List<PeriodicKey>>() {
             @Override
             public void onSuccess(List<PeriodicKey> periodicKeys) {
-                Log.e("get periodical key","success");
-                Log.e("length", periodicKeys.size()+"");
+                Log.e(TAG,"get periodical key success");
+                Log.e(TAG, "periodic key list length: "+periodicKeys.size()+"");
                 for(PeriodicKey pk : periodicKeys){
                     byte[] bs = pk.getContent();
-                    for(byte b : bs){
-                        Log.e("bytee", b+"");
-                    }
-                    Log.e("pk", pk.toString());
                 }
 
                 upload_periodic_keys(periodicKeys, tan);
@@ -415,9 +439,9 @@ public class fragment_home extends Fragment {
             JSONObject jo = new JSONObject();
             jo.put("periodic_keys", jsonArray);
             jo.put("tan", tan);
-            Log.e("json object", jo.toString());
+            Log.e(TAG, "json object: "+jo.toString());
 
-            (new upload_periodic_key(getContext(), myHandler, jo)).start();
+            (new upload_periodic_key(context, myHandler, jo)).start();
         } catch (JSONException e) {
             e.printStackTrace();
         }
