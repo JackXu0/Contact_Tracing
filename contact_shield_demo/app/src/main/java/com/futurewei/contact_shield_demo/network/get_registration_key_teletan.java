@@ -10,6 +10,7 @@ import android.util.Log;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -45,7 +46,12 @@ public class get_registration_key_teletan extends Thread {
 
         RequestBody body = RequestBody.create(jsonObject.toString(), JSON);
 
-        OkHttpClient client = new OkHttpClient();
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(5, TimeUnit.SECONDS)
+                .writeTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .build();
+
         Request request = new Request.Builder()
                 .url("https://us-central1-contact-tracing-demo-281120.cloudfunctions.net/getRegistrationKeyTELETAN")
                 .post(body)
