@@ -81,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
                 android:text="SHARE MY TEST RESULT"
-                android:backgroundTint="@color/colorPrimary"
+                android:backgroundTint="@color/colorPrimaryDark"
                 android:textColor="@color/ButtonTextColor"
                 android:textSize="18dp"
                 app:layout_constraintLeft_toLeftOf="parent"
