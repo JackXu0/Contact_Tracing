@@ -53,7 +53,7 @@
         <activity android:name=".activities.submit_via_guid_activity" />
         <activity android:name=".activities.submit_via_teletan_activity" />
         <activity android:name=".activities.ReportTempActivity" />
-        <activity android:name=".activities.SubmissionIntroActivity" />
+        <activity android:name=".activities.submission_success_Activity" />
 
         <service
             android:name=".BackgroundContactCheckingIntentService"
@@ -68,6 +68,9 @@
             </intent-filter>
         </service>
 
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
         <meta-data
             android:name="push_kit_auto_init_enabled"
             android:value="true" />

@@ -10,6 +10,12 @@
 
     <string name="notPositiveStatus">"I have <b>not</b> tested positive."</string>
     <string name="positiveStatus">"I tested positive for Covid-19."</string>
+    <string name="media_home">"mountains picture"</string>
+    <string name="info1">"Wash your hands frequently with soap and water or with alcohol hand sanitizer."</string>
+    <string name="info2">"Comply with the current regulations in your area."</string>
+    <string name="info3">"Wear a mask in indoor public places. This includes public transport and all situations where it is not possible to ensure that a safe distance is maintained at all times."</string>
+    <string name="info4">"Respect physical distancing measures if you have to leave the house."</string>
+    <string name="info5">"Staying connect with your friends during this difficult time is important, but please do so without physical contact."</string>
     <string name="FAQ1">"How are interactions calculated?"</string>
     <string name="answer1">"We use Bluetooth LE to sense how close you are to other users who also has the app downloaded. If we estimate that you have been within 6 feet of other users we record an interaction."</string>
     <string name="FAQ2">"What happens when I self-report a positive test?"</string>
@@ -42,9 +48,8 @@
     <string name="teleTAN_heading">"How this works"</string>
     <string name="teleTAN_description">"Call the hotline to request a TAN:"</string>
     <string name="teleTAN_hotline">"+1(213)-425-8730"</string>
-    <string name="submission_intro_heading">"Please help all of us"</string>
-    <string name="submission_intro_body">"You can allow our CT App to share your periodic keys from the past 14 days. By doing this, you can warn others that you have been in contact with and help remind them to self-quarantine.
-        Since only your periodic keys are transmitted, your identity remains anonymous. By clicking on "Accept", your periodic keys will be uploaded to our server."</string>
+    <string name="submission_success_heading">"Your report is successfully submitted"</string>
+    <string name="submission_success_body">"Thank you for submitting your report. We will now notify others who have been in contact with you. Make sure to stay safe and self isolate."</string>
 
 
 </resources>
