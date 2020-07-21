@@ -1,6 +1,7 @@
 package com.futurewei.contact_shield_demo.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
@@ -54,13 +55,6 @@ public class submit_via_teletan_activity extends Activity {
         initView();
     }
 
-//    @Override
-//    public boolean onTouchEvent(MotionEvent event){
-//        System.out.println("TOUCH");
-//        errorMessage.setVisibility(View.GONE);
-//        return true;
-//    }
-
     void initView(){
         PinView pinView = findViewById(R.id.firstPinView);
         errorMessage= findViewById(R.id.errormessage);
@@ -68,6 +62,7 @@ public class submit_via_teletan_activity extends Activity {
         Button submitButton = (Button) findViewById(R.id.submitButton);
         Button cancelButton = (Button) findViewById(R.id.cancelButton);
 
+        //Setting for pinview
         pinView.setTextColor(ResourcesCompat.getColor(getResources(), R.color.colorAccent, getTheme()));
         pinView.setTextColor(ResourcesCompat.getColorStateList(getResources(), R.color.colorPrimary, getTheme()));
         pinView.setLineColor(ResourcesCompat.getColor(getResources(), R.color.colorPrimary, getTheme()));
@@ -105,10 +100,8 @@ public class submit_via_teletan_activity extends Activity {
                 String teletan = pinView.getText().toString();
                 //Check if teletan is 6 digit number
                 if(!Pattern.matches("[0-9]{6}", teletan)){
-//                    Toast.makeText(getApplicationContext(), "Please enter the valid TELETAN", Toast.LENGTH_SHORT).show();
                     errorMessage.setText("Please enter a valid teleTAN.");
                     errorMessage.setVisibility(View.VISIBLE);
-
                     return;
                 }
                 Log.e(TAG, "teletan pinview: "+teletan+";;");
@@ -119,8 +112,7 @@ public class submit_via_teletan_activity extends Activity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                finish();
-
+                //finish();
             }
         });
 
@@ -146,11 +138,13 @@ public class submit_via_teletan_activity extends Activity {
             JSONObject jsonObject;
 
             if(response_code == 0){
-                Toast.makeText(getApplicationContext(), "No Internet Connection!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), internet_connection_error_Activity.class);
+                startActivity(intent);
+                finish();
+//                Toast.makeText(getApplicationContext(), "No Internet Connection!", Toast.LENGTH_SHORT).show();
             }
 
             switch (msg.what){
-
                 // Step 1 : handler for get registration key via teletan
                 case 4:
                     Log.e(TAG, "get registraion key handler activated");
@@ -165,7 +159,7 @@ public class submit_via_teletan_activity extends Activity {
                         editor.putString("registration_key", registration_key);
                         editor.commit();
 
-                        //use the registration key to fet ch the TAN
+                        //use the registration key to fetch the TAN
                         jsonObject = new JSONObject();
                         try {
                             jsonObject.put("registration_key", registration_key);
@@ -173,10 +167,17 @@ public class submit_via_teletan_activity extends Activity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        Intent intent = new Intent(getApplicationContext(), submission_success_Activity.class);
+                        startActivity(intent);
+                        finish();
+
                     }else if(response_code == 2){
                         err_msg = b.getString("message");
                         Log.e(TAG, err_msg);
-                        Toast.makeText(getApplicationContext(), err_msg, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getApplicationContext(), err_msg, Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getApplicationContext(), submission_unsuccess_Activity.class);
+                        startActivity(intent);
+                        finish();
                     }
 
                     break;

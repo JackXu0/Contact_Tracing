@@ -22,15 +22,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.App">
+        <activity android:name=".activities.internet_connection_error_Activity"></activity>
+        <activity android:name=".activities.submission_unsuccess_Activity" />
         <activity android:name=".activities.PushNotificationsActivity">
             <intent-filter>
-                <action android:name="com.contactshield.click"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="com.contactshield.click" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
         </activity>
-
-
         <activity android:name=".activities.NewMainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,11 +41,12 @@
         </activity>
         <activity android:name=".activities.MainActivity">
 
-<!--             <intent-filter>-->
-<!--             <action android:name="android.intent.action.MAIN" />-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
 
-<!--             <category android:name="android.intent.category.LAUNCHER" />-->
-<!--             </intent-filter>-->
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity android:name=".activities.NotificationsActivity" />
         <activity android:name=".activities.report_test_result_pre_activity" />
@@ -58,8 +60,7 @@
         <service
             android:name=".BackgroundContactCheckingIntentService"
             android:enabled="true"
-            android:exported="true"></service>
-
+            android:exported="true" />
         <service
             android:name=".activities.MyPushService"
             android:exported="false">
