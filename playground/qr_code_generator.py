@@ -1,6 +1,6 @@
 import pyqrcode
 
-guid = "ibCZYAS2nJapY7MZqYBQdoLQBL1MCFXP"
+guid = "NT5HCAhDbWiFiY99kqmAFN4FYvbSal5o"
 
 qrcode = pyqrcode.create(guid)
 qrcode.svg("qrcode_guid.svg", scale=8)

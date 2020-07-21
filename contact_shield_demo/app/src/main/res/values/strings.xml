@@ -50,6 +50,10 @@
     <string name="teleTAN_hotline">"+1(213)-425-8730"</string>
     <string name="submission_success_heading">"Your report is successfully submitted"</string>
     <string name="submission_success_body">"Thank you for submitting your report. We will now notify others who have been in contact with you. Make sure to stay safe and self isolate."</string>
+    <string name="submission_unsuccess_heading">"There is an error in your submission"</string>
+    <string name="submission_unsuccess_body">"Please recheck your QR code or teleTAN. Make sure it is not expired and that you have entered your information correctly."</string>
+    <string name="internet_error_heading">"No Internet Connection"</string>
+    <string name="internet_error_body">"Please check your internet settings and make sure your phone is connect in order to proceed your submission."</string>
 
 
 </resources>
