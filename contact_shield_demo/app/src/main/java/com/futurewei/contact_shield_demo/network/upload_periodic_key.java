@@ -68,7 +68,7 @@ public class upload_periodic_key extends  Thread{
                 .writeTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)
                 .build();
-        
+
         Request request = new Request.Builder()
                 .url("https://us-central1-contact-tracing-demo-281120.cloudfunctions.net/uploadPeriodicKeys")
                 .post(body)

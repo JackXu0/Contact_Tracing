@@ -25,6 +25,7 @@ import com.futurewei.contact_shield_demo.R;
 import com.futurewei.contact_shield_demo.network.get_registration_key_guid;
 import com.futurewei.contact_shield_demo.network.get_tan;
 import com.futurewei.contact_shield_demo.network.upload_periodic_key;
+import com.futurewei.contact_shield_demo.utils.H2GUtils;
 import com.huawei.hmf.tasks.OnSuccessListener;
 import com.huawei.hmf.tasks.Task;
 import com.huawei.hms.contactshield.ContactShield;
@@ -258,9 +259,10 @@ public class submit_via_guid_activity extends Activity {
             for(PeriodicKey periodicKey : periodic_keys){
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("pk", extract_pk_string(periodicKey.toString()));
-                jsonObject.put("valid_time", periodicKey.getPeriodKeyValidTime());
-                jsonObject.put("life_time", periodicKey.getPeriodKeyLifeTime());
+                jsonObject.put("valid_time", (int) (periodicKey.getPeriodicKeyValidTime()));
+                jsonObject.put("life_time", (int) periodicKey.getPeriodicKeyLifeTime());
                 jsonObject.put("risk_level", 2);
+                jsonObject.put("gms_key", H2GUtils.getGmsKey(periodicKey.getContent()));
                 jsonArray.put(jsonObject);
             }
             JSONObject jo = new JSONObject();

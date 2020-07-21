@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -32,6 +33,7 @@ import androidx.core.app.NotificationManagerCompat;
 import com.futurewei.contact_shield_demo.R;
 import com.futurewei.contact_shield_demo.activities.NotificationsActivity;
 import com.futurewei.contact_shield_demo.activities.report_test_result_pre_activity;
+import com.futurewei.contact_shield_demo.network.download_ZIP;
 import com.futurewei.contact_shield_demo.network.download_new;
 import com.futurewei.contact_shield_demo.network.get_tan;
 import com.futurewei.contact_shield_demo.network.upload_periodic_key;
@@ -46,6 +48,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -162,6 +172,7 @@ public class fragment_home extends Fragment {
             public void onClick(View v){
                 new download_new(context, myHandler).start();
             }
+
         });
     }
 
@@ -249,12 +260,12 @@ public class fragment_home extends Fragment {
             @Override
             public void onSuccess(ContactSketch contactSketch) {
                 int number_of_hits = contactSketch.getNumberOfHits();
-                String risk_level = risk_level_map.get(contactSketch.getMaxRiskLevel());
+                int risk_level = contactSketch.getMaxRiskLevel();
 
                 sharedPreferences = getContext().getSharedPreferences("dashboard_info",MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putInt("number_of_hits", number_of_hits);
-                editor.putString("risk_level", risk_level);
+                editor.putInt("risk_level", risk_level);
                 editor.commit();
 
                 number_of_hits_tv.setText(""+number_of_hits);
@@ -346,50 +357,6 @@ public class fragment_home extends Fragment {
 
             switch (msg.what){
 
-                // Step 1 : handler for get tan
-                case 5:
-                    Log.e(TAG, "get registraion key handler activated");
-                    response_code = b.getInt("response_code");
-
-                    //If Tan is obtained successfully, use the TAN to upload Periodic keys
-                    if(response_code == 1){
-                        tan = b.getString("tan");
-                        Log.e("tan handler", tan);
-                        jsonObject = new JSONObject();
-                        try {
-                            jsonObject.put("tan", tan);
-                            getPeriodicalKey(tan);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }else if (response_code == 2){
-                        String error_msg = b.getString("message");
-                        Log.e(TAG, error_msg);
-                        Toast.makeText(context, error_msg, Toast.LENGTH_SHORT).show();
-                    }
-
-
-                    break;
-
-                // Step 2 : handler for upload periodic key
-                case 1:
-                    response_code = b.getInt("response_code");
-                    Log.e(TAG, "upload pk message response code: "+response_code+"");
-
-                    //If the periodic Keys are uploaded successfully, update the latest upload timestamp on local storage
-                    if(response_code == 1){
-                        //store the latest upload timestamp locally
-                        sharedPreferences = getContext().getSharedPreferences("upload_pk_history", MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putInt("timestamp", (int) (System.currentTimeMillis()/1000/600));
-                        editor.commit();
-                    }else if (response_code == 2){
-                        String error_msg = b.getString("message");
-                        Log.e(TAG, error_msg);
-                        Toast.makeText(context, error_msg, Toast.LENGTH_SHORT).show();
-                    }
-
-                    break;
 
                 default:
                     Log.e(TAG, "default handler triggered");
@@ -397,55 +364,5 @@ public class fragment_home extends Fragment {
             }
         }
     };
-
-    // This methods get PKs from Contact Shield API and then call upload_periodic_keys
-    void getPeriodicalKey(String tan){
-        Task<List<PeriodicKey>> task_pk = ContactShield.getContactShieldEngine(context).getPeriodicKey();
-
-        task_pk.addOnSuccessListener(new OnSuccessListener<List<PeriodicKey>>() {
-            @Override
-            public void onSuccess(List<PeriodicKey> periodicKeys) {
-                Log.e(TAG,"get periodical key success");
-                Log.e(TAG, "periodic key list length: "+periodicKeys.size()+"");
-                for(PeriodicKey pk : periodicKeys){
-                    byte[] bs = pk.getContent();
-                }
-
-                upload_periodic_keys(periodicKeys, tan);
-
-            }
-        });
-    }
-
-    // This method prepares data for making the internet request
-    void upload_periodic_keys(List<PeriodicKey> periodic_keys, String tan){
-
-        JSONArray jsonArray = new JSONArray();
-        try {
-
-            for(PeriodicKey periodicKey : periodic_keys){
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("pk", extract_pk_string(periodicKey.toString()));
-                jsonObject.put("valid_time", periodicKey.getPeriodKeyValidTime());
-                jsonObject.put("life_time", periodicKey.getPeriodKeyLifeTime());
-                jsonObject.put("risk_level", periodicKey.getInitialRiskLevel());
-                jsonArray.put(jsonObject);
-            }
-            JSONObject jo = new JSONObject();
-            jo.put("periodic_keys", jsonArray);
-            jo.put("tan", tan);
-            Log.e(TAG, "json object: "+jo.toString());
-
-            (new upload_periodic_key(context, myHandler, jo)).start();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    String extract_pk_string(String raw){
-        int s = raw.indexOf('[');
-        int e = raw.indexOf(']');
-        return raw.substring(s+1,e).replace(" ","");
-    }
 
 }
