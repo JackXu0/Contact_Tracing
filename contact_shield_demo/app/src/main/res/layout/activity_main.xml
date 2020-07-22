@@ -26,18 +26,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="244dp"
-        android:layout_height="38dp"
-        android:layout_marginStart="53dp"
-        android:layout_marginTop="260dp"
-        android:layout_marginEnd="84dp"
-        android:text="Click if you want to check the exposures in the past 14 days."
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.444"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <Switch
         android:id="@+id/ContactShieldStatus"

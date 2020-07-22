@@ -72,7 +72,10 @@ public class submit_via_guid_activity extends Activity {
             public void onClick(View v) {
                 String guid = guid_tv.getText().toString();
                 if(!Pattern.matches("[a-zA-Z0-9]{32}", guid)){
-                    Toast.makeText(getApplicationContext(), "GUID NOT VALID", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), submission_unsuccess_Activity.class);
+                    startActivity(intent);
+                    finish();
+//                    Toast.makeText(getApplicationContext(), "GUID NOT VALID", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 JSONObject jsonObject = new JSONObject();
@@ -83,7 +86,7 @@ public class submit_via_guid_activity extends Activity {
                     e.printStackTrace();
                 }
 
-                finish();
+//                finish();
 
             }
         });
@@ -125,6 +128,7 @@ public class submit_via_guid_activity extends Activity {
             if (obj instanceof HmsScan) {
                 if (!TextUtils.isEmpty(((HmsScan) obj).getOriginalValue())) {
                     guid_tv.setText(((HmsScan) obj).getOriginalValue());
+//                    guid_tv.setText("Scan Success!");
                 }
                 return;
             }
@@ -138,18 +142,23 @@ public class submit_via_guid_activity extends Activity {
         public void handleMessage(@NonNull Message msg) {
             Bundle b = msg.getData();
 
-            int response_code;
+            int response_code= b.getInt("response_code");;
             String registration_key;
             String tan;
             JSONObject jsonObject;
+
+            if(response_code == 0){
+                Intent intent = new Intent(getApplicationContext(), internet_connection_error_Activity.class);
+                startActivity(intent);
+                finish();
+//                Toast.makeText(getApplicationContext(), "No Internet Connection!", Toast.LENGTH_SHORT).show();
+            }
 
             switch (msg.what){
 
                 // Step 1 : handler for get registration key via GUID
                 case 3:
                     Log.e(TAG, "get registraion key handler activated");
-                    response_code = b.getInt("response_code");
-
 
                     if(response_code == 1){
                         registration_key = b.getString("registration_key", "");
@@ -169,10 +178,17 @@ public class submit_via_guid_activity extends Activity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        Intent intent = new Intent(getApplicationContext(), submission_success_Activity.class);
+                        startActivity(intent);
+                        finish();
+
                     }else if (response_code == 2){
                         String error_msg = b.getString("message");
                         Log.e(TAG, error_msg);
-                        Toast.makeText(getApplicationContext(), error_msg, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getApplicationContext(), error_msg, Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getApplicationContext(), submission_unsuccess_Activity.class);
+                        startActivity(intent);
+                        finish();
                     }
 
 

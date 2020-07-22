@@ -10,11 +10,15 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-    <uses-permission android:name="android.permission.CAMERA" />
 
     <!--File reading permission-->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> 
+    <!-- Camera permission -->
+    <uses-permission android:name="android.permission.CAMERA" /> 
+    <!-- File reading permission -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
@@ -27,8 +31,16 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.App">
+        <activity android:name=".activities.internet_connection_error_Activity"></activity>
+        <activity android:name=".activities.submission_unsuccess_Activity" />
+        <activity android:name=".activities.PushNotificationsActivity">
+            <intent-filter>
+                <action android:name="com.contactshield.click" />
 
-
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+        </activity>
         <activity android:name=".activities.NewMainActivity">
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->
@@ -44,21 +56,40 @@
              <category android:name="android.intent.category.LAUNCHER" />
              </intent-filter>
         </activity>
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
 
-        <activity android:name=".activities.NotificationsActivity"/>
-        <activity android:name=".activities.report_test_result_pre_activity"/>
 
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity android:name=".activities.NotificationsActivity" />
+        <activity android:name=".activities.report_test_result_pre_activity" />
         <activity android:name=".activities.report_method_choose_activity" />
-        <activity android:name=".activities.request_teletan_activity"></activity>
-        <activity android:name=".activities.submit_via_guid_activity"/>
-        <activity android:name=".activities.submit_via_teletan_activity"/>
-        <activity android:name=".activities.ReportTempActivity"/>
+        <activity android:name=".activities.request_teletan_activity" />
+        <activity android:name=".activities.submit_via_guid_activity" />
+        <activity android:name=".activities.submit_via_teletan_activity" />
+        <activity android:name=".activities.ReportTempActivity" />
+        <activity android:name=".activities.submission_success_Activity" />
+
         <service
-            android:name="com.futurewei.contact_shield_demo.BackgroundContactCheckingIntentService"
+            android:name=".BackgroundContactCheckingIntentService"
             android:enabled="true"
-            android:exported="true">
+            android:exported="true" />
+        <service
+            android:name=".activities.MyPushService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.huawei.push.action.MESSAGING_EVENT" />
+            </intent-filter>
         </service>
 
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+        <meta-data
+            android:name="push_kit_auto_init_enabled"
+            android:value="true" />
     </application>
 
 </manifest>

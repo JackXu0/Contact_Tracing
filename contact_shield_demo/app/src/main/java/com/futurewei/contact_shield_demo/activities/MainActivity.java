@@ -196,4 +196,3 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }).addOnFailureListener(e -> Log.e(TAG, "getContactDetail failed, cause: " + e.getMessage())));
     }
 }
-

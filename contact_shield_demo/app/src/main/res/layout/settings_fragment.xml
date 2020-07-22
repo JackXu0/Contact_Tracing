@@ -97,10 +97,11 @@
             android:id="@+id/disableNotificationsCaption"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text ="@string/disable_notification_caption"
-            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/disable_notification_caption"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/disableNotificationsButton"/>
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/disableNotificationsButton" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -110,11 +111,24 @@
         android:layout_height="wrap_content"
         android:layout_width="0dp"
         android:layout_marginTop="50dp"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorPrimaryDark"
         android:text="CLEAR DATA"
         android:textSize="18dp"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
         app:layout_constraintBottom_toBottomOf="@id/guideline_bottom" />
+
+<!--    <Button-->
+<!--        android:id="@+id/Subscribe"-->
+<!--        style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_marginBottom="10dp"-->
+<!--        android:textColor="@color/colorPrimaryDark"-->
+<!--        android:text="SUBSCRIBE"-->
+<!--        android:textSize="18dp"-->
+<!--        app:layout_constraintStart_toStartOf="@id/guideline_start"-->
+<!--        app:layout_constraintEnd_toEndOf="@id/guideline_end"-->
+<!--        app:layout_constraintBottom_toTopOf="@id/clearDataButton" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

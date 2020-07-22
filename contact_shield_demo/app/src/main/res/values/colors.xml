@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-<!--    <color name="colorSecondary">#BB9BEA</color>-->
-    <color name="colorSecondary">#6200EE</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorPrimary">#B1CAD3</color>
+    <color name="colorPrimaryDark">#5AB5DB</color>
+    <color name="colorSecondary">#5AB5DB</color>
+    <color name="colorAccent">#FCACC3</color>
     <color name="colorSurface">#ffffff</color>
     <color name="colorOnSurface">#C8C4C4</color>
     <color name="ButtonTextColor">#ffffff</color>
-    <color name="cardPrimary">#6200EE</color>
-    <color name="cardSurface">#ffffff</color>
+    <color name="cardPrimary">#5AB5DB</color>
+    <color name="cardSurface">#ffffff</color>å
     <color name="disable_gray">#22000000</color>
+    <color name="errormessage">#ff0000</color>
 </resources>
