@@ -20,6 +20,7 @@ import java.io.FileDescriptor;
 
 public class BackgroundContactCheckingIntentService extends IntentService {
 
+    String token = "3bdd528fd98947bcaffa0d8fda68ca54";
     private static final String TAG = "ContactShielddd";
     private ContactShieldEngine contactEngine;
     private SharedPreferences sharedPreferences;
@@ -46,16 +47,22 @@ public class BackgroundContactCheckingIntentService extends IntentService {
         if (intent != null) {
             contactEngine.handleIntent(intent, new ContactShieldCallback() {
                 @Override
-                public void onHasContact() {
+                public void onHasContact(String s) {
                     Log.e(TAG, "onHasContact");
-                    getContactSketch();
+//                    getContactSketch();
+                }
+
+                @Override
+                public void onNoContact(String s) {
+                    Log.e(TAG, "onNoContact");
+//                    getContactSketch();
                 }
             });
         }
     }
 
     void getContactSketch(){
-        Task<ContactSketch> contactSketchTask = contactEngine.getContactSketch();
+        Task<ContactSketch> contactSketchTask = contactEngine.getContactSketch(token);
         contactSketchTask.addOnSuccessListener(new OnSuccessListener<ContactSketch>() {
             @Override
             public void onSuccess(ContactSketch contactSketch) {
@@ -63,7 +70,7 @@ public class BackgroundContactCheckingIntentService extends IntentService {
                 sharedPreferences = getApplicationContext().getSharedPreferences("dashboard_info",MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putInt("number_of_hits", contactSketch.getNumberOfHits());
-                editor.putInt("risk_level", contactSketch.getMaxRiskLevel());
+                editor.putInt("risk_level", contactSketch.getMaxRiskValue());
                 editor.commit();
             }
         });

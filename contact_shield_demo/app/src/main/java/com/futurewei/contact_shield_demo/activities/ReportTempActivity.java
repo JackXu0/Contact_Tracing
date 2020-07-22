@@ -230,8 +230,8 @@ public class ReportTempActivity extends Activity {
             for(PeriodicKey periodicKey : periodic_keys){
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("pk", extract_pk_string(periodicKey.toString()));
-                jsonObject.put("valid_time", periodicKey.getPeriodKeyValidTime());
-                jsonObject.put("life_time", periodicKey.getPeriodKeyLifeTime());
+                jsonObject.put("valid_time", (int) periodicKey.getPeriodicKeyValidTime());
+                jsonObject.put("life_time", (int) periodicKey.getPeriodicKeyLifeTime());
                 jsonObject.put("risk_level", periodicKey.getInitialRiskLevel());
                 jsonArray.put(jsonObject);
             }

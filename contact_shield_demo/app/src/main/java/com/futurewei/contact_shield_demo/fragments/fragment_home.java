@@ -30,6 +30,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.futurewei.contact_shield_demo.BackgroundContactCheckingIntentService;
 import com.futurewei.contact_shield_demo.R;
 import com.futurewei.contact_shield_demo.activities.NotificationsActivity;
 import com.futurewei.contact_shield_demo.activities.report_test_result_pre_activity;
@@ -38,10 +39,13 @@ import com.futurewei.contact_shield_demo.network.download_new;
 import com.futurewei.contact_shield_demo.network.get_tan;
 import com.futurewei.contact_shield_demo.network.upload_periodic_key;
 import com.google.android.material.card.MaterialCardView;
+import com.huawei.hmf.tasks.OnFailureListener;
 import com.huawei.hmf.tasks.OnSuccessListener;
 import com.huawei.hmf.tasks.Task;
 import com.huawei.hms.contactshield.ContactShield;
+import com.huawei.hms.contactshield.ContactShieldSetting;
 import com.huawei.hms.contactshield.ContactSketch;
+import com.huawei.hms.contactshield.DiagnosisConfiguration;
 import com.huawei.hms.contactshield.PeriodicKey;
 
 import org.json.JSONArray;
@@ -56,6 +60,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -64,7 +69,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class fragment_home extends Fragment {
 
     Context context;
-
+    String token = "3bdd528fd98947bcaffa0d8fda68ca54";
     private View root;
     MaterialCardView my_status_card;
     ConstraintLayout heading;
@@ -97,13 +102,13 @@ public class fragment_home extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+        this.context = getActivity();
+
         root= inflater.inflate(R.layout.home_fragment, container, false);
 
         init_risk_level_map();
 
         initView(root);
-
-        check_is_scanning();
 
         return root;
 
@@ -170,13 +175,17 @@ public class fragment_home extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v){
-                new download_new(context, myHandler).start();
+//                new download_new(context, myHandler).start();
+                putSharedKey();
             }
 
         });
     }
 
     void refresh_UI(){
+
+        //refreshing scanning button
+        check_is_scanning();
 
         //refresh my status choices
         sharedPreferences = context.getSharedPreferences("my staus choice", MODE_PRIVATE);
@@ -255,12 +264,12 @@ public class fragment_home extends Fragment {
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     void getContactSketch(){
-        Task<ContactSketch> contactSketchTask = ContactShield.getContactShieldEngine(context).getContactSketch();
+        Task<ContactSketch> contactSketchTask = ContactShield.getContactShieldEngine(context).getContactSketch(token);
         contactSketchTask.addOnSuccessListener(new OnSuccessListener<ContactSketch>() {
             @Override
             public void onSuccess(ContactSketch contactSketch) {
                 int number_of_hits = contactSketch.getNumberOfHits();
-                int risk_level = contactSketch.getMaxRiskLevel();
+                int risk_level = contactSketch.getMaxRiskValue();
 
                 sharedPreferences = getContext().getSharedPreferences("dashboard_info",MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -273,7 +282,7 @@ public class fragment_home extends Fragment {
 
                 sharedPreferences = getContext().getSharedPreferences("settings",MODE_PRIVATE);
                 boolean is_notification_disabled = sharedPreferences.getBoolean("is_notification_disabled", false);
-                if(!is_notification_disabled && contactSketch.getMaxRiskLevel() >= 2){
+                if(!is_notification_disabled && contactSketch.getMaxRiskValue() >= 2){
                     make_alert_window();
                 }
                 Log.e(TAG, "sketch"+contactSketch.toString());
@@ -281,19 +290,20 @@ public class fragment_home extends Fragment {
         });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     void check_is_scanning(){
         sharedPreferences = getContext().getSharedPreferences("settings",MODE_PRIVATE);
         boolean is_app_disabled = sharedPreferences.getBoolean("is_app_disabled", false);
         if(!is_app_disabled){
             scanning_tv.setVisibility(View.VISIBLE);
+            engine_start_pre_check();
+            Log.e(TAG, "contact shielding is running");
         }else{
             scanning_tv.setVisibility(View.INVISIBLE);
+            Log.e(TAG, "contact shielding is not running");
         }
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     void make_alert_window(){
 
         NotificationManager notification_manager = (NotificationManager) context
@@ -344,6 +354,35 @@ public class fragment_home extends Fragment {
         }
     }
 
+    void engine_start_pre_check(){
+        Log.d(TAG, "engine_start_pre_check");
+        Task<Boolean> isRunningTask = ContactShield.getContactShieldEngine(context).isContactShieldRunning();
+        isRunningTask.addOnSuccessListener(aBoolean -> {
+            if(!aBoolean){
+                engine_start();
+                Log.e(TAG, "isContactShieldRunning >> NO");
+            }else{
+                Log.e(TAG, "isContactShieldRunning >> YES");
+            }
+        });
+    }
+
+    void engine_start(){
+        Log.d(TAG, "engine_start");
+        PendingIntent pendingIntent = PendingIntent.getService(getActivity(), 0, new Intent(getActivity(), BackgroundContactCheckingIntentService.class),
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+
+        ContactShield.getContactShieldEngine(context).startContactShield(pendingIntent, ContactShieldSetting.DEFAULT)
+                .addOnSuccessListener(aVoid -> Log.d(TAG, "startContactShield >> Success"))
+                .addOnFailureListener(e -> {
+                    e.printStackTrace();
+                    Log.e(TAG, "startContactShield >> Failure");
+                });
+
+
+    }
+
     Handler myHandler = new Handler(){
         @RequiresApi(api = Build.VERSION_CODES.M)
         @Override
@@ -365,4 +404,30 @@ public class fragment_home extends Fragment {
         }
     };
 
+    void putSharedKey(){
+        String destFilePath = "/storage/emulated/0/Android/data/periodic_key.zip";
+        File file = new File(destFilePath.toString());
+        Log.e(TAG, file.getAbsolutePath());
+        Log.e(TAG, file.exists()+"");
+        List<File> file_list = new ArrayList<>();
+        file_list.add(file);
+        DiagnosisConfiguration config = new DiagnosisConfiguration.Builder()
+                .build();
+
+        Task<Void> task = ContactShield.getContactShieldEngine(context).putSharedKeyFiles(file_list, config, token);
+        task.addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.e(TAG, "put key success");
+            }
+        });
+        task.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(Exception e) {
+                Log.e(TAG, e.toString());
+            }
+        });
+
+
+    }
 }

@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import com.huawei.hmf.tasks.OnFailureListener;
 import com.huawei.hmf.tasks.OnSuccessListener;
 import com.huawei.hmf.tasks.Task;
 import com.huawei.hms.contactshield.ContactShield;
@@ -60,30 +61,48 @@ public class download_ZIP extends Thread {
     String objectName = "551411c533835562.zip";
 
     // The path to which the file should be downloaded
-    Path destFilePath = Paths.get(Environment.getExternalStorageDirectory()+"/Downloads/periodic_key.zip");
+    Path destFilePath;
 
     public download_ZIP(Context context, String user_id){
         this.context = context;
         objectName = user_id+".zip";
+        destFilePath = Paths.get("/storage/emulated/0/Android/data/periodic_key.zip");
     }
 
     @Override
     public void run() {
 
         try{
+            Log.e(TAG, "try to download from google");
             Storage storage = StorageOptions.newBuilder().setProjectId(projectId).build().getService();
 
             Blob blob = storage.get(BlobId.of(bucketName, objectName));
             blob.downloadTo(destFilePath);
+            Log.e(TAG, destFilePath.toString());
         }finally {
-
+            Log.e(TAG, "finish downloading from google");
+            isRuuning();
+            putSharedKey();
         }
 
 
     }
 
-    void putSharedKey(List<PeriodicKey> sharedKeys){
+    void isRuuning(){
+        Log.d(TAG, "engine_start_pre_check");
+        Task<Boolean> isRunningTask = ContactShield.getContactShieldEngine(context).isContactShieldRunning();
+        isRunningTask.addOnSuccessListener(aBoolean -> {
+            if(!aBoolean){
+                Log.e(TAG, "isContactShieldRunning >> NO");
+            }else{
+                Log.e(TAG, "isContactShieldRunning >> YES");
+            }
+        });
+    }
+
+    void putSharedKey(){
         File file = new File(destFilePath.toString());
+        Log.e(TAG, file.getAbsolutePath());
         List<File> file_list = new ArrayList<>();
         file_list.add(file);
         DiagnosisConfiguration config = new DiagnosisConfiguration.Builder()
@@ -97,6 +116,12 @@ public class download_ZIP extends Thread {
                 getContactSketch();
             }
         });
+        task.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(Exception e) {
+                Log.e(TAG, e.toString());
+            }
+        });
 
 
     }
@@ -107,6 +132,12 @@ public class download_ZIP extends Thread {
             @Override
             public void onSuccess(ContactSketch contactSketch) {
                 Log.e(TAG, "sketch"+contactSketch.toString());
+            }
+        });
+        contactSketchTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(Exception e) {
+                Log.e(TAG, e.toString());
             }
         });
     }

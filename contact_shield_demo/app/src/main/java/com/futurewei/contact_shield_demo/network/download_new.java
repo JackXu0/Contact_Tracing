@@ -56,6 +56,7 @@ public class download_new extends Thread {
         final SharedPreferences sharedPreferences = context.getSharedPreferences("last_download_timeStamp",MODE_PRIVATE);
         int last_download_timeStamp=sharedPreferences.getInt("last_download_timeStamp",0);
         String user_id = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+        Log.e(TAG, "user_id:"+user_id);
         last_download_timeStamp = 2658900;
 
         JSONObject jsonObject = new JSONObject();
@@ -87,6 +88,7 @@ public class download_new extends Thread {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e(TAG,"on failure");
+                Log.e(TAG, e.toString());
                 Bundle b =new Bundle();
                 b.putInt("response_code",0);
                 msg.setData(b);
@@ -109,6 +111,7 @@ public class download_new extends Thread {
                     handler.sendMessage(msg);
                 }else{
                     Log.e(TAG,"responded but failed");
+                    Log.e(TAG, response.message());
                     Bundle b =new Bundle();
                     b.putInt("response_code",2);
                     b.putString("message", response.body().string());
