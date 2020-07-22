@@ -104,25 +104,16 @@ public class download_ZIP extends Thread {
         File file = new File(destFilePath.toString());
         Log.e(TAG, file.getAbsolutePath());
         Log.e(TAG, "if file exists: "+file.exists());
-        List<File> file_list = new ArrayList<>();
-        file_list.add(file);
-        DiagnosisConfiguration config = new DiagnosisConfiguration.Builder()
-                .build();
-
-        Task<Void> task = ContactShield.getContactShieldEngine(context).putSharedKeyFiles(file_list, config, token);
-        task.addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.e(TAG, "put key success");
-                getContactSketch();
-            }
-        });
-        task.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(Exception e) {
-                Log.e(TAG, e.toString());
-            }
-        });
+        ArrayList<File> putList = new ArrayList<>();
+        putList.add(file);
+        DiagnosisConfiguration config = new DiagnosisConfiguration.Builder().build();
+        ContactShield.getContactShieldEngine(context).putSharedKeyFiles(putList, config, token)
+                .addOnSuccessListener(aVoid -> {
+                    Log.e(TAG, "putSharedKeyFiles succeeded.");
+                })
+                .addOnFailureListener(e -> {
+                    Log.e(TAG, "putSharedKeyFiles failed, cause: " + e.getMessage());
+                });
 
 
     }
