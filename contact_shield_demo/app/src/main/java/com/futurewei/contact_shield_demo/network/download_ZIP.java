@@ -66,7 +66,8 @@ public class download_ZIP extends Thread {
     public download_ZIP(Context context, String user_id){
         this.context = context;
         objectName = user_id+".zip";
-        destFilePath = Paths.get(context.getFilesDir()+"/periodic_key.zip");
+//        destFilePath = Paths.get(context.getFilesDir()+"/periodic_key.zip");
+        destFilePath = Paths.get("/storage/emulated/0/Android/data/periodic_key.zip");
     }
 
     @Override
