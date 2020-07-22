@@ -66,7 +66,7 @@ public class download_ZIP extends Thread {
     public download_ZIP(Context context, String user_id){
         this.context = context;
         objectName = user_id+".zip";
-        destFilePath = Paths.get("/storage/emulated/0/Android/data/periodic_key.zip");
+        destFilePath = Paths.get(context.getFilesDir()+"/periodic_key.zip");
     }
 
     @Override
@@ -103,6 +103,7 @@ public class download_ZIP extends Thread {
     void putSharedKey(){
         File file = new File(destFilePath.toString());
         Log.e(TAG, file.getAbsolutePath());
+        Log.e(TAG, "if file exists: "+file.exists());
         List<File> file_list = new ArrayList<>();
         file_list.add(file);
         DiagnosisConfiguration config = new DiagnosisConfiguration.Builder()
