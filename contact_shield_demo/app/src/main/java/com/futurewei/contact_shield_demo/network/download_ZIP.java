@@ -75,11 +75,11 @@ public class download_ZIP extends Thread {
 
         try{
             Log.e(TAG, "try to download from google");
-//            Storage storage = StorageOptions.newBuilder().setProjectId(projectId).build().getService();
-//
-//            Blob blob = storage.get(BlobId.of(bucketName, objectName));
-//            blob.downloadTo(destFilePath);
-//            Log.e(TAG, destFilePath.toString());
+            Storage storage = StorageOptions.newBuilder().setProjectId(projectId).build().getService();
+
+            Blob blob = storage.get(BlobId.of(bucketName, objectName));
+            blob.downloadTo(destFilePath);
+            Log.e(TAG, destFilePath.toString());
         }finally {
             Log.e(TAG, "finish downloading from google");
             isRuuning();
