@@ -200,7 +200,7 @@ public class fragment_home extends Fragment {
         //refresh dashboard
         sharedPreferences = context.getSharedPreferences("dashboard_info",MODE_PRIVATE);
         number_of_hits_tv.setText(""+sharedPreferences.getInt("number_of_hits",0));
-        risk_level_tv.setText(risk_level_map.get(sharedPreferences.getInt("risk_level", 0)));
+        risk_level_tv.setText(""+sharedPreferences.getInt("risk_level", 0));
 
 
 
