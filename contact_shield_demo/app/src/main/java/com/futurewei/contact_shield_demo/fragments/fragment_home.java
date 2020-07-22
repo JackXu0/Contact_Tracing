@@ -180,8 +180,7 @@ public class fragment_home extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v){
-//                new download_new(context, myHandler).start();
-                putSharedKey();
+                new download_new(context, myHandler).start();
             }
 
         });
@@ -409,30 +408,5 @@ public class fragment_home extends Fragment {
         }
     };
 
-    void putSharedKey(){
-        String destFilePath = "/storage/emulated/0/Android/data/periodic_key.zip";
-        File file = new File(destFilePath.toString());
-        Log.e(TAG, file.getAbsolutePath());
-        Log.e(TAG, file.exists()+"");
-        List<File> file_list = new ArrayList<>();
-        file_list.add(file);
-        DiagnosisConfiguration config = new DiagnosisConfiguration.Builder()
-                .build();
-
-        Task<Void> task = ContactShield.getContactShieldEngine(context).putSharedKeyFiles(file_list, config, token);
-        task.addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.e(TAG, "put key success");
-            }
-        });
-        task.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(Exception e) {
-                Log.e(TAG, e.toString());
-            }
-        });
-
-
-    }
+    
 }

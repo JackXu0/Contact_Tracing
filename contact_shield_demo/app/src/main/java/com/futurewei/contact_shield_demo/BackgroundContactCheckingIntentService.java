@@ -49,13 +49,13 @@ public class BackgroundContactCheckingIntentService extends IntentService {
                 @Override
                 public void onHasContact(String s) {
                     Log.e(TAG, "onHasContact");
-//                    getContactSketch();
+                    getContactSketch();
                 }
 
                 @Override
                 public void onNoContact(String s) {
                     Log.e(TAG, "onNoContact");
-//                    getContactSketch();
+                    getContactSketch();
                 }
             });
         }
