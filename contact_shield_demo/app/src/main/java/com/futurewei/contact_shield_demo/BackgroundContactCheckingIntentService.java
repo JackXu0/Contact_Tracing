@@ -18,6 +18,9 @@ import com.huawei.hms.contactshield.ContactSketch;
 
 import java.io.FileDescriptor;
 
+import static com.futurewei.contact_shield_demo.fragments.fragment_home.number_of_hits_tv;
+import static com.futurewei.contact_shield_demo.fragments.fragment_home.risk_level_tv;
+
 public class BackgroundContactCheckingIntentService extends IntentService {
 
     String token = "3bdd528fd98947bcaffa0d8fda68ca54";
@@ -72,6 +75,8 @@ public class BackgroundContactCheckingIntentService extends IntentService {
                 editor.putInt("number_of_hits", contactSketch.getNumberOfHits());
                 editor.putInt("risk_level", contactSketch.getMaxRiskValue());
                 editor.commit();
+                number_of_hits_tv.setText(""+contactSketch.getNumberOfHits());
+                risk_level_tv.setText(""+contactSketch.getSummationRiskValue());
             }
         });
     }

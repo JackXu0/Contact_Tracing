@@ -77,7 +77,7 @@ public class download_new extends Thread {
                 .build();
 
         Request request = new Request.Builder()
-                .url("http://35.239.227.130:5000")
+                .url("http://35.239.227.130:5000/zip")
                 .post(formBody)
                 .build();
 

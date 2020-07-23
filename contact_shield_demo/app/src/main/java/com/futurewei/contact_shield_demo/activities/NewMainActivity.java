@@ -1,5 +1,7 @@
 package com.futurewei.contact_shield_demo.activities;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -9,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +20,7 @@ import android.view.Window;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.futurewei.contact_shield_demo.BackgroundContactCheckingIntentService;
 import com.futurewei.contact_shield_demo.R;
@@ -76,19 +80,6 @@ public class NewMainActivity extends AppCompatActivity {
     };
 
     @Override
-    protected void onResume() {
-        super.onResume();
-//        sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
-//        boolean is_app_disabled = sharedPreferences.getBoolean("is_app_disabled", false);
-//
-//        is_app_disabled = false;
-//
-//        if(!is_app_disabled)
-//            engine_start_pre_check();
-
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -106,17 +97,47 @@ public class NewMainActivity extends AppCompatActivity {
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
-        boolean is_app_disabled = sharedPreferences.getBoolean("is_app_disabled", false);
+        permissonRequest();
+        registerPush();
 
-        //If not disabled, start the engine
-//        if(!is_app_disabled){
-//            Log.d(TAG, "onCreate >> !is_app_disabled");
-//            engine_start_pre_check();
-//        }
-//        engine_start();
+    }
 
-        //push
+    void permissonRequest(){
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    940);
+        }
+
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    940);
+        }
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                    940);
+        }
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH},
+                    940);
+        }
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.BLUETOOTH_ADMIN) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_ADMIN},
+                    940);
+        }
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET},
+                    940);
+        }
+
+    }
+
+    void registerPush(){
         NewMainActivity.MyReceiver receiver = new NewMainActivity.MyReceiver();
         IntentFilter filter=new IntentFilter();
         filter.addAction("com.huawei.codelabpush.ON_NEW_TOKEN");
@@ -132,34 +153,5 @@ public class NewMainActivity extends AppCompatActivity {
 //                tvToken.setText(token);
             }
         }
-    }
-
-    void engine_start_pre_check(){
-        Log.d(TAG, "engine_start_pre_check");
-        Task<Boolean> isRunningTask = ContactShield.getContactShieldEngine(this).isContactShieldRunning();
-        isRunningTask.addOnSuccessListener(aBoolean -> {
-            if(!aBoolean){
-                engine_start();
-                Log.e(TAG, "isContactShieldRunning >> NO");
-            }else{
-                Log.e(TAG, "isContactShieldRunning >> YES");
-            }
-        });
-    }
-
-    void engine_start(){
-        Log.d(TAG, "engine_start");
-        PendingIntent pendingIntent = PendingIntent.getService(getApplicationContext(), 0, new Intent(getApplicationContext(), BackgroundContactCheckingIntentService.class),
-                PendingIntent.FLAG_UPDATE_CURRENT);
-
-
-        ContactShield.getContactShieldEngine(this).startContactShield(pendingIntent, ContactShieldSetting.DEFAULT)
-                .addOnSuccessListener(aVoid -> Log.d(TAG, "startContactShield >> Success"))
-                .addOnFailureListener(e -> {
-                    e.printStackTrace();
-                    Log.e(TAG, "startContactShield >> Failure");
-                });
-
-
     }
 }

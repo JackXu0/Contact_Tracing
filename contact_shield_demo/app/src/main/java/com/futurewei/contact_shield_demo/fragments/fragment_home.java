@@ -85,8 +85,8 @@ public class fragment_home extends Fragment {
     RadioButton radio_negtive;
     Button reportButton;
     Button refresh_btn;
-    TextView number_of_hits_tv;
-    TextView risk_level_tv;
+    public static TextView number_of_hits_tv;
+    public static TextView risk_level_tv;
 
     HashMap<Integer, String> risk_level_map;
     SharedPreferences sharedPreferences;

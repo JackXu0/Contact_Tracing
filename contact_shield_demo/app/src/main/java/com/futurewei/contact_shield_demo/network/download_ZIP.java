@@ -1,12 +1,17 @@
 package com.futurewei.contact_shield_demo.network;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+
+import androidx.core.app.ActivityCompat;
 
 import com.huawei.hmf.tasks.OnFailureListener;
 import com.huawei.hmf.tasks.OnSuccessListener;
@@ -66,8 +71,25 @@ public class download_ZIP extends Thread {
     public download_ZIP(Context context, String user_id){
         this.context = context;
         objectName = user_id+".zip";
+        File folder = Environment.getExternalStorageDirectory();
+
+        destFilePath = Paths.get(folder.getPath() + "/" + objectName);
+        Log.e(TAG, "path: "+destFilePath.toString());
+        Log.e(TAG, "is directory: "+ folder.isDirectory());
+
+        File myFile = new File(destFilePath.toString());
+        Log.e(TAG, "path: "+destFilePath.toString());
+        Log.e(TAG, "is directory: "+ myFile.isDirectory());
+        if(myFile.exists())
+            myFile.delete();
+
+        try {
+            myFile.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 //        destFilePath = Paths.get(context.getFilesDir()+"/periodic_key.zip");
-        destFilePath = Paths.get("/storage/emulated/0/Android/data/periodic_key.zip");
+//        destFilePath = Paths.get("/storage/emulated/0/Android/data/periodic_key.zip");
     }
 
     @Override
