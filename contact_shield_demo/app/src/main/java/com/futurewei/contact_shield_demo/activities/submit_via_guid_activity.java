@@ -41,8 +41,6 @@ import org.json.JSONObject;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import static com.futurewei.contact_shield_demo.activities.ReportTempActivity.DEFAULT_VIEW;
-
 public class submit_via_guid_activity extends Activity {
 
     private static final String TAG = "submit_via_guid_activity";

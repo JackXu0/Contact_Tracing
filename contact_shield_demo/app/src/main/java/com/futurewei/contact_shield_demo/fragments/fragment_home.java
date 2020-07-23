@@ -4,15 +4,12 @@ import android.app.Fragment;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -35,39 +32,21 @@ import androidx.core.app.NotificationManagerCompat;
 import com.futurewei.contact_shield_demo.BackgroundContactCheckingIntentService;
 import com.futurewei.contact_shield_demo.R;
 
-import com.futurewei.contact_shield_demo.activities.MainActivity;
-import com.futurewei.contact_shield_demo.activities.NewMainActivity;
 import com.futurewei.contact_shield_demo.activities.NotificationsActivity;
 import com.futurewei.contact_shield_demo.activities.report_test_result_pre_activity;
-import com.futurewei.contact_shield_demo.network.download_ZIP;
 import com.futurewei.contact_shield_demo.network.download_new;
 import com.futurewei.contact_shield_demo.network.get_tan;
-import com.futurewei.contact_shield_demo.network.upload_periodic_key;
 import com.google.android.material.card.MaterialCardView;
-import com.huawei.hmf.tasks.OnFailureListener;
 import com.huawei.hmf.tasks.OnSuccessListener;
 import com.huawei.hmf.tasks.Task;
 import com.huawei.hms.contactshield.ContactShield;
 import com.huawei.hms.contactshield.ContactShieldSetting;
 import com.huawei.hms.contactshield.ContactSketch;
-import com.huawei.hms.contactshield.DiagnosisConfiguration;
-import com.huawei.hms.contactshield.PeriodicKey;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 

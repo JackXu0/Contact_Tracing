@@ -56,7 +56,6 @@
         <activity android:name=".activities.request_teletan_activity" />
         <activity android:name=".activities.submit_via_guid_activity" />
         <activity android:name=".activities.submit_via_teletan_activity" />
-        <activity android:name=".activities.ReportTempActivity" />
         <activity android:name=".activities.submission_success_Activity" />
 
         <service

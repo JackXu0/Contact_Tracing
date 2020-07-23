@@ -122,25 +122,4 @@ public class download_new extends Thread {
             }
         });
     }
-
-//    void putSharedKey(List<PeriodicKey> sharedKeys){
-//        Task<Void> task = ContactShield.getContactShieldEngine(context).putSharedKey(sharedKeys);
-//        task.addOnSuccessListener(new OnSuccessListener<Void>() {
-//            @Override
-//            public void onSuccess(Void aVoid) {
-//                Log.e(TAG, "put key success");
-//                getContactSketch();
-//            }
-//        });
-//    }
-//
-//    void getContactSketch(){
-//        Task<ContactSketch> contactSketchTask = ContactShield.getContactShieldEngine(context).getContactSketch();
-//        contactSketchTask.addOnSuccessListener(new OnSuccessListener<ContactSketch>() {
-//            @Override
-//            public void onSuccess(ContactSketch contactSketch) {
-//                Log.e(TAG, "sketch"+contactSketch.toString());
-//            }
-//        });
-//    }
 }

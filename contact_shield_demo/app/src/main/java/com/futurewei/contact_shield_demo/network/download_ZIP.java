@@ -74,10 +74,8 @@ public class download_ZIP extends Thread {
         File folder = Environment.getExternalStorageDirectory();
 
         destFilePath = Paths.get(folder.getPath() + "/" + objectName);
-        Log.e(TAG, "path: "+destFilePath.toString());
-        Log.e(TAG, "is directory: "+ folder.isDirectory());
-
         File myFile = new File(destFilePath.toString());
+
         Log.e(TAG, "path: "+destFilePath.toString());
         Log.e(TAG, "is directory: "+ myFile.isDirectory());
         if(myFile.exists())
@@ -88,8 +86,6 @@ public class download_ZIP extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        destFilePath = Paths.get(context.getFilesDir()+"/periodic_key.zip");
-//        destFilePath = Paths.get("/storage/emulated/0/Android/data/periodic_key.zip");
     }
 
     @Override
@@ -137,23 +133,5 @@ public class download_ZIP extends Thread {
                 .addOnFailureListener(e -> {
                     Log.e(TAG, "putSharedKeyFiles failed, cause: " + e.getMessage());
                 });
-
-
-    }
-
-    void getContactSketch(){
-        Task<ContactSketch> contactSketchTask = ContactShield.getContactShieldEngine(context).getContactSketch(token);
-        contactSketchTask.addOnSuccessListener(new OnSuccessListener<ContactSketch>() {
-            @Override
-            public void onSuccess(ContactSketch contactSketch) {
-                Log.e(TAG, "sketch"+contactSketch.toString());
-            }
-        });
-        contactSketchTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(Exception e) {
-                Log.e(TAG, e.toString());
-            }
-        });
     }
 }
