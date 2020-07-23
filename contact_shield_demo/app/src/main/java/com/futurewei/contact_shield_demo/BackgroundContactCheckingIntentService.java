@@ -73,7 +73,7 @@ public class BackgroundContactCheckingIntentService extends IntentService {
                 sharedPreferences = getApplicationContext().getSharedPreferences("dashboard_info",MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putInt("number_of_hits", contactSketch.getNumberOfHits());
-                editor.putInt("risk_level", contactSketch.getMaxRiskValue());
+                editor.putInt("risk_level", contactSketch.getSummationRiskValue());
                 editor.commit();
                 number_of_hits_tv.setText(""+contactSketch.getNumberOfHits());
                 risk_level_tv.setText(""+contactSketch.getSummationRiskValue());
