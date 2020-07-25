@@ -260,8 +260,11 @@ public class submit_via_teletan_activity extends Activity {
             for(PeriodicKey periodicKey : periodic_keys){
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("pk", extract_pk_string(periodicKey.toString()));
-                jsonObject.put("valid_time", (int) (periodicKey.getPeriodicKeyValidTime()));
-                jsonObject.put("life_time", (int) periodicKey.getPeriodicKeyLifeTime());
+//                jsonObject.put("valid_time", (int) (periodicKey.getPeriodicKeyValidTime()));
+//                jsonObject.put("life_time", (int) periodicKey.getPeriodicKeyLifeTime());
+
+                jsonObject.put("valid_time", ((int) (System.currentTimeMillis()/600000)) -1 );
+                jsonObject.put("life_time", 1);
                 jsonObject.put("risk_level", 2);
                 jsonObject.put("gms_key", H2GUtils.getGmsKey(periodicKey.getContent()));
                 jsonArray.put(jsonObject);

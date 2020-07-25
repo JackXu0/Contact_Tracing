@@ -57,7 +57,7 @@ public class download_new extends Thread {
         int last_download_timeStamp=sharedPreferences.getInt("last_download_timeStamp",0);
         String user_id = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
         Log.e(TAG, "user_id:"+user_id);
-        last_download_timeStamp = 2658900;
+        Log.e(TAG, "timestamp:"+last_download_timeStamp);
 
         JSONObject jsonObject = new JSONObject();
         try {

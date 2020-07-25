@@ -98,6 +98,11 @@ public class download_ZIP extends Thread {
             Blob blob = storage.get(BlobId.of(bucketName, objectName));
             blob.downloadTo(destFilePath);
             Log.e(TAG, destFilePath.toString());
+
+            final SharedPreferences sharedPreferences = context.getSharedPreferences("last_download_timeStamp",MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putInt("last_download_timeStamp", (int) (System.currentTimeMillis()/600000));
+            editor.commit();
         }finally {
             Log.e(TAG, "finish downloading from google");
             isRuuning();
