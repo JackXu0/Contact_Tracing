@@ -276,8 +276,8 @@ public class submit_via_guid_activity extends Activity {
 //                jsonObject.put("valid_time", (int) (periodicKey.getPeriodicKeyValidTime()));
 //                jsonObject.put("life_time", (int) periodicKey.getPeriodicKeyLifeTime());
 
-                jsonObject.put("valid_time", ((int) (System.currentTimeMillis()/600000)) -1 );
-                jsonObject.put("life_time", 1);
+                jsonObject.put("valid_time", ((int) (System.currentTimeMillis()/600000)) -(int) periodicKey.getPeriodicKeyLifeTime() );
+                jsonObject.put("life_time", (int) periodicKey.getPeriodicKeyLifeTime());
                 jsonObject.put("risk_level", 2);
                 jsonObject.put("gms_key", H2GUtils.getGmsKey(periodicKey.getContent()));
                 jsonArray.put(jsonObject);
