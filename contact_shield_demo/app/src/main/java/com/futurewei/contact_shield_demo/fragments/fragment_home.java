@@ -212,16 +212,16 @@ public class fragment_home extends Fragment {
     boolean check_if_allows_manual_upload(){
         sharedPreferences = context.getSharedPreferences("upload_pk_history", MODE_PRIVATE);
         String registration_key = sharedPreferences.getString("registration_key","");
-        int latest_uploading_time = sharedPreferences.getInt("timestamp", 0);
+        long latest_uploading_time = sharedPreferences.getLong("timestamp", 0);
         sharedPreferences = getContext().getSharedPreferences("settings", MODE_PRIVATE);
         boolean is_PK_upload_disabled = sharedPreferences.getBoolean("is_PK_upload_disabled", false);
 
         // if registration_key is missing or corrupted, or it has been more than one interval (7 days) since last manual upload, needs upload manually again.
-        if(registration_key.length() != 32 || latest_uploading_time < ((int) System.currentTimeMillis()/600000 - UPLOAD_INTERVAL_IN_DAYS*24*6)){
+        if(registration_key.length() != 32 || latest_uploading_time < ( System.currentTimeMillis() - UPLOAD_INTERVAL_IN_DAYS*24*6*600000)){
             return true;
         }
         //If registration_key exists, but has not uploaded in 24 hours, needs one auto upload
-        else if(registration_key.length() == 32 || latest_uploading_time < ((int) System.currentTimeMillis()/600000 - 24 * 6)){
+        else if(registration_key.length() == 32 || latest_uploading_time < ( System.currentTimeMillis() - 24 * 6 * 600000)){
             //check if uploading PK has been disabled by the user
             if(!is_PK_upload_disabled)
                 upload_PK_automatically(registration_key);

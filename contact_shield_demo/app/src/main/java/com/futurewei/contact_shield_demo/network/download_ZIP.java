@@ -63,7 +63,7 @@ public class download_ZIP extends Thread {
     Context context;
     String projectId = "contact-tracing-demo-281120";
     String bucketName = "zip001_futurewei";
-    String objectName = "551411c533835562.zip";
+    String objectName = "";
 
     // The path to which the file should be downloaded
     Path destFilePath;
@@ -101,7 +101,7 @@ public class download_ZIP extends Thread {
 
             final SharedPreferences sharedPreferences = context.getSharedPreferences("last_download_timeStamp",MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putInt("last_download_timeStamp", (int) (System.currentTimeMillis()/600000));
+            editor.putLong("last_download_timeStamp", System.currentTimeMillis());
             editor.commit();
         }finally {
             Log.e(TAG, "finish downloading from google");

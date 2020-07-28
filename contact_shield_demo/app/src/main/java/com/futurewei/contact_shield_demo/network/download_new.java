@@ -54,7 +54,7 @@ public class download_new extends Thread {
         msg.what=2;
 
         final SharedPreferences sharedPreferences = context.getSharedPreferences("last_download_timeStamp",MODE_PRIVATE);
-        int last_download_timeStamp=sharedPreferences.getInt("last_download_timeStamp",0);
+        long last_download_timeStamp=sharedPreferences.getLong("last_download_timeStamp",0);
         String user_id = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
         Log.e(TAG, "user_id:"+user_id);
         Log.e(TAG, "timestamp:"+last_download_timeStamp);
