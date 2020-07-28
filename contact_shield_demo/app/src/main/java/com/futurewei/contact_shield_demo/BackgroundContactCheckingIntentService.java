@@ -11,12 +11,14 @@ import androidx.annotation.Nullable;
 
 import com.huawei.hmf.tasks.OnSuccessListener;
 import com.huawei.hmf.tasks.Task;
+import com.huawei.hms.contactshield.ContactDetail;
 import com.huawei.hms.contactshield.ContactShield;
 import com.huawei.hms.contactshield.ContactShieldCallback;
 import com.huawei.hms.contactshield.ContactShieldEngine;
 import com.huawei.hms.contactshield.ContactSketch;
 
 import java.io.FileDescriptor;
+import java.util.List;
 
 import static com.futurewei.contact_shield_demo.fragments.fragment_home.number_of_hits_tv;
 import static com.futurewei.contact_shield_demo.fragments.fragment_home.risk_level_tv;
@@ -53,12 +55,14 @@ public class BackgroundContactCheckingIntentService extends IntentService {
                 public void onHasContact(String s) {
                     Log.e(TAG, "onHasContact");
                     getContactSketch();
+                    getContactDetails();
                 }
 
                 @Override
                 public void onNoContact(String s) {
                     Log.e(TAG, "onNoContact");
                     getContactSketch();
+                    getContactDetails();
                 }
             });
         }
@@ -77,6 +81,18 @@ public class BackgroundContactCheckingIntentService extends IntentService {
                 editor.commit();
                 number_of_hits_tv.setText(""+contactSketch.getNumberOfHits());
                 risk_level_tv.setText(""+contactSketch.getMaxRiskValue());
+            }
+        });
+    }
+
+    void getContactDetails(){
+        Task<List<ContactDetail>> contactSketchTask = contactEngine.getContactDetail(token);
+        contactSketchTask.addOnSuccessListener(new OnSuccessListener<List<ContactDetail>>() {
+            @Override
+            public void onSuccess(List<ContactDetail> contactDetails) {
+                for(ContactDetail cd : contactDetails){
+                    Log.e(TAG, "contact detail: "+cd.toString());
+                }
             }
         });
     }
