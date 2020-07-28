@@ -9,6 +9,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.futurewei.contact_shield_demo.utils.RiskLevelCalculator;
 import com.huawei.hmf.tasks.OnSuccessListener;
 import com.huawei.hmf.tasks.Task;
 import com.huawei.hms.contactshield.ContactDetail;
@@ -21,6 +22,7 @@ import java.io.FileDescriptor;
 import java.util.List;
 
 import static com.futurewei.contact_shield_demo.fragments.fragment_home.number_of_hits_tv;
+import static com.futurewei.contact_shield_demo.fragments.fragment_home.risk_level_map;
 import static com.futurewei.contact_shield_demo.fragments.fragment_home.risk_level_tv;
 
 public class BackgroundContactCheckingIntentService extends IntentService {
@@ -63,6 +65,7 @@ public class BackgroundContactCheckingIntentService extends IntentService {
                     Log.e(TAG, "onNoContact");
                     getContactSketch();
                     getContactDetails();
+
                 }
             });
         }
@@ -91,6 +94,14 @@ public class BackgroundContactCheckingIntentService extends IntentService {
             @Override
             public void onSuccess(List<ContactDetail> contactDetails) {
                 for(ContactDetail cd : contactDetails){
+                    int risk_level = RiskLevelCalculator.getRiskLevel(contactDetails);
+                    sharedPreferences = getApplicationContext().getSharedPreferences("dashboard_info",MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putInt("number_of_hits", contactDetails.size());
+                    editor.putInt("risk_level", risk_level);
+                    editor.commit();
+                    number_of_hits_tv.setText(""+contactDetails.size());
+                    risk_level_tv.setText(risk_level_map.get(risk_level));
                     Log.e(TAG, "contact detail: "+cd.toString());
                 }
             }

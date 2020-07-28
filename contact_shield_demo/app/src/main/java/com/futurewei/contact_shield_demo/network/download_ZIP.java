@@ -13,9 +13,11 @@ import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
 
+import com.futurewei.contact_shield_demo.utils.RiskLevelCalculator;
 import com.huawei.hmf.tasks.OnFailureListener;
 import com.huawei.hmf.tasks.OnSuccessListener;
 import com.huawei.hmf.tasks.Task;
+import com.huawei.hms.contactshield.ContactDetail;
 import com.huawei.hms.contactshield.ContactShield;
 import com.huawei.hms.contactshield.ContactSketch;
 import com.huawei.hms.contactshield.DiagnosisConfiguration;
@@ -107,6 +109,24 @@ public class download_ZIP extends Thread {
             Log.e(TAG, "finish downloading from google");
             isRuuning();
             putSharedKey();
+
+//            List<ContactDetail> list = new ArrayList<>();
+//            list.add(new ContactDetail.Builder()
+//                        .setAttenuationRiskValue(4)
+//                        .setDayNumber(18471)
+//                        .setDurationMinutes(10)
+//                        .setInitialRiskLevel(0).build());
+//            list.add(new ContactDetail.Builder()
+//                    .setAttenuationRiskValue(4)
+//                    .setDayNumber(18471)
+//                    .setDurationMinutes(10)
+//                    .setInitialRiskLevel(2).build());
+//            list.add(new ContactDetail.Builder()
+//                    .setAttenuationRiskValue(4)
+//                    .setDayNumber(18471)
+//                    .setDurationMinutes(10)
+//                    .setInitialRiskLevel(8).build());
+//            Log.e(TAG, "self cal risk level: "+ RiskLevelCalculator.getRiskLevel(list));
         }
 
 
