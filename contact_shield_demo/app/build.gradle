@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.huawei.agconnect'
 apply plugin: 'org.sonarqube'
 
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
@@ -87,17 +88,18 @@ dependencies {
 
 sonarqube {
     properties {
-        def libraries = project.android.sdkDirectory.getPath() + "/platforms/android-23/android.jar"/* + ", build/intermediates/exploded-aar*//**//*classes.jar"*/
+        //Sonar服务器地址
+        property "sonar.host.url", "http://localhost:9000/"
+
+        //账号密码模式
+        property "sonar.login","admin"
+        property "sonar.password","admin"
+        property "sonar.sourceEncoding", "UTF-8"
+        property "sonar.projectKey", "contact_shield_demo"
+        property "sonar.projectName", project.name
+        //需要扫描的上传检测代码的模块，可以选择也可以配置哪一些需要或者不需要上传的模块(这里指APP模块下面的java包里面的全部)
         property "sonar.sources", "src/main/java"
-        property "sonar.binaries", "build/intermediates/classes/debug"
-        property "sonar.libraries", libraries
-        property "sonar.tests", "src/test/java, src/androidTest/java"
-        property "sonar.java.test.binaries", "build/intermediates/class/debug"
-        property "sonar.java.test.libraries", libraries
-        property "sonar.jacoco.reportPath", "build/jacoco/testDebugUnitTest.exec"
-        property "sonar.java.coveragePlugin", "jacoco"
-        property "sonar.junit.reportsPath", "build/test-results/debug"
-        property "sonar.android.lint.report", "build/outputs/lint-results"
+        property "sonar.projectVersion", project.version
     }
 
 }

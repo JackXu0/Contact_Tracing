@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.futurewei.contact_shield_demo">
+    package="com.futurewei.contact_shield_demo" >
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
@@ -8,17 +8,12 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
-
-    <!--File reading permission-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- File reading permission -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_MEDIA_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> 
-    <!-- Camera permission -->
-    <uses-permission android:name="android.permission.CAMERA" /> 
-    <!-- File reading permission -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- Camera permission -->
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- File reading permission -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <uses-feature android:name="android.hardware.camera" />
@@ -28,14 +23,18 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:requestLegacyExternalStorage="true"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/Theme.App">
-        <activity android:name=".activities.internet_connection_error_Activity"></activity>
-        <activity android:name=".activities.submission_unsuccess_Activity" />
-        <activity android:name=".activities.PushNotificationsActivity">
+        android:theme="@style/Theme.App"
+        android:usesCleartextTraffic="true" >
+        <activity
+            android:name=".activities.MainActivity"
+            android:label="@string/title_activity_main" >
+        </activity>
+        <activity android:name=".activities.InternetConnectionErrorActivity" />
+        <activity android:name=".activities.SubmissionUnsuccessActivity" />
+        <activity android:name=".activities.PushNotificationsActivity" >
             <intent-filter>
                 <action android:name="com.contactshield.click" />
 
@@ -43,7 +42,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.NewMainActivity">
+        <activity android:name=".activities.NewMainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -51,12 +50,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.NotificationsActivity" />
-        <activity android:name=".activities.report_test_result_pre_activity" />
-        <activity android:name=".activities.report_method_choose_activity" />
-        <activity android:name=".activities.request_teletan_activity" />
-        <activity android:name=".activities.submit_via_guid_activity" />
-        <activity android:name=".activities.submit_via_teletan_activity" />
-        <activity android:name=".activities.submission_success_Activity" />
+        <activity android:name=".activities.ReportTestResultPreActivity" />
+        <activity android:name=".activities.ReportMethodChooseActivity" />
+        <activity android:name=".activities.RequestTeletanActivity" />
+        <activity android:name=".activities.SubmitViaGuidActivity" />
+        <activity android:name=".activities.SubmitViaTeletanActivity" />
+        <activity android:name=".activities.SubmissionSuccessActivity" />
 
         <service
             android:name=".BackgroundContactCheckingIntentService"
@@ -64,7 +63,7 @@
             android:exported="true" />
         <service
             android:name=".activities.MyPushService"
-            android:exported="false">
+            android:exported="false" >
             <intent-filter>
                 <action android:name="com.huawei.push.action.MESSAGING_EVENT" />
             </intent-filter>
