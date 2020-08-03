@@ -38,7 +38,7 @@ public class DownloadZip extends Thread {
         userId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
         objectName = userId +".zip";
 
-        destFilePath = Paths.get(new File(context.getExternalFilesDir(null),objectName).getAbsolutePath());
+        destFilePath = Paths.get(new File(context.getExternalCacheDir(),objectName).getAbsolutePath());
         File myFile = new File(destFilePath.toString());
 
         Log.e(TAG, "path: "+destFilePath.toString());
@@ -81,8 +81,7 @@ public class DownloadZip extends Thread {
             msg.what = 6;
             Bundle b =new Bundle();
             b.putInt("response_code",1);
-            b.putString("response_body", "finish downloading from google");
-            b.putString("destFilePath", String.valueOf(destFilePath));
+            b.putString("response_body", destFilePath.toAbsolutePath().toString());
             msg.setData(b);
             handler.sendMessage(msg);
         }
