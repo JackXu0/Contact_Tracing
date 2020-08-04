@@ -19,7 +19,7 @@ public class GeneratePKZip extends NetworkTemplate {
 
     public GeneratePKZip(Context context, Handler handler){
 //        super("Download New", context, handler, 5, "http://35.222.93.177:5000/zip");
-        super("Download New", context, handler, 5, "http://34.69.249.103:5000/zip");
+        super("Download New", context, handler, 5, "http://http://34.69.249.103:5000/zip");
         this.requestBody = makeRequestBody();
 
     }

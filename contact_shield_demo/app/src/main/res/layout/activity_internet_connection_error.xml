@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.submission_success_Activity">
+    tools:context=".activities.SubmissionSuccessActivity">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_start"

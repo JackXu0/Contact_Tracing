@@ -54,6 +54,7 @@
     <string name="submission_unsuccess_body">"Please recheck your QR code or teleTAN. Make sure it is not expired and that you have entered your information correctly."</string>
     <string name="internet_error_heading">"No Internet Connection"</string>
     <string name="internet_error_body">"Please check your internet settings and make sure your phone is connect in order to proceed your submission."</string>
+    <string name="title_activity_main">MainActivity</string>
 
 
 </resources>

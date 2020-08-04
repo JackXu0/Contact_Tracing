@@ -1,25 +1,34 @@
 package com.futurewei.contact_shield_demo;
 
 import android.app.IntentService;
-import android.app.Service;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.Build;
 import android.util.Log;
+import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.fragment.app.FragmentManager;
 
-import com.huawei.hmf.tasks.OnSuccessListener;
+import com.futurewei.contact_shield_demo.activities.NotificationsActivity;
+import com.futurewei.contact_shield_demo.fragments.FragmentHome;
+import com.futurewei.contact_shield_demo.utils.RiskLevelCalculator;
 import com.huawei.hmf.tasks.Task;
+import com.huawei.hms.contactshield.ContactDetail;
 import com.huawei.hms.contactshield.ContactShield;
 import com.huawei.hms.contactshield.ContactShieldCallback;
 import com.huawei.hms.contactshield.ContactShieldEngine;
 import com.huawei.hms.contactshield.ContactSketch;
 
-import java.io.FileDescriptor;
-
-import static com.futurewei.contact_shield_demo.fragments.fragment_home.number_of_hits_tv;
-import static com.futurewei.contact_shield_demo.fragments.fragment_home.risk_level_tv;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class BackgroundContactCheckingIntentService extends IntentService {
 
@@ -27,14 +36,16 @@ public class BackgroundContactCheckingIntentService extends IntentService {
     private static final String TAG = "ContactShielddd";
     private ContactShieldEngine contactEngine;
     private SharedPreferences sharedPreferences;
+    Map<Integer, String> riskLevelMap;
 
-    public BackgroundContactCheckingIntentService() {
+    public BackgroundContactCheckingIntentService(){
         super(TAG);
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
+        initRiskLevelMap();
         contactEngine = ContactShield.getContactShieldEngine(BackgroundContactCheckingIntentService.this);
         Log.e(TAG, "BackgroundContackCheckingIntentService onCreate");
     }
@@ -53,31 +64,99 @@ public class BackgroundContactCheckingIntentService extends IntentService {
                 public void onHasContact(String s) {
                     Log.e(TAG, "onHasContact");
                     getContactSketch();
+                    getContactDetails();
                 }
 
                 @Override
                 public void onNoContact(String s) {
                     Log.e(TAG, "onNoContact");
                     getContactSketch();
+                    getContactDetails();
+
                 }
             });
         }
     }
 
+    void initRiskLevelMap(){
+        riskLevelMap = new HashMap<>();
+        riskLevelMap.put(0, "NO RISK");
+        riskLevelMap.put(1, "LOWEST");
+        riskLevelMap.put(2, "LOW");
+        riskLevelMap.put(3, "MEDIUM LOW");
+        riskLevelMap.put(4, "MEDIUM");
+        riskLevelMap.put(5, "MEDIUM_HIGH");
+        riskLevelMap.put(6, "HIGH");
+        riskLevelMap.put(7, "EXTRA HIGH");
+        riskLevelMap.put(8, "HIGHEST");
+    }
+
     void getContactSketch(){
         Task<ContactSketch> contactSketchTask = contactEngine.getContactSketch(token);
-        contactSketchTask.addOnSuccessListener(new OnSuccessListener<ContactSketch>() {
-            @Override
-            public void onSuccess(ContactSketch contactSketch) {
-                Log.e(TAG, "sketch: "+contactSketch.toString());
+        contactSketchTask.addOnSuccessListener((ContactSketch contactSketch) -> Log.e(TAG, "sketch: "+contactSketch.toString()));
+    }
+
+    void getContactDetails(){
+        Task<List<ContactDetail>> contactSketchTask = contactEngine.getContactDetail(token);
+        contactSketchTask.addOnSuccessListener((List<ContactDetail> contactDetails) ->{
+
+                int riskLevel = RiskLevelCalculator.getRiskLevel(contactDetails);
                 sharedPreferences = getApplicationContext().getSharedPreferences("dashboard_info",MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putInt("number_of_hits", contactSketch.getNumberOfHits());
-                editor.putInt("risk_level", contactSketch.getMaxRiskValue());
+                editor.putInt("number_of_hits", contactDetails.size());
+                editor.putInt("risk_level", riskLevel);
                 editor.commit();
-                number_of_hits_tv.setText(""+contactSketch.getNumberOfHits());
-                risk_level_tv.setText(""+contactSketch.getSummationRiskValue());
-            }
-        });
+                FragmentHome.numberOfHitsTv.setText(""+contactDetails.size());
+                FragmentHome.riskLevelTv.setText(riskLevelMap.get(riskLevel));
+
+                sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
+                boolean isNotificationDisabled = sharedPreferences.getBoolean("is_notification_disabled", false);
+                if(!isNotificationDisabled && riskLevel >= 4){
+                    makeAlertWindow();
+                }
+
+                for(ContactDetail cd : contactDetails){
+                    Log.e(TAG, "contact detail: "+cd.toString());
+                }
+            });
+    }
+
+    void makeAlertWindow(){
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        Intent notificationIntent = new Intent(getApplicationContext(), NotificationsActivity.class);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent intent = PendingIntent.getActivity(getApplicationContext(), 0,
+                notificationIntent, 0);
+        NotificationCompat.Builder notificationBuilder;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String chanelId = "3000";
+            CharSequence name = "Channel Name";
+            String description = "Chanel Description";
+            int importance = NotificationManager.IMPORTANCE_LOW;
+            NotificationChannel mChannel = new NotificationChannel(chanelId, name, importance);
+            mChannel.setDescription(description);
+            mChannel.enableLights(true);
+            mChannel.setLightColor(Color.BLUE);
+            notificationManager.createNotificationChannel(mChannel);
+            notificationBuilder = new NotificationCompat.Builder(getApplicationContext(), chanelId);
+        } else {
+            notificationBuilder = new NotificationCompat.Builder(getApplicationContext());
+        }
+        notificationBuilder.setSmallIcon(R.drawable.ic_launcher_background)
+                .setContentTitle("corona virus alert")
+                .setContentText("You have been exposed to a corona virus patient recently. Please practice self quarantine and contact your doctor if you are not feeling fine.")
+                .setAutoCancel(true)
+                .setContentIntent(intent);
+
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
+
+        // notificationId is a unique int for each notification that you must define
+        notificationManagerCompat.notify(1, notificationBuilder.build());
+
+
     }
 }

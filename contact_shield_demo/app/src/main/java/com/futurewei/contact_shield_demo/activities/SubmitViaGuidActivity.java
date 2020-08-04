@@ -89,19 +89,10 @@ public class SubmitViaGuidActivity extends Activity {
             if (obj instanceof HmsScan) {
                 if (!TextUtils.isEmpty(((HmsScan) obj).getOriginalValue())) {
                     String guid = ((HmsScan) obj).getOriginalValue();
-                    if(!Pattern.matches("[a-zA-Z0-9]{32}", guid)){
-                        Intent intent = new Intent(getApplicationContext(), SubmissionUnsuccessActivity.class);
-                        startActivity(intent);
-                        finish();
-//                    Toast.makeText(getApplicationContext(), "GUID NOT VALID", Toast.LENGTH_SHORT).show();
-//                        return;
-                    }else{
+                    if(Pattern.matches("[a-zA-Z0-9]{32}", guid)){
                         progressBar.setVisibility(View.VISIBLE);
                         new GetRegistrationKeyQRCode(getApplicationContext(), handler, guid).start();
-                        finish();
                     }
-
-
                 }
             }
         }

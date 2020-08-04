@@ -16,7 +16,6 @@ public class GetTan extends NetworkTemplate {
     public GetTan(Context context, Handler handler, String registration_key){
 //        super("Get TAN", context, handler, 3, "https://us-central1-contact-tracing-demo-281120.cloudfunctions.net/getTAN");
         super("Get TAN", context, handler, 3, "https://us-central1-contact-shield-demo.cloudfunctions.net/getTAN");
-
         this.requestBody = makeRequestBody(registration_key);
     }
 

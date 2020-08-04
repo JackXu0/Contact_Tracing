@@ -29,10 +29,8 @@ public class DownloadZip extends Thread {
 //    String bucketName = "zip001_futurewei";
 //    String objectName = "";
     String projectId = "contact-shield-demo";
-    String bucketName = "contact_shield_demo";
+    String bucketName = "contact_shield_demp";
     String objectName = "zips/";
-
-
 
     // The path to which the file should be downloaded
     Path destFilePath;

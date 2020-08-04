@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.submit_via_teletan_activity">
+    tools:context=".activities.SubmitViaTeletanActivity">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_start"
@@ -86,7 +86,7 @@
                 android:layout_width="wrap_content"
                 android:layout_marginTop="10dp"
                 android:visibility="gone"
-                android:text="hello"
+                android:text="Please enter a valid teleTAN."
                 android:textColor="@color/errormessage"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

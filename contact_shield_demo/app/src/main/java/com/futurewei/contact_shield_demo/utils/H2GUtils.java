@@ -1,9 +1,5 @@
 package com.futurewei.contact_shield_demo.utils;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
-
 import java.util.Base64;
 
 public class H2GUtils {

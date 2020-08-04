@@ -60,7 +60,6 @@ public class UploadHandler extends Handler {
             context.startActivity(new Intent(context, InternetConnectionErrorActivity.class));
             ((Activity)context).finish();
             return;
-//                Toast.makeText(getApplicationContext(), "No Internet Connection!", Toast.LENGTH_SHORT).show();
         }
         //TODO: whether to put this here
         //TODO: whether to display detail errors
@@ -141,6 +140,8 @@ public class UploadHandler extends Handler {
                 //jump to submit success activity
                 Toast.makeText(context,"Thanks for reporting", Toast.LENGTH_LONG).show();
                 context.startActivity(new Intent(context, SubmissionSuccessActivity.class));
+
+                ((Activity) context).finish();
 
                 break;
 

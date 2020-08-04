@@ -43,12 +43,12 @@ public class DownloadHandler extends Handler {
             context.startActivity(new Intent(context, InternetConnectionErrorActivity.class));
             ((Activity)context).finish();
             return;
-//                Toast.makeText(getApplicationContext(), "No Internet Connection!", Toast.LENGTH_SHORT).show();
         }
         //TODO: whether to put this here
         //TODO: whether to display detail errors
         else if (responseCode == 2){
             Toast.makeText(context, "Download Failed!", Toast.LENGTH_SHORT).show();
+            ((Activity)context).finish();
             return;
         }
 
