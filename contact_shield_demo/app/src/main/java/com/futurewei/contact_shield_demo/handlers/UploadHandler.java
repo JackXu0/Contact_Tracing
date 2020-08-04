@@ -67,7 +67,7 @@ public class UploadHandler extends Handler {
             String error_msg = responseBody;
             Log.e(TAG, error_msg);
             Toast.makeText(context, error_msg, Toast.LENGTH_SHORT).show();
-            context.startActivity(new Intent(context, SubmissionUnsuccessActivity.class));
+//            context.startActivity(new Intent(context, SubmissionUnsuccessActivity.class));
             ((Activity)context).finish();
             return;
         }

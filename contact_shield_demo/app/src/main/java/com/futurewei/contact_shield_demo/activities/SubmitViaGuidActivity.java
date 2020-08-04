@@ -42,9 +42,10 @@ public class SubmitViaGuidActivity extends Activity {
         setContentView(R.layout.submit_via_guid_activity);
 
         context = this;
-        handler = new UploadHandler(context, TAG, progressBar);
 
         initView();
+
+        handler = new UploadHandler(context, TAG, progressBar);
 
         beginScanning();
     }
