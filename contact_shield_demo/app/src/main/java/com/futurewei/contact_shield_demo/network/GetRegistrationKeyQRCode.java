@@ -19,6 +19,7 @@ public class GetRegistrationKeyQRCode extends NetworkTemplate {
 //        super("Get Registration Key QR Code", context, handler, 1, "https://us-central1-contact-tracing-demo-281120.cloudfunctions.net/getRegistrationKeyGUID");
         super("Get Registration Key QR Code", context, handler, 1, "https://us-central1-contact-shield-demo.cloudfunctions.net/getRegistrationKeyGUID");
         this.requestBody = makeRequestBody(guid);
+
     }
 
     RequestBody makeRequestBody(String guid){

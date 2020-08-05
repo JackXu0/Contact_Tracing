@@ -21,6 +21,8 @@ import com.huawei.hmf.tasks.Task;
 import com.huawei.hms.contactshield.ContactShield;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.futurewei.contact_shield_demo.fragments.FragmentHome.numberOfHitsTv;
+import static com.futurewei.contact_shield_demo.fragments.FragmentHome.riskLevelTv;
 
 public class fragmentSetting extends Fragment {
 
@@ -82,7 +84,13 @@ public class fragmentSetting extends Fragment {
 
 
     void clearData(){
-        Task<Void> task = ContactShield.getContactShieldEngine(getContext()).clearData();
+        Task<Void> task = ContactShield.getContactShieldEngine(getActivity()).clearData();
+
+        sharedPreferences = getActivity().getSharedPreferences("dashboard_info",MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("number_of_hits", 0);
+        editor.putInt("risk_level", 0);
+        editor.commit();
 
         task.addOnSuccessListener((Void aVoid) -> Toast.makeText(getContext(), "Data Cleared", Toast.LENGTH_SHORT).show());
     }

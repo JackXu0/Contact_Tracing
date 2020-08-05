@@ -224,7 +224,7 @@ public class FragmentHome extends Fragment {
         }else{
             scanningTv.setVisibility(View.INVISIBLE);
             Task<Void> stopContactShield = ContactShield.getContactShieldEngine(context).stopContactShield();
-            stopContactShield.addOnSuccessListener( (Void v) -> Log.e(TAG, "stop contact shield >> NO"));
+            stopContactShield.addOnSuccessListener( (Void v) -> Log.e(TAG, "stop contact shield >> Succeeded"));
             stopContactShield.addOnFailureListener( (Exception e) -> Log.e(TAG, "stop contact shield "+ e.getMessage()));
             Log.e(TAG, "contact shielding should not be running");
         }

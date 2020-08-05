@@ -32,6 +32,7 @@ public class SubmitViaGuidActivity extends Activity {
     public static final int DEFAULT_VIEW = 0x22;
     private static final int REQUEST_CODE_SCAN = 0X01;
     Context context;
+    boolean scanned = false;
 
     ProgressBar progressBar;
     Handler handler;
@@ -81,7 +82,7 @@ public class SubmitViaGuidActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //receive result after your activity finished scanning
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != RESULT_OK || data == null) {
+        if (resultCode != RESULT_OK || data == null || scanned) {
             return;
         }
         // Obtain the return value of HmsScan from the value returned by the onActivityResult method by using ScanUtil.RESULT as the key value.
@@ -92,7 +93,9 @@ public class SubmitViaGuidActivity extends Activity {
                     String guid = ((HmsScan) obj).getOriginalValue();
                     if(Pattern.matches("[a-zA-Z0-9]{32}", guid)){
                         progressBar.setVisibility(View.VISIBLE);
+                        scanned = true;
                         new GetRegistrationKeyQRCode(getApplicationContext(), handler, guid).start();
+
                     }
                 }
             }
