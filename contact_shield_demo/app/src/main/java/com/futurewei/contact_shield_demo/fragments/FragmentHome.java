@@ -41,7 +41,6 @@ import static android.content.Context.MODE_PRIVATE;
 public class FragmentHome extends Fragment {
 
     Context context;
-    String token = "3bdd528fd98947bcaffa0d8fda68ca54";
     private View root;
     MaterialCardView myStatusCard;
     ConstraintLayout heading;
@@ -80,7 +79,7 @@ public class FragmentHome extends Fragment {
 
         this.context = getActivity();
 
-        root= inflater.inflate(R.layout.home_fragment, container, false);
+        root= inflater.inflate(R.layout.fragment_home, container, false);
 
         initRiskLevelMap();
 
@@ -111,9 +110,15 @@ public class FragmentHome extends Fragment {
         scanningTv = root.findViewById(R.id.scanning_tv);
 
         //init dashboard
-        sharedPreferences = context.getSharedPreferences("dashboard_info",MODE_PRIVATE);
-        numberOfHitsTv.setText(""+sharedPreferences.getInt("number_of_hits",0));
-        riskLevelTv.setText(riskLevelMap.get(sharedPreferences.getInt("risk_level", 0)));
+        sharedPreferences = context.getSharedPreferences("my staus choice", MODE_PRIVATE);
+        boolean choice = sharedPreferences.getBoolean("choice", false);
+        radioNegtiveBtn.setChecked(!choice);
+        radioPositiveBtn.setChecked(choice);
+
+        if(choice)
+            reportButton.setVisibility(View.VISIBLE);
+        else
+            reportButton.setVisibility(View.INVISIBLE);
 
         // Check is manually upload is needed
         if(FLEXIBLE_MY_STATUS_ENABLED && !checkIfAllowsManualUpload()){
@@ -208,10 +213,10 @@ public class FragmentHome extends Fragment {
 
     void refreshDashboard(){
         //refresh my status choices
-        sharedPreferences = context.getSharedPreferences("my staus choice", MODE_PRIVATE);
-        boolean choice = sharedPreferences.getBoolean("choice", false);
-        radioNegtiveBtn.setChecked(!choice);
-        radioPositiveBtn.setChecked(choice);
+        sharedPreferences = context.getSharedPreferences("dashboard_info",MODE_PRIVATE);
+        numberOfHitsTv.setText(""+sharedPreferences.getInt("number_of_hits",0));
+        riskLevelTv.setText(riskLevelMap.get(sharedPreferences.getInt("risk_level", 0)));
+
     }
 
     void refreshIsScanning(){

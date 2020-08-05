@@ -9,9 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -28,7 +26,7 @@ import java.util.regex.Pattern;
 
 public class SubmitViaGuidActivity extends Activity {
 
-    private static final String TAG = "submit_via_guid_activity";
+    private static final String TAG = "activity_submit_via_guid";
     public static final int DEFAULT_VIEW = 0x22;
     private static final int REQUEST_CODE_SCAN = 0X01;
     Context context;
@@ -40,7 +38,7 @@ public class SubmitViaGuidActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.submit_via_guid_activity);
+        setContentView(R.layout.activity_submit_via_guid);
 
         context = this;
 

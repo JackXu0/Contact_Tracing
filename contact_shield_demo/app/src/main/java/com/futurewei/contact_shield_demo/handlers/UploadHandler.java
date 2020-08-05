@@ -19,6 +19,7 @@ import com.futurewei.contact_shield_demo.activities.SubmissionSuccessActivity;
 import com.futurewei.contact_shield_demo.activities.SubmissionUnsuccessActivity;
 import com.futurewei.contact_shield_demo.network.GetTan;
 import com.futurewei.contact_shield_demo.network.UploadPeriodicKey;
+import com.huawei.hmf.tasks.OnFailureListener;
 import com.huawei.hmf.tasks.Task;
 import com.huawei.hms.contactshield.ContactShield;
 import com.huawei.hms.contactshield.PeriodicKey;
@@ -161,5 +162,7 @@ public class UploadHandler extends Handler {
 
                 (new UploadPeriodicKey(context, handler, periodicKeys, tan)).start();
         });
+
+        task_pk.addOnFailureListener((Exception e) -> Log.e(TAG, e.getMessage()));
     }
 }

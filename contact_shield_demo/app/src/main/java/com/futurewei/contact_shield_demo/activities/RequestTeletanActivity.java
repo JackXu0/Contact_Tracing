@@ -25,7 +25,7 @@ public class RequestTeletanActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.request_teletan_activity);
+        setContentView(R.layout.activity_request_teletan);
 
         //TODO:: Call number
 

@@ -28,10 +28,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.App"
         android:usesCleartextTraffic="true" >
-        <activity
-            android:name=".activities.MainActivity"
-            android:label="@string/title_activity_main" >
-        </activity>
+
         <activity android:name=".activities.InternetConnectionErrorActivity" />
         <activity android:name=".activities.SubmissionUnsuccessActivity" />
         <activity android:name=".activities.PushNotificationsActivity" >
@@ -61,6 +58,7 @@
             android:name=".BackgroundContactCheckingIntentService"
             android:enabled="true"
             android:exported="true" />
+
         <service
             android:name=".activities.MyPushService"
             android:exported="false" >

@@ -66,7 +66,10 @@ public class NewMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.new_main_activity);
+        setContentView(R.layout.activity_new_main_activity);
+
+        permissonRequest();
+        registerPush();
 
         fm = getSupportFragmentManager();
         ft = fm.beginTransaction();
@@ -80,8 +83,7 @@ public class NewMainActivity extends AppCompatActivity {
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        permissonRequest();
-        registerPush();
+
 
     }
 
