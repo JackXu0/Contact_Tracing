@@ -25,7 +25,7 @@ public class NetworkTemplate extends Thread {
     public Handler handler;
     public int what;
     public String url;
-    public RequestBody requestBody = null;
+    public RequestBody requestBody;
     private static final String RESPONSE_CODE = "response_code";
     private static final String RESPONSE_BODY = "response_body";
 
@@ -40,9 +40,6 @@ public class NetworkTemplate extends Thread {
     @Override
     public void run() {
         super.run();
-
-        if(requestBody == null)
-            return;
 
         msg.what=what;
 
