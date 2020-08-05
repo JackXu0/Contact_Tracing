@@ -1,9 +1,13 @@
 package com.futurewei.contact_shield_demo.fragments;
 
 import androidx.fragment.app.Fragment;
+
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +19,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
+import com.futurewei.contact_shield_demo.BackgroundContactCheckingIntentService;
 import com.futurewei.contact_shield_demo.R;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.huawei.hmf.tasks.Task;
 import com.huawei.hms.contactshield.ContactShield;
+import com.huawei.hms.contactshield.ContactShieldSetting;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.futurewei.contact_shield_demo.fragments.FragmentHome.numberOfHitsTv;
@@ -32,6 +38,7 @@ public class fragmentSetting extends Fragment {
     SwitchMaterial disableNotificationBtn;
     SwitchMaterial disablePkBtn;
     Button clearDataBtn;
+    String TAG = "fragment settings";
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Nullable
@@ -86,6 +93,8 @@ public class fragmentSetting extends Fragment {
     void clearData(){
         Task<Void> task = ContactShield.getContactShieldEngine(getActivity()).clearData();
 
+        restarContactShield();
+
         sharedPreferences = getActivity().getSharedPreferences("dashboard_info",MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("number_of_hits", 0);
@@ -93,5 +102,26 @@ public class fragmentSetting extends Fragment {
         editor.commit();
 
         task.addOnSuccessListener((Void aVoid) -> Toast.makeText(getContext(), "Data Cleared", Toast.LENGTH_SHORT).show());
+    }
+
+    void restarContactShield(){
+
+        ContactShield.getContactShieldEngine(getActivity()).stopContactShield()
+                .addOnSuccessListener(aVoid -> {
+                        Log.e(TAG, "stopContactShield >> Success");
+
+
+                });
+
+        PendingIntent pendingIntent = PendingIntent.getService(getActivity(), 0, new Intent(getActivity(),
+                        BackgroundContactCheckingIntentService.class),
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+
+        ContactShield.getContactShieldEngine(getActivity()).startContactShield(pendingIntent, ContactShieldSetting.DEFAULT)
+                .addOnSuccessListener(bVoid -> Log.e(TAG, "startContactShield >> Success"))
+                .addOnFailureListener(e -> { Log.e(TAG, "startContactShield >> Failure"); });
+
+
     }
 }
