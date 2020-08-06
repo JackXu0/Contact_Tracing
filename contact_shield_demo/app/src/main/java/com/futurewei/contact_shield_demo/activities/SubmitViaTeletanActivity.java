@@ -81,7 +81,6 @@ public class SubmitViaTeletanActivity extends Activity {
                 //Check if teletan is 6 digit number
                 if(!Pattern.matches("[0-9]{6}", teletan)){
                     errorMessage.setVisibility(View.VISIBLE);
-                    return;
                 }
             }
         });

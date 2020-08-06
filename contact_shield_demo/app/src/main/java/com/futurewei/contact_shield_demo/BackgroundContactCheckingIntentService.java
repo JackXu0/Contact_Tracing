@@ -10,21 +10,21 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.util.Log;
-import android.widget.TextView;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-import androidx.fragment.app.FragmentManager;
 
 import com.futurewei.contact_shield_demo.activities.NotificationsActivity;
 import com.futurewei.contact_shield_demo.fragments.FragmentHome;
 import com.futurewei.contact_shield_demo.utils.RiskLevelCalculator;
+import com.huawei.hmf.tasks.OnSuccessListener;
 import com.huawei.hmf.tasks.Task;
 import com.huawei.hms.contactshield.ContactDetail;
 import com.huawei.hms.contactshield.ContactShield;
 import com.huawei.hms.contactshield.ContactShieldCallback;
 import com.huawei.hms.contactshield.ContactShieldEngine;
 import com.huawei.hms.contactshield.ContactSketch;
+import com.huawei.hms.contactshield.ContactWindow;
 
 import java.util.HashMap;
 import java.util.List;

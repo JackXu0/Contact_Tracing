@@ -85,7 +85,14 @@ public class DownloadHandler extends Handler {
         Log.e(TAG, "if file exists: "+file.exists());
         ArrayList<File> putList = new ArrayList<>();
         putList.add(file);
-        DiagnosisConfiguration config = new DiagnosisConfiguration.Builder().build();
+        DiagnosisConfiguration config = new DiagnosisConfiguration.Builder()
+                .setInitialRiskLevelRiskValues(1,2,3,4,5,6,7,8)
+                .setDurationRiskValues(1,2,3,4,5,6,7,8)
+                .setDaysAfterContactedRiskValues(1,2,3,4,5,6,7,8)
+                .setAttenuationRiskValues(1,2,3,4,5,6,7,8)
+                .build();
+
+
         ContactShield.getContactShieldEngine(context).putSharedKeyFiles(putList, config, token)
                 .addOnSuccessListener(aVoid -> {
                     Log.e(TAG, "putSharedKeyFiles succeeded.");

@@ -27,8 +27,6 @@ import com.huawei.hms.contactshield.ContactShield;
 import com.huawei.hms.contactshield.ContactShieldSetting;
 
 import static android.content.Context.MODE_PRIVATE;
-import static com.futurewei.contact_shield_demo.fragments.FragmentHome.numberOfHitsTv;
-import static com.futurewei.contact_shield_demo.fragments.FragmentHome.riskLevelTv;
 
 public class fragmentSetting extends Fragment {
 
@@ -107,11 +105,7 @@ public class fragmentSetting extends Fragment {
     void restarContactShield(){
 
         ContactShield.getContactShieldEngine(getActivity()).stopContactShield()
-                .addOnSuccessListener(aVoid -> {
-                        Log.e(TAG, "stopContactShield >> Success");
-
-
-                });
+                .addOnSuccessListener(aVoid -> Log.e(TAG, "stopContactShield >> Success"));
 
         PendingIntent pendingIntent = PendingIntent.getService(getActivity(), 0, new Intent(getActivity(),
                         BackgroundContactCheckingIntentService.class),

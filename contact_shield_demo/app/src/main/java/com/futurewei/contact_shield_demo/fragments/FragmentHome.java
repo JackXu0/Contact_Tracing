@@ -29,12 +29,14 @@ import com.futurewei.contact_shield_demo.handlers.DownloadHandler;
 import com.futurewei.contact_shield_demo.network.GeneratePKZip;
 import com.futurewei.contact_shield_demo.network.GetTan;
 import com.google.android.material.card.MaterialCardView;
+import com.huawei.hmf.tasks.OnSuccessListener;
 import com.huawei.hmf.tasks.Task;
 import com.huawei.hms.contactshield.ContactShield;
 import com.huawei.hms.contactshield.ContactShieldSetting;
+import com.huawei.hms.contactshield.ContactWindow;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -169,7 +171,25 @@ public class FragmentHome extends Fragment {
 
         //EventListener for refresh button
         refresh_btn.setOnClickListener((View v) -> new GeneratePKZip(context, handler).start());
+
+//        refresh_btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String token = "TOKEN_WINDOW_MODE";
+//                Task<List<ContactWindow>> contactWindows = ContactShield.getContactShieldEngine(context).getContactWindow(token);
+//                contactWindows.addOnSuccessListener(new OnSuccessListener<List<ContactWindow>>() {
+//                    @Override
+//                    public void onSuccess(List<ContactWindow> contactWindowList) {
+//                        Log.e(TAG, "cw length: "+contactWindowList.size());
+//                        for(ContactWindow cw : contactWindowList){
+//                            Log.e(TAG, "cw: "+cw.toString());
+//                        }
+//                    }
+//                });
+//            }
+//        });
     }
+
 
     void initRiskLevelMap(){
         riskLevelMap = new HashMap<>();

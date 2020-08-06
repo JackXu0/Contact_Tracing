@@ -86,15 +86,13 @@ public class SubmitViaGuidActivity extends Activity {
         // Obtain the return value of HmsScan from the value returned by the onActivityResult method by using ScanUtil.RESULT as the key value.
         if (requestCode == REQUEST_CODE_SCAN) {
             Object obj = data.getParcelableExtra(ScanUtil.RESULT);
-            if (obj instanceof HmsScan) {
-                if (!TextUtils.isEmpty(((HmsScan) obj).getOriginalValue())) {
-                    String guid = ((HmsScan) obj).getOriginalValue();
-                    if(Pattern.matches("[a-zA-Z0-9]{32}", guid)){
-                        progressBar.setVisibility(View.VISIBLE);
-                        scanned = true;
-                        new GetRegistrationKeyQRCode(getApplicationContext(), handler, guid).start();
+            if (obj instanceof HmsScan && !TextUtils.isEmpty(((HmsScan) obj).getOriginalValue())) {
+                String guid = ((HmsScan) obj).getOriginalValue();
+                if(Pattern.matches("[a-zA-Z0-9]{32}", guid)){
+                    progressBar.setVisibility(View.VISIBLE);
+                    scanned = true;
+                    new GetRegistrationKeyQRCode(getApplicationContext(), handler, guid).start();
 
-                    }
                 }
             }
         }

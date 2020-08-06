@@ -14,7 +14,8 @@ public class RiskLevelCalculator {
         // This calculator will return the maximum total risk value
         int maxTotalRiskValue = 0;
         for(ContactDetail cd : contactDetails){
-            int totalRiskValue = getAttenuationRiskLevel(cd.getAttenuationRiskValue()) * getDaysAfterContactedRisklevel(cd.getDayNumber()) * getDurationRiskLevel(cd.getDurationMinutes()) * cd.getInitialRiskLevel();
+//            int totalRiskValue = getAttenuationRiskLevel(cd.getAttenuationRiskValue()) * getDaysAfterContactedRisklevel(cd.getDayNumber()) * getDurationRiskLevel(cd.getDurationMinutes()) * cd.getInitialRiskLevel();
+            int totalRiskValue = cd.getTotalRiskValue()-1;
             Log.e(TAG, ""+totalRiskValue);
             Log.e(TAG, ""+((int) Math.pow(totalRiskValue, 1.0/4.0)+1));
             maxTotalRiskValue = Math.max(totalRiskValue, maxTotalRiskValue);

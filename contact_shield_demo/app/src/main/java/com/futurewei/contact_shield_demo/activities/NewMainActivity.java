@@ -33,7 +33,7 @@ public class NewMainActivity extends AppCompatActivity {
     private FragmentTransaction ft;
     private int page;
 
-    private static final String TAG = "NewMainActivity";
+//    private static final String TAG = "NewMainActivity";
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = (@NonNull MenuItem item) -> {
