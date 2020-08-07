@@ -105,16 +105,19 @@ public class fragmentSetting extends Fragment {
     void restarContactShield(){
 
         ContactShield.getContactShieldEngine(getActivity()).stopContactShield()
-                .addOnSuccessListener(aVoid -> Log.e(TAG, "stopContactShield >> Success"));
+                .addOnSuccessListener(aVoid -> {
+                    Log.e(TAG, "stopContactShield >> Success");
+                    PendingIntent pendingIntent = PendingIntent.getService(getActivity(), 0, new Intent(getActivity(),
+                                    BackgroundContactCheckingIntentService.class),
+                            PendingIntent.FLAG_UPDATE_CURRENT);
 
-        PendingIntent pendingIntent = PendingIntent.getService(getActivity(), 0, new Intent(getActivity(),
-                        BackgroundContactCheckingIntentService.class),
-                PendingIntent.FLAG_UPDATE_CURRENT);
+
+                    ContactShield.getContactShieldEngine(getActivity()).startContactShield(pendingIntent, ContactShieldSetting.DEFAULT)
+                            .addOnSuccessListener(bVoid -> Log.e(TAG, "startContactShield >> Success"))
+                            .addOnFailureListener(e -> { Log.e(TAG, "startContactShield >> Failure"); });
+                });
 
 
-        ContactShield.getContactShieldEngine(getActivity()).startContactShield(pendingIntent, ContactShieldSetting.DEFAULT)
-                .addOnSuccessListener(bVoid -> Log.e(TAG, "startContactShield >> Success"))
-                .addOnFailureListener(e -> { Log.e(TAG, "startContactShield >> Failure"); });
 
 
     }
