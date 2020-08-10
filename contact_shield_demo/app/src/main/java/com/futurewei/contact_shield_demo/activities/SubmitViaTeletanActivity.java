@@ -10,6 +10,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.core.content.res.ResourcesCompat;
@@ -30,6 +31,8 @@ public class SubmitViaTeletanActivity extends Activity {
     TextView errorMessage;
     Context context;
     Handler handler;
+    ProgressBar progressBar;
+    com.google.android.material.card.MaterialCardView cardView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +48,8 @@ public class SubmitViaTeletanActivity extends Activity {
     void initView(){
         PinView pinView = findViewById(R.id.firstPinView);
         errorMessage= findViewById(R.id.errormessage);
+        progressBar = findViewById(R.id.progress_bar);
+        cardView = findViewById(R.id.card1);
 
         Button submitButton = (Button) findViewById(R.id.submitButton);
         Button cancelButton = (Button) findViewById(R.id.cancelButton);
@@ -94,6 +99,8 @@ public class SubmitViaTeletanActivity extends Activity {
                 JSONObject jsonObject = new JSONObject();
                 try {
                     jsonObject.put("teletan", teletan);
+                    progressBar.setVisibility(View.VISIBLE);
+                    cardView.setVisibility(View.GONE);
                     new GetRegistrationKeyTeleTAN(getApplicationContext(), handler, jsonObject).start();
                 } catch (JSONException e) {
                     Log.e(TAG, e.toString());
