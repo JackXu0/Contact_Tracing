@@ -42,7 +42,7 @@ public class fragmentSetting extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        root= inflater.inflate(R.layout.settings_fragment, container, false);
+        root= inflater.inflate(R.layout.fragment_settings, container, false);
 
         initView(root);
 

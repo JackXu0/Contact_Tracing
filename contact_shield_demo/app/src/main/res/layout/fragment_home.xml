@@ -455,7 +455,7 @@
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
                                 android:layout_marginLeft="20dp"
-                                app:srcCompat="@drawable/6_ft_apart_black_18dp"
+                                app:srcCompat="@drawable/six_ft_apart_black_18dp"
                                 android:layout_gravity="center_vertical"
                                 android:scaleType="centerCrop"
                                 android:contentDescription="@string/media_home"
