@@ -77,11 +77,7 @@ public class SubmitViaTeletanActivity extends Activity {
             }
             @Override
             public void afterTextChanged(Editable s) {
-                String teletan = pinView.getText().toString();
-                //Check if teletan is 6 digit number
-                if(!Pattern.matches("[0-9]{6}", teletan)){
-                    errorMessage.setVisibility(View.VISIBLE);
-                }
+                errorMessage.setVisibility(View.GONE);
             }
         });
 

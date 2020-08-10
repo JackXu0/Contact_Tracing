@@ -45,66 +45,70 @@
         app:strokeWidth="1dp"
         app:strokeColor="@color/colorPrimaryDark"
         app:cardElevation="1dp">
-        <androidx.constraintlayout.widget.ConstraintLayout
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="20dp">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/image"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="30dp"
-                app:srcCompat="@drawable/baseline_mood"
-                android:layout_gravity="center_vertical"
-                android:scaleType="centerCrop"
-                android:contentDescription="@string/media_home"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                android:layout_gravity="center"
+                android:contentDescription="Smile face"
+                android:src="@drawable/mood"
                 />
 
-
-            <TextView
-                android:id="@+id/heading"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:gravity="center"
-                android:text="@string/submission_success_heading"
-                android:textAppearance="?attr/textAppearanceHeadline6"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/image" />
-
-            <TextView
-                android:id="@+id/body"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:gravity="center_horizontal"
-                android:text="@string/submission_success_body"
-                android:textSize="18dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/heading" />
+                android:layout_height="match_parent"
+                android:layout_marginBottom="20dp">
 
-            <Button
-                android:id="@+id/homeButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:text="BACK TO HOME PAGE"
-                android:backgroundTint="@color/colorPrimaryDark"
-                android:textColor="@color/ButtonTextColor"
-                android:textSize="18dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/body" />
+                <TextView
+                    android:id="@+id/heading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:text="@string/submission_success_heading"
+                    android:textAppearance="?attr/textAppearanceHeadline6"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/body"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="60dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:gravity="center_horizontal"
+                    android:text="@string/submission_success_body"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/heading" />
+
+                <Button
+                    android:id="@+id/homeButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:text="BACK TO HOME PAGE"
+                    android:backgroundTint="@color/colorPrimaryDark"
+                    android:textColor="@color/ButtonTextColor"
+                    android:textSize="18sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/body" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

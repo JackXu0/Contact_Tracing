@@ -45,6 +45,7 @@
         app:strokeWidth="1dp"
         app:strokeColor="@color/errormessage"
         app:cardElevation="1dp">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -55,7 +56,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="30dp"
-                app:srcCompat="@drawable/baseline_mood_bad"
+                android:src="@drawable/mood_bad"
                 android:layout_gravity="center_vertical"
                 android:scaleType="centerCrop"
                 android:contentDescription="@string/media_home"
