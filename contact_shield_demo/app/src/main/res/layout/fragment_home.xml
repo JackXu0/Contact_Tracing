@@ -201,13 +201,12 @@
                             android:layout_gravity="center">
                             <TextView
                                 android:id="@+id/numberOfHitsText"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:layout_marginRight="5dp"
+                                android:gravity="center"
                                 android:layout_marginTop="5dp"
                                 android:textAppearance="?attr/textAppearanceListItemSecondary"
-                                android:text="Number of Contacts with Covid-19 patients"
+                                android:text="NUMBER OF HITS"
                                 android:textAlignment="center"
                                 android:textSize="15sp"
                                 android:textStyle="bold" />
@@ -220,26 +219,17 @@
 
                                 <TextView
                                     android:id="@+id/number_of_hits_tv"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginLeft="20dp"
+                                    android:gravity="center"
+                                    android:layout_marginTop="5dp"
                                     android:text="4"
                                     android:textAlignment="center"
-                                    android:textSize="36sp"
+                                    android:textSize="40sp"
                                     android:textColor="@color/colorPrimaryDark"
                                     android:textStyle="bold|italic" />
 
 
-                                <TextView
-                                    android:id="@+id/usersText"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="10dp"
-                                    android:text="contacts"
-                                    android:textAlignment="center"
-                                    android:textColor="@color/colorPrimaryDark"
-                                    android:textSize="30sp"
-                                    android:textStyle="italic" />
 
                             </LinearLayout>
 
@@ -270,13 +260,13 @@
 
                             <TextView
                                 android:id="@+id/riskLevelText"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:textAppearance="?attr/textAppearanceListItemSecondary"
-                                android:text="Risk Level"
+                                android:text="RISK LEVEL"
                                 android:textSize="15sp"
-                                android:layout_marginTop="16dp"
-                                android:layout_gravity="center"
+                                android:layout_marginTop="5dp"
+                                android:gravity="center"
                                 android:textStyle="bold" />
 
                             <TextView
