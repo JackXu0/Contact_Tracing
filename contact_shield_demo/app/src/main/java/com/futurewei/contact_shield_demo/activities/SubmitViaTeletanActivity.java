@@ -78,11 +78,19 @@ public class SubmitViaTeletanActivity extends Activity {
             }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                errorMessage.setVisibility(View.GONE);
+//                if(!Pattern.matches("[0-9]{6}", s.toString())){
+//                    errorMessage.setVisibility(View.VISIBLE);
+//                }else{
+//                    errorMessage.setVisibility(View.GONE);
+//                }
             }
             @Override
             public void afterTextChanged(Editable s) {
-                errorMessage.setVisibility(View.GONE);
+                if(!Pattern.matches("[0-9]{6}", s.toString())){
+                    errorMessage.setVisibility(View.VISIBLE);
+                }else{
+                    errorMessage.setVisibility(View.GONE);
+                }
             }
         });
 

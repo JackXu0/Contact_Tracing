@@ -99,7 +99,7 @@ public class fragmentSetting extends Fragment {
         editor.putInt("risk_level", 0);
         editor.commit();
 
-        task.addOnSuccessListener((Void aVoid) -> Toast.makeText(getContext(), "Data Cleared", Toast.LENGTH_SHORT).show());
+//        task.addOnSuccessListener((Void aVoid) -> Toast.makeText(getContext(), "Data Cleared", Toast.LENGTH_SHORT).show());
     }
 
     void restarContactShield(){
@@ -113,7 +113,10 @@ public class fragmentSetting extends Fragment {
 
 
                     ContactShield.getContactShieldEngine(getActivity()).startContactShield(pendingIntent, ContactShieldSetting.DEFAULT)
-                            .addOnSuccessListener(bVoid -> Log.e(TAG, "startContactShield >> Success"))
+                            .addOnSuccessListener(bVoid -> {
+                                Toast.makeText(getContext(), "Data Cleared", Toast.LENGTH_SHORT).show();
+                                Log.e(TAG, "startContactShield >> Success");
+                            })
                             .addOnFailureListener(e -> { Log.e(TAG, "startContactShield >> Failure"); });
                 });
 

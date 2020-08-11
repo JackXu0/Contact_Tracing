@@ -37,7 +37,7 @@ public class UploadPeriodicKey extends NetworkTemplate {
                 jo.put("pk", extractPkString(periodicKey.toString()));
                 jo.put("valid_time", (int) (periodicKey.getPeriodicKeyValidTime()));
                 jo.put("life_time", (int) periodicKey.getPeriodicKeyLifeTime());
-                jo.put("risk_level", 8);
+                jo.put("risk_level", 2);
                 jo.put("gms_key", H2GUtils.getGmsKey(periodicKey.getContent()));
                 jsonArray.put(jo);
             }

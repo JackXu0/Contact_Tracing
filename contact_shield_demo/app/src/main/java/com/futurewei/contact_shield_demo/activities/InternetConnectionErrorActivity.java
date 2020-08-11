@@ -23,7 +23,7 @@ public class InternetConnectionErrorActivity extends Activity {
     void initView(){
         retryButton = (Button) findViewById(R.id.retryButton);
         retryButton.setOnClickListener((View v) -> {
-                Intent intent = new Intent(getApplicationContext(), ReportMethodChooseActivity.class);
+                Intent intent = new Intent(getApplicationContext(), NewMainActivity.class);
                 startActivity(intent);
                 finish();
         });
