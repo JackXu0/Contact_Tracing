@@ -31,3 +31,7 @@ _app/src/main/java/com/futurewei/contact_shield_demo/BackgroundContactCheckingIn
 Zapp/src/main/java/com/futurewei/contact_shield_demo/activities/RequestTeletanActivity.java,8/b/8b84c17ebe3b25f29159b7c4f13119e3f20fc7fc
 Å
 Qapp/src/main/java/com/futurewei/contact_shield_demo/activities/MyPushService.java,a/3/a3924253cf99e4bab0b92fa4ad23748d6cfb27cf
+ì
+capp/src/main/java/com/futurewei/contact_shield_demo/activities/InternetConnectionErrorActivity.java,b/1/b13c07655cb4595ac47272a89c6b2d2c216d23e0
+
+Oapp/src/main/java/com/futurewei/contact_shield_demo/fragments/FragmentHome.java,8/0/8028e9d502e04ee0e5cf5d719949722f0da8343f

@@ -1,0 +1,25 @@
+
+L
+java:S2696m"6Make the enclosing method "static" or remove this set.(¢¯­‡
+A
+java:S5411ö"*Use the primitive boolean expression here.(ò›ß˜
+p	java:S1165"VRename this field "refresh_btn" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ùïöøÿÿÿÿ
+g	java:S117Á"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‰È»â
+H
+java:S1602ˆ",Remove useless curly braces around statement(¼°õ­şÿÿÿÿ
+r
+java:S11047"WMake riskLevelTv a static final constant or non-public and provide accessors if needed.(Ñ®²Äÿÿÿÿÿ
+L
+java:S14447"1Make this "public static riskLevelTv" field final(Ñ®²Äÿÿÿÿÿ
+]
+java:S1192r"GDefine a constant instead of duplicating this literal "choice" 3 times.(ş¡áì
+u
+java:S11046"ZMake numberOfHitsTv a static final constant or non-public and provide accessors if needed.(§²ÙÈıÿÿÿÿ
+L
+java:S1874‡"0Remove this use of "getColor"; it is deprecated.(Ë¿‰¯ùÿÿÿÿ
+Q
+java:S2696l"6Make the enclosing method "static" or remove this set.(åŠ™şÿÿÿÿ
+O
+java:S14446"4Make this "public static numberOfHitsTv" field final(§²ÙÈıÿÿÿÿ
+n
+java:S1450,"SRemove the "root" field and declare it as a local variable in the relevant methods.(˜ñŸúÿÿÿÿ
