@@ -28,6 +28,7 @@ import com.futurewei.contact_shield_demo.activities.ReportTestResultPreActivity;
 import com.futurewei.contact_shield_demo.handlers.DownloadHandler;
 import com.futurewei.contact_shield_demo.network.GeneratePKZip;
 import com.futurewei.contact_shield_demo.network.GetTan;
+import com.futurewei.contact_shield_demo.network.ReportOperation;
 import com.google.android.material.card.MaterialCardView;
 import com.huawei.hmf.tasks.Task;
 import com.huawei.hms.contactshield.ContactShield;
@@ -156,19 +157,40 @@ public class FragmentHome extends Fragment {
 
         //EventListener for report your results button
         reportButton.setOnClickListener((View v) -> {
-                sharedPreferences = getContext().getSharedPreferences(SETTINGS, MODE_PRIVATE);
-                boolean isAppDisabled = sharedPreferences.getBoolean(IS_APP_DISABLED, false);
-                // report is only supported when contact shield API is running
-                if(!isAppDisabled){
-                    Intent intent = new Intent(context, ReportTestResultPreActivity.class);
-                    startActivity(intent);
+            sharedPreferences = getContext().getSharedPreferences(SETTINGS, MODE_PRIVATE);
+            boolean isAppDisabled = sharedPreferences.getBoolean(IS_APP_DISABLED, false);
+            // report is only supported when contact shield API is running
+            if(!isAppDisabled){
+                Intent intent = new Intent(context, ReportTestResultPreActivity.class);
+                startActivity(intent);
+            }else{
+                Toast.makeText(context, "Please enable the app before reporting", Toast.LENGTH_SHORT).show();
+            }
+
+            Task<Boolean> isRunningTask = ContactShield.getContactShieldEngine(context).isContactShieldRunning();
+            isRunningTask.addOnSuccessListener(aBoolean -> {
+                if(!aBoolean){
+                    new ReportOperation(context, handler, "click report", false).start();
                 }else{
-                    Toast.makeText(context, "Please enable the app before reporting", Toast.LENGTH_SHORT).show();
+                    new ReportOperation(context, handler, "click report", true).start();
                 }
+            });
+
         });
 
         //EventListener for refresh button
-        refresh_btn.setOnClickListener((View v) -> new GeneratePKZip(context, handler).start());
+        refresh_btn.setOnClickListener((View v) -> {
+            new GeneratePKZip(context, handler).start();
+            Task<Boolean> isRunningTask = ContactShield.getContactShieldEngine(context).isContactShieldRunning();
+            isRunningTask.addOnSuccessListener(aBoolean -> {
+                if(!aBoolean){
+                    new ReportOperation(context, handler, "refresh", false).start();
+                }else{
+                    new ReportOperation(context, handler, "refresh", true).start();
+                }
+            });
+
+        });
 
 
     }

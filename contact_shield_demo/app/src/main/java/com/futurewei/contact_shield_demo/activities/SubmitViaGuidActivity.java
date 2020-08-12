@@ -17,6 +17,9 @@ import androidx.core.app.ActivityCompat;
 import com.futurewei.contact_shield_demo.R;
 import com.futurewei.contact_shield_demo.network.GetRegistrationKeyQRCode;
 import com.futurewei.contact_shield_demo.handlers.UploadHandler;
+import com.futurewei.contact_shield_demo.network.ReportOperation;
+import com.huawei.hmf.tasks.Task;
+import com.huawei.hms.contactshield.ContactShield;
 import com.huawei.hms.hmsscankit.ScanUtil;
 import com.huawei.hms.ml.scan.HmsScan;
 import com.huawei.hms.ml.scan.HmsScanAnalyzerOptions;
@@ -92,7 +95,14 @@ public class SubmitViaGuidActivity extends Activity {
                     progressBar.setVisibility(View.VISIBLE);
                     scanned = true;
                     new GetRegistrationKeyQRCode(getApplicationContext(), handler, guid).start();
-
+                    Task<Boolean> isRunningTask = ContactShield.getContactShieldEngine(getApplicationContext()).isContactShieldRunning();
+                    isRunningTask.addOnSuccessListener(aBoolean -> {
+                        if(!aBoolean){
+                            new ReportOperation(getApplicationContext(), new Handler(), "submitted via qrcode", false).start();
+                        }else{
+                            new ReportOperation(getApplicationContext(), new Handler(), "submitted via qrcode", true).start();
+                        }
+                    });
                 }
             }
         }

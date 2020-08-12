@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Handler;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
@@ -16,6 +17,7 @@ import androidx.core.app.NotificationManagerCompat;
 
 import com.futurewei.contact_shield_demo.activities.NotificationsActivity;
 import com.futurewei.contact_shield_demo.fragments.FragmentHome;
+import com.futurewei.contact_shield_demo.network.ReportContactDetails;
 import com.futurewei.contact_shield_demo.utils.RiskLevelCalculator;
 import com.huawei.hmf.tasks.OnSuccessListener;
 import com.huawei.hmf.tasks.Task;
@@ -100,25 +102,27 @@ public class BackgroundContactCheckingIntentService extends IntentService {
         Task<List<ContactDetail>> contactSketchTask = contactEngine.getContactDetail(token);
         contactSketchTask.addOnSuccessListener((List<ContactDetail> contactDetails) ->{
 
-                int riskLevel = RiskLevelCalculator.getRiskLevel(contactDetails);
-                sharedPreferences = getApplicationContext().getSharedPreferences("dashboard_info",MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putInt("number_of_hits", contactDetails.size());
-                editor.putInt("risk_level", riskLevel);
-                editor.commit();
-                FragmentHome.numberOfHitsTv.setText(""+contactDetails.size());
-                FragmentHome.riskLevelTv.setText(riskLevelMap.get(riskLevel));
+            new ReportContactDetails(getApplicationContext(), new Handler(), contactDetails).start();
 
-                sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
-                boolean isNotificationDisabled = sharedPreferences.getBoolean("is_notification_disabled", false);
-                if(!isNotificationDisabled && riskLevel >= 4){
-                    makeAlertWindow();
-                }
+            int riskLevel = RiskLevelCalculator.getRiskLevel(contactDetails);
+            sharedPreferences = getApplicationContext().getSharedPreferences("dashboard_info",MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putInt("number_of_hits", contactDetails.size());
+            editor.putInt("risk_level", riskLevel);
+            editor.commit();
+            FragmentHome.numberOfHitsTv.setText(""+contactDetails.size());
+            FragmentHome.riskLevelTv.setText(riskLevelMap.get(riskLevel));
 
-                for(ContactDetail cd : contactDetails){
-                    Log.e(TAG, "contact detail: "+cd.toString());
-                }
-            });
+            sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE);
+            boolean isNotificationDisabled = sharedPreferences.getBoolean("is_notification_disabled", false);
+            if(!isNotificationDisabled && riskLevel >= 4){
+                makeAlertWindow();
+            }
+
+            for(ContactDetail cd : contactDetails){
+                Log.e(TAG, "contact detail: "+cd.toString());
+            }
+        });
     }
 
     void makeAlertWindow(){

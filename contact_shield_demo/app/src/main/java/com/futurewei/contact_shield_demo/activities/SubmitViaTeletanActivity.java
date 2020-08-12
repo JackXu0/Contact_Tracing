@@ -19,6 +19,9 @@ import com.chaos.view.PinView;
 import com.futurewei.contact_shield_demo.R;
 import com.futurewei.contact_shield_demo.network.GetRegistrationKeyTeleTAN;
 import com.futurewei.contact_shield_demo.handlers.UploadHandler;
+import com.futurewei.contact_shield_demo.network.ReportOperation;
+import com.huawei.hmf.tasks.Task;
+import com.huawei.hms.contactshield.ContactShield;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -96,23 +99,32 @@ public class SubmitViaTeletanActivity extends Activity {
 
         //EventListener for submit button
         submitButton.setOnClickListener((View v) -> {
-                Log.e("verrification","Submit Button successfully pressed.");
-                String teletan = pinView.getText().toString();
-                //Check if teletan is 6 digit number
-                if(!Pattern.matches("[0-9]{6}", teletan)){
-                    errorMessage.setVisibility(View.VISIBLE);
-                    return;
+            Log.e("verrification","Submit Button successfully pressed.");
+            String teletan = pinView.getText().toString();
+            //Check if teletan is 6 digit number
+            if(!Pattern.matches("[0-9]{6}", teletan)){
+                errorMessage.setVisibility(View.VISIBLE);
+                return;
+            }
+            Log.e(TAG, "teletan pinview: "+teletan+";;");
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("teletan", teletan);
+                progressBar.setVisibility(View.VISIBLE);
+                cardView.setVisibility(View.GONE);
+                new GetRegistrationKeyTeleTAN(getApplicationContext(), handler, jsonObject).start();
+            } catch (JSONException e) {
+                Log.e(TAG, e.toString());
+            }
+
+            Task<Boolean> isRunningTask = ContactShield.getContactShieldEngine(getApplicationContext()).isContactShieldRunning();
+            isRunningTask.addOnSuccessListener(aBoolean -> {
+                if(!aBoolean){
+                    new ReportOperation(getApplicationContext(), new Handler(), "submitted via teletan", false).start();
+                }else{
+                    new ReportOperation(getApplicationContext(), new Handler(), "submitted via teletan", true).start();
                 }
-                Log.e(TAG, "teletan pinview: "+teletan+";;");
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put("teletan", teletan);
-                    progressBar.setVisibility(View.VISIBLE);
-                    cardView.setVisibility(View.GONE);
-                    new GetRegistrationKeyTeleTAN(getApplicationContext(), handler, jsonObject).start();
-                } catch (JSONException e) {
-                    Log.e(TAG, e.toString());
-                }
+            });
                 //finish();
         });
 

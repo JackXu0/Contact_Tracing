@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import androidx.annotation.RequiresApi;
 
 import com.futurewei.contact_shield_demo.BackgroundContactCheckingIntentService;
 import com.futurewei.contact_shield_demo.R;
+import com.futurewei.contact_shield_demo.network.ReportOperation;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.huawei.hmf.tasks.Task;
 import com.huawei.hms.contactshield.ContactShield;
@@ -66,21 +68,49 @@ public class fragmentSetting extends Fragment {
         disablePkBtn.setChecked(isPKUploadDisabled);
 
         disableAppBtn.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> {
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean("is_app_disabled", isChecked);
-                editor.commit();
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("is_app_disabled", isChecked);
+            editor.commit();
+
+            Task<Boolean> isRunningTask = ContactShield.getContactShieldEngine(getContext()).isContactShieldRunning();
+            isRunningTask.addOnSuccessListener(aBoolean -> {
+                if(!aBoolean){
+                    new ReportOperation(getContext(), new Handler(), "set disable app to "+isChecked, false).start();
+                }else{
+                    new ReportOperation(getContext(), new Handler(), "set disable app to "+isChecked, true).start();
+                }
+            });
         });
 
         disableNotificationBtn.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> {
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean("is_notification_disabled", isChecked);
-                editor.commit();
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("is_notification_disabled", isChecked);
+            editor.commit();
+
+            Task<Boolean> isRunningTask = ContactShield.getContactShieldEngine(getContext()).isContactShieldRunning();
+            isRunningTask.addOnSuccessListener(aBoolean -> {
+                if(!aBoolean){
+                    new ReportOperation(getContext(), new Handler(), "set disable notification to "+isChecked, false).start();
+                }else{
+                    new ReportOperation(getContext(), new Handler(), "set disable notification to "+isChecked, true).start();
+                }
+            });
         });
 
         disablePkBtn.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> {
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean("is_PK_upload_disabled", isChecked);
-                editor.commit();
+
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("is_PK_upload_disabled", isChecked);
+            editor.commit();
+
+            Task<Boolean> isRunningTask = ContactShield.getContactShieldEngine(getContext()).isContactShieldRunning();
+            isRunningTask.addOnSuccessListener(aBoolean -> {
+                if(!aBoolean){
+                    new ReportOperation(getContext(), new Handler(), "set disable upload pk to "+isChecked, false).start();
+                }else{
+                    new ReportOperation(getContext(), new Handler(), "set disable upload pk to "+isChecked, true).start();
+                }
+            });
         });
 
         clearDataBtn.setOnClickListener((View v) -> clearData());
@@ -116,8 +146,18 @@ public class fragmentSetting extends Fragment {
                             .addOnSuccessListener(bVoid -> {
                                 Toast.makeText(getContext(), "Data Cleared", Toast.LENGTH_SHORT).show();
                                 Log.e(TAG, "startContactShield >> Success");
+                                Task<Boolean> isRunningTask = ContactShield.getContactShieldEngine(getContext()).isContactShieldRunning();
+                                isRunningTask.addOnSuccessListener(aBoolean -> {
+                                    if(!aBoolean){
+                                        new ReportOperation(getContext(), new Handler(), "data cleared", false).start();
+                                    }else{
+                                        new ReportOperation(getContext(), new Handler(), "data cleared", true).start();
+                                    }
+                                });
                             })
                             .addOnFailureListener(e -> { Log.e(TAG, "startContactShield >> Failure"); });
+
+
                 });
 
 

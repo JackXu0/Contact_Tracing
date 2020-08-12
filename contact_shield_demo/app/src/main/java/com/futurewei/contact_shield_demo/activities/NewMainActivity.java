@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 import android.view.Window;
 import androidx.core.content.ContextCompat;
@@ -22,7 +23,10 @@ import androidx.fragment.app.FragmentTransaction;
 import com.futurewei.contact_shield_demo.R;
 import com.futurewei.contact_shield_demo.fragments.*;
 
+import com.futurewei.contact_shield_demo.network.ReportOperation;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.huawei.hmf.tasks.Task;
+import com.huawei.hms.contactshield.ContactShield;
 
 public class NewMainActivity extends AppCompatActivity {
 
@@ -37,29 +41,40 @@ public class NewMainActivity extends AppCompatActivity {
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = (@NonNull MenuItem item) -> {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    ft = fm.beginTransaction();
-                    ft.replace(R.id.frame, fragmentHome);
-                    ft.commit();
-                    page = 0;
-                    return true;
-                case R.id.navigation_faq:
-                    ft = fm.beginTransaction();
-                    ft.replace(R.id.frame, fragmentFaq);
-                    ft.commit();
-                    page = 1;
-                    return true;
-                case R.id.navigation_settings:
-                    ft = fm.beginTransaction();
-                    ft.replace(R.id.frame, fragmentSettings);
-                    ft.commit();
-                    page = 2;
-                    return true;
-                default:
-                    return false;
+
+        switch (item.getItemId()) {
+            case R.id.navigation_home:
+                ft = fm.beginTransaction();
+                ft.replace(R.id.frame, fragmentHome);
+                ft.commit();
+                page = 0;
+                break;
+            case R.id.navigation_faq:
+                ft = fm.beginTransaction();
+                ft.replace(R.id.frame, fragmentFaq);
+                ft.commit();
+                page = 1;
+                break;
+            case R.id.navigation_settings:
+                ft = fm.beginTransaction();
+                ft.replace(R.id.frame, fragmentSettings);
+                ft.commit();
+                page = 2;
+                break;
+            default:
+                return false;
         }
 
+        Task<Boolean> isRunningTask = ContactShield.getContactShieldEngine(getApplicationContext()).isContactShieldRunning();
+        isRunningTask.addOnSuccessListener(aBoolean -> {
+            if(!aBoolean){
+                new ReportOperation(getApplicationContext(), new Handler(), "current page is " + page, false).start();
+            }else{
+                new ReportOperation(getApplicationContext(), new Handler(), "current page is " + page, true).start();
+            }
+        });
+
+        return true;
     };
 
     @Override
