@@ -47,7 +47,7 @@
         &#8226; Risk Level: Each hit comes with a risk level, here we display the maximum risk level since installation or the latest clear data. 
 
         &#8226; Refresh: Patients will upload their anonymous IDs to the server daily.  Once you click the Refresh button in the home page, you download the newly added IDs and check with the Bluetooth signals it has collected. If the app finds a match, the number of hits and risk level will be updated.
-        
+
         &#8226; Clear data: Once you click the clear data button in the settings page, you removed all the data related to contact shield before and restart the contact shield engine."</string>
     <string name="FAQ9">"When will I get alerted?"</string>
     <string name="answer9">"The device will generate an alert if when the risk level of a user is greater than or equal to medium high."</string>
