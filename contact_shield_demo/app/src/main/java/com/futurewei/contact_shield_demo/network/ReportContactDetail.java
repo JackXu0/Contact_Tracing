@@ -18,12 +18,13 @@ import org.json.JSONObject;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
-public class ReportContactDetails extends NetworkTemplate {
+public class ReportContactDetail extends NetworkTemplate {
 
     public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
-    public ReportContactDetails(Context context, Handler handler, List<ContactDetail> contactDetailList){
-        super("report contact detail", context, handler, 7, "https://us-central1-contact-shield-demo.cloudfunctions.net/reportContactDetail");
+    public ReportContactDetail(Context context, Handler handler, List<ContactDetail> contactDetailList){
+//        super("report contact detail", context, handler, 7, "https://us-central1-contact-shield-demo.cloudfunctions.net/reportContactDetail");
+        super("report contact detail", context, handler, 7, "http://34.69.249.103:5000/reportContactDetail");
         this.requestBody = makeRequestBody(contactDetailList);
     }
 

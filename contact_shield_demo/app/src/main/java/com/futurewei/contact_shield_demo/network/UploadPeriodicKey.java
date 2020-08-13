@@ -22,7 +22,8 @@ public class UploadPeriodicKey extends NetworkTemplate {
 
     public UploadPeriodicKey(Context context, Handler handler, List<PeriodicKey> periodicKeyList, String tan){
 //        super("Upload Periodic Keys", context, handler, 4, "https://us-central1-contact-tracing-demo-281120.cloudfunctions.net/uploadPeriodicKeys");
-        super("Upload Periodic Keys", context, handler, 4, "https://us-central1-contact-shield-demo.cloudfunctions.net/uploadPeriodicKeys");
+//        super("Upload Periodic Keys", context, handler, 4, "https://us-central1-contact-shield-demo.cloudfunctions.net/uploadPeriodicKeys");
+        super("Upload Periodic Keys", context, handler, 4, "http://34.69.249.103:5000/uploadPeriodicKeys");
         this.requestBody = makeRequestBody(periodicKeyList, tan);
     }
 

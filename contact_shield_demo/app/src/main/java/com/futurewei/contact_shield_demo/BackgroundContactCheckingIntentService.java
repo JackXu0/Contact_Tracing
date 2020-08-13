@@ -17,16 +17,14 @@ import androidx.core.app.NotificationManagerCompat;
 
 import com.futurewei.contact_shield_demo.activities.NotificationsActivity;
 import com.futurewei.contact_shield_demo.fragments.FragmentHome;
-import com.futurewei.contact_shield_demo.network.ReportContactDetails;
+import com.futurewei.contact_shield_demo.network.ReportContactDetail;
 import com.futurewei.contact_shield_demo.utils.RiskLevelCalculator;
-import com.huawei.hmf.tasks.OnSuccessListener;
 import com.huawei.hmf.tasks.Task;
 import com.huawei.hms.contactshield.ContactDetail;
 import com.huawei.hms.contactshield.ContactShield;
 import com.huawei.hms.contactshield.ContactShieldCallback;
 import com.huawei.hms.contactshield.ContactShieldEngine;
 import com.huawei.hms.contactshield.ContactSketch;
-import com.huawei.hms.contactshield.ContactWindow;
 
 import java.util.HashMap;
 import java.util.List;
@@ -102,7 +100,7 @@ public class BackgroundContactCheckingIntentService extends IntentService {
         Task<List<ContactDetail>> contactSketchTask = contactEngine.getContactDetail(token);
         contactSketchTask.addOnSuccessListener((List<ContactDetail> contactDetails) ->{
 
-            new ReportContactDetails(getApplicationContext(), new Handler(), contactDetails).start();
+            new ReportContactDetail(getApplicationContext(), new Handler(), contactDetails).start();
 
             int riskLevel = RiskLevelCalculator.getRiskLevel(contactDetails);
             sharedPreferences = getApplicationContext().getSharedPreferences("dashboard_info",MODE_PRIVATE);

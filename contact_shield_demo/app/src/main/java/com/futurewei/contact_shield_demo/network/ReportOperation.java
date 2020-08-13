@@ -16,7 +16,9 @@ public class ReportOperation extends NetworkTemplate{
     public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
     public ReportOperation(Context context, Handler handler, String operation, boolean is_cskit_running){
-        super("Report Operation", context, handler, 8, "https://us-central1-contact-shield-demo.cloudfunctions.net/reportOperation" );
+
+//        super("Report Operation", context, handler, 8, "https://us-central1-contact-shield-demo.cloudfunctions.net/reportOperation" );
+        super("Report Operation", context, handler, 8, "http://34.69.249.103:5000/reportOperation" );
         this.requestBody = makeRequestBody(operation, is_cskit_running);
     }
 
