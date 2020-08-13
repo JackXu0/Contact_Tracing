@@ -15,7 +15,7 @@ public class GetRegistrationKeyTeleTAN extends NetworkTemplate {
 
 //        super("Get Registration Key TELETAN", context, handler, 2, "https://us-central1-contact-tracing-demo-281120.cloudfunctions.net/getRegistrationKeyTELETAN");
 //        super("Get Registration Key TELETAN", context, handler, 2, "https://us-central1-contact-shield-demo.cloudfunctions.net/getRegistrationKeyTELETAN");
-        super("Get Registration Key TELETAN", context, handler, 2, "http://34.69.249.103:5000/getRegistrationKeyTELETAN");
+        super("Get Registration Key TELETAN", context, handler, 2, "http://34.69.249.103:5000/getRegistrationKeyTeleTAN");
         this.requestBody = makeRequestBody(jsonObject);
     }
 
