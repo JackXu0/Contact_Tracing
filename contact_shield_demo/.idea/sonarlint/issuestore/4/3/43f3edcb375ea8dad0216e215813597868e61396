@@ -1,0 +1,20 @@
+
+E
+java:S5411"*Use the primitive boolean expression here.(ò›ß˜8ÄÒè¥¾.
+h	java:S116"NRename this field "TAG" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(«‰Åü8ø¶ÙÔ½.
+E
+java:S5411"*Use the primitive boolean expression here.(ò›ß˜8”ê©¦¾.
+E
+java:S5411"*Use the primitive boolean expression here.(ò›ß˜8Àèä¥¾.
+[	java:S125"<This block of commented-out lines of code should be removed.(äÙˆüûÿÿÿÿ8Õ¼íÔ½.
+E
+java:S5411"*Use the primitive boolean expression here.(ò›ß˜8ã¬ç¥¾.
+X
+java:S1854"8Remove this useless assignment to local variable "task".(âÑ’Åúÿÿÿÿ8Õ¼íÔ½.
+l
+java:S1450"SRemove the "root" field and declare it as a local variable in the relevant methods.(˜ñŸúÿÿÿÿ
+`	java:S101"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(²‚î
+I
+java:S1481")Remove this unused "task" local variable.(âÑ’Åúÿÿÿÿ8Õ¼íÔ½.
+L
+java:S1602",Remove useless curly braces around statement(¼°õ­şÿÿÿÿ8ø¶ÙÔ½.

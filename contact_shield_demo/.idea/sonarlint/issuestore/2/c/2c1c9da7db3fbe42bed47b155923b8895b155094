@@ -1,0 +1,12 @@
+
+5
+java:S1116"Remove this empty statement.(š×·ïüÿÿÿÿ
+i	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‡Æì¿ýÿÿÿÿ
+V	java:S125"<This block of commented-out lines of code should be removed.(ä¸øæ8›ŽƒÕ½.
+a	java:S116"NRename this field "TAG" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ë˜³Æ
+i	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¶ÅŠŸûÿÿÿÿ
+F
+java:S1135"2Complete the task associated to this TODO comment.(˜ÏÝÉ
+d	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ß­‘Ï
+F
+java:S1135"2Complete the task associated to this TODO comment.(ÅøÌ
