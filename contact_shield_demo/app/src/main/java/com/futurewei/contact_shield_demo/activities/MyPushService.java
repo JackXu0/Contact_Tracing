@@ -5,6 +5,9 @@ import android.util.Log;
 
 import com.huawei.hms.push.HmsMessageService;
 
+/**
+ * This class is used to integrate the push kit
+ */
 public class MyPushService extends HmsMessageService {
     private static final String TAG = "PushDemoLog";
     @Override

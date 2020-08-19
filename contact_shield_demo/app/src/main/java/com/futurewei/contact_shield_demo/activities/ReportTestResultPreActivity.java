@@ -8,6 +8,10 @@ import android.widget.Button;
 
 import com.futurewei.contact_shield_demo.R;
 
+/**
+ * This Activity appears when a user chooses to report his status
+ * It tells user what will happen next and allows the user to choose whether he want to continue.
+ */
 public class ReportTestResultPreActivity extends Activity {
 
     Button continueButton;
@@ -22,20 +26,20 @@ public class ReportTestResultPreActivity extends Activity {
         initView();
     }
 
+    /**
+     * This method initializes the views and sets on click listener for all buttons
+     */
     void initView(){
 
         continueButton = (Button) findViewById(R.id.continueButton);
         cancelButton = (Button) findViewById(R.id.cancelButton);
 
-        //EventListener for continue button
         continueButton.setOnClickListener((View v) -> {
-                //next page
                 Intent intent = new Intent(getApplicationContext(), ReportMethodChooseActivity.class);
                 startActivity(intent);
                 finish();
         });
 
-        //EventListener for cancel button
         cancelButton.setOnClickListener((View v) -> finish());
     }
 }

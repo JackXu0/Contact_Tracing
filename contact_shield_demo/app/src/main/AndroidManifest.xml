@@ -8,13 +8,12 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- File reading permission -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_MEDIA_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- Camera permission -->
-    <uses-permission android:name="android.permission.CAMERA" /> <!-- File reading permission -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
@@ -30,7 +29,6 @@
         android:usesCleartextTraffic="true" >
 
         <activity android:name=".activities.InternetConnectionErrorActivity" />
-        <activity android:name=".activities.SubmissionUnsuccessActivity" />
         <activity android:name=".activities.PushNotificationsActivity" >
             <intent-filter>
                 <action android:name="com.contactshield.click" />
@@ -39,7 +37,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.NewMainActivity" >
+        <activity android:name=".activities.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

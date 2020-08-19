@@ -24,6 +24,10 @@ import com.huawei.hms.ml.scan.HmsScanBase;
 
 import java.util.regex.Pattern;
 
+/**
+ * This Activity allows user to upload their periodic keys by scanning QR Code
+ * GUID is the result we get after scanning the QR Code. It is a String of length 32. It is used as ID for each testing report.
+ */
 public class SubmitViaGuidActivity extends Activity {
 
     private static final String TAG = "activity_submit_via_guid";

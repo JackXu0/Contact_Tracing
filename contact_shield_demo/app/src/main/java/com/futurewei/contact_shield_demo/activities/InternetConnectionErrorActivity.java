@@ -8,6 +8,11 @@ import android.widget.Button;
 
 import com.futurewei.contact_shield_demo.R;
 
+/**
+ * This Activity generally alerts user that the internet connection is off.
+ * It is trigger when the onFailure callback of a network request is executed
+ *
+ */
 public class InternetConnectionErrorActivity extends Activity {
 
     Button retryButton;
@@ -20,10 +25,15 @@ public class InternetConnectionErrorActivity extends Activity {
         initView();
     }
 
+    /**
+     * This method initialize the view and set the on click listener for the retry button
+     * Once the user has clicked retry button, he will go back to the MainActivity
+     *
+     */
     void initView(){
         retryButton = (Button) findViewById(R.id.retryButton);
         retryButton.setOnClickListener((View v) -> {
-                Intent intent = new Intent(getApplicationContext(), NewMainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 finish();
         });

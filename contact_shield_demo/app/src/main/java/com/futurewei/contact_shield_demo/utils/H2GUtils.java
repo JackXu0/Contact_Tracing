@@ -2,6 +2,9 @@ package com.futurewei.contact_shield_demo.utils;
 
 import java.util.Base64;
 
+/**
+ * This class converts the periodic key in contact shield SDK (HMS key) to a key in exposure notification SDK (GMS key)
+ */
 public class H2GUtils {
     private static final int HEX_CHAR_BYTES = 2;
     private static final int RADIX_16 = 16;

@@ -15,9 +15,12 @@ import android.widget.Button;
 
 import com.futurewei.contact_shield_demo.R;
 
+/**
+ * This Activity is used for user to fetch a TeleTAN
+ */
 public class RequestTeletanActivity extends Activity {
 
-    String verificationCenterPhone = "3322078569";
+    String verificationCenterPhone = "2134258730";
     Activity activity = this;
     Button callButton;
     Button enterTANButton;
@@ -27,18 +30,25 @@ public class RequestTeletanActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request_teletan);
 
-        //TODO:: Call number
+        requestPermission();
+        initView();
 
+    }
+
+    /**
+     * This method request the permission for phone call. This permission will be used to call the health authority so that users can get a TeleTAN
+     */
+    void requestPermission(){
         if (ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(activity, new String[] {Manifest.permission.CALL_PHONE},
                     940);
         }
-
-        initView();
-
     }
 
+    /**
+     * This method initializes the views and sets on click listener for all buttons
+     */
     void initView(){
 
         callButton = (Button) findViewById(R.id.call_button);

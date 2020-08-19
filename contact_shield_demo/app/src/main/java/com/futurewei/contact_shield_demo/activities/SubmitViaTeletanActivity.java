@@ -25,6 +25,9 @@ import org.json.JSONObject;
 
 import java.util.regex.Pattern;
 
+/**
+ * This Activity allows user to upload their periodic keys by entering the TeleTAN
+ */
 public class SubmitViaTeletanActivity extends Activity {
 
     private static final String TAG = "submit_via_teletan_activity";
@@ -64,7 +67,7 @@ public class SubmitViaTeletanActivity extends Activity {
         pinView.setItemRadius(getResources().getDimensionPixelSize(R.dimen.pv_pin_view_item_radius));
         pinView.setItemSpacing(getResources().getDimensionPixelSize(R.dimen.pv_pin_view_item_spacing));
         pinView.setLineWidth(getResources().getDimensionPixelSize(R.dimen.pv_pin_view_item_line_width));
-        pinView.setAnimationEnable(true);// start animation when adding text
+        pinView.setAnimationEnable(true);
         pinView.setCursorVisible(true);
         pinView.setCursorColor(ResourcesCompat.getColor(getResources(), R.color.colorPrimary, getTheme()));
         pinView.setCursorWidth(getResources().getDimensionPixelSize(R.dimen.pv_pin_view_cursor_width));
@@ -78,11 +81,7 @@ public class SubmitViaTeletanActivity extends Activity {
             }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                if(!Pattern.matches("[0-9]{6}", s.toString())){
-//                    errorMessage.setVisibility(View.VISIBLE);
-//                }else{
-//                    errorMessage.setVisibility(View.GONE);
-//                }
+                errorMessage.setVisibility(View.GONE);
             }
             @Override
             public void afterTextChanged(Editable s) {
@@ -98,12 +97,14 @@ public class SubmitViaTeletanActivity extends Activity {
         submitButton.setOnClickListener((View v) -> {
                 Log.e("verrification","Submit Button successfully pressed.");
                 String teletan = pinView.getText().toString();
-                //Check if teletan is 6 digit number
+
+                //Check if TeleTAN is 6 digit number
                 if(!Pattern.matches("[0-9]{6}", teletan)){
                     errorMessage.setVisibility(View.VISIBLE);
                     return;
                 }
-                Log.e(TAG, "teletan pinview: "+teletan+";;");
+
+                //If the check is passed, start uploading periodic keys
                 JSONObject jsonObject = new JSONObject();
                 try {
                     jsonObject.put("teletan", teletan);
@@ -113,10 +114,8 @@ public class SubmitViaTeletanActivity extends Activity {
                 } catch (JSONException e) {
                     Log.e(TAG, e.toString());
                 }
-                //finish();
         });
 
-        //EventListener for cancel button
         cancelButton.setOnClickListener((View v) -> finish());
     }
 

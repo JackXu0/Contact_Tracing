@@ -7,6 +7,9 @@ import android.widget.Button;
 
 import com.futurewei.contact_shield_demo.R;
 
+/**
+ * This class appears when the Periodic Key has been successfully uploaded
+ */
 public class SubmissionSuccessActivity extends Activity {
 
 

@@ -24,7 +24,10 @@ import com.futurewei.contact_shield_demo.fragments.*;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class NewMainActivity extends AppCompatActivity {
+/**
+ * This is the Main Activity. It basically contains three fragments: Homepage, FAQ page, and the settings page
+ */
+public class MainActivity extends AppCompatActivity {
 
     private Fragment fragmentHome;
     private Fragment fragmentFaq;
@@ -33,10 +36,36 @@ public class NewMainActivity extends AppCompatActivity {
     private FragmentTransaction ft;
     private int page;
 
-//    private static final String TAG = "NewMainActivity";
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.activity_new_main_activity);
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = (@NonNull MenuItem item) -> {
+
+    }
+
+    /**
+     * This method is used to init the view. It enables switching among three fragments
+     *
+     */
+    void initView(){
+        permissonRequest();
+        registerPush();
+
+        fm = getSupportFragmentManager();
+        ft = fm.beginTransaction();
+
+        fragmentHome = new FragmentHome();
+        fragmentFaq = new FragmentFaq();
+        fragmentSettings = new fragmentSetting();
+        ft.replace(R.id.frame, fragmentHome);
+        ft.commit();
+
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+
+        BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+                = (@NonNull MenuItem item) -> {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     ft = fm.beginTransaction();
@@ -58,35 +87,19 @@ public class NewMainActivity extends AppCompatActivity {
                     return true;
                 default:
                     return false;
-        }
+            }
 
-    };
+        };
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_new_main_activity);
-
-        permissonRequest();
-        registerPush();
-
-        fm = getSupportFragmentManager();
-        ft = fm.beginTransaction();
-
-        fragmentHome = new FragmentHome();
-        fragmentFaq = new FragmentFaq();
-        fragmentSettings = new fragmentSetting();
-        ft.replace(R.id.frame, fragmentHome);
-        ft.commit();
-
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-
-
     }
 
+    /**
+     * This method is used for requesting permissions if they have not been granted yet
+     * Storage permission: used for getting periodic keys from contact shield SDK and put Periodic Keys to contact shield SDK
+     * Bluetooth permission: used for broadcasting and scanning anonymous identifiers
+     * Internet permission: used for sending network requests
+     */
     void permissonRequest(){
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -95,20 +108,11 @@ public class NewMainActivity extends AppCompatActivity {
         }
 
         if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    940);
-        }
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                    940);
-        }
-        if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH},
                     940);
         }
+
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.BLUETOOTH_ADMIN) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_ADMIN},
@@ -122,14 +126,19 @@ public class NewMainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * This method is used to register push
+     */
     void registerPush(){
-        NewMainActivity.MyReceiver receiver = new NewMainActivity.MyReceiver();
+        MainActivity.MyReceiver receiver = new MainActivity.MyReceiver();
         IntentFilter filter=new IntentFilter();
         filter.addAction("com.huawei.codelabpush.ON_NEW_TOKEN");
-        NewMainActivity.this.registerReceiver(receiver,filter);
+        MainActivity.this.registerReceiver(receiver,filter);
     }
 
-    //push kit
+    /**
+     * This class is used for Push kit
+     */
     public class MyReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {

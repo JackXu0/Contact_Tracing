@@ -54,7 +54,7 @@
     <string name="report_results"> <u> "Report your results >>" </u></string>
     <string name="report_positive_heading"> <b>"Share Your Positive Test Result"</b></string>
     <string name="report_positive_body">"If you have been tested positive for COVID-19, you can share your test results to help notify others who may have been in contact with you. This will let others know they should monitor for symptoms. Only those who have been exposed will receive a notification."</string>
-    <string name="verify_heading"> <b>"Enter Your TAN Code"</b></string>
+    <string name="verify_heading"> <b>"Enter Your TeleTAN"</b></string>
     <string name="verify_caption">"This unique verification code is provided by your testing center, and it is used to verify your positive test result."</string>
     <string name="test_date_heading"><b>"Test Date"</b></string>
     <string name="test_date_caption">"Your test date helps the app know when you may have been contagious and notify others who have been in contact with you from the past 14 days."</string>
@@ -68,10 +68,10 @@
     <string name="verification_methods_heading">"Choose Verification Method"</string>
     <string name="verification_method1_heading">"Scan QR code"</string>
     <string name="verification_method1_description">"Register your test by scanning the QR code that can be found in your testing documents."</string>
-    <string name="verification_method2_heading">"Request TAN code"</string>
+    <string name="verification_method2_heading">"Request TeleTAN"</string>
     <string name="verification_method2_description">"Please call us if you have been diagnosed of COVID-19 but do not have a QR code."</string>
     <string name="teleTAN_heading">"How this works"</string>
-    <string name="teleTAN_description">"Call the hotline to request a TAN:"</string>
+    <string name="teleTAN_description">"Call the hotline to request a TeleTAN:"</string>
     <string name="teleTAN_hotline">"+1(213)-425-8730"</string>
     <string name="submission_success_heading">"Your report is successfully submitted"</string>
     <string name="submission_success_body">"Thank you for submitting your report. We will now notify others who have been in contact with you. Make sure to stay safe and self isolate."</string>
