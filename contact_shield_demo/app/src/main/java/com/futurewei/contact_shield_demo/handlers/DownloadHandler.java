@@ -19,6 +19,11 @@ import com.huawei.hms.contactshield.DiagnosisConfiguration;
 import java.io.File;
 import java.util.ArrayList;
 
+/**
+ * This class functions as the download handler
+ * Step 1: Request the server to generate corresponding ZIP file and upload this ZIP file to Google Storage
+ * Step 2: Use Google Storage APIs to download this ZIP, and put to contact shield SDK
+ */
 public class DownloadHandler extends Handler {
 
     String token = "3bdd528fd98947bcaffa0d8fda68ca54";
@@ -44,8 +49,7 @@ public class DownloadHandler extends Handler {
             ((Activity)context).finish();
             return;
         }
-        //TODO: whether to put this here
-        //TODO: whether to display detail errors
+
         else if (responseCode == 2){
             Toast.makeText(context, "Download Failed!", Toast.LENGTH_SHORT).show();
             ((Activity)context).finish();

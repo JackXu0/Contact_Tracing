@@ -19,15 +19,15 @@ import java.nio.file.Path;
 
 import static android.content.Context.MODE_PRIVATE;
 
+/**
+ * This downloader is used to download ZIP file from Google Storage. This ZIP file will then be put into contact shield SDK
+ */
 public class DownloadZip extends Thread {
     private static final String TAG = "download ZIP";
     Context context;
     Handler handler;
     Message msg=new Message();
     String userId;
-//    String projectId = "contact-tracing-demo-281120";
-//    String bucketName = "zip001_futurewei";
-//    String objectName = "";
     String projectId = "contact-shield-demo";
     String bucketName = "contact_shield_demo";
     String objectName = "zips/";

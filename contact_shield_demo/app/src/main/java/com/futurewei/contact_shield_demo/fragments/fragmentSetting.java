@@ -28,6 +28,9 @@ import com.huawei.hms.contactshield.ContactShieldSetting;
 
 import static android.content.Context.MODE_PRIVATE;
 
+/**
+ * This is the fragment for the settings page
+ */
 public class fragmentSetting extends Fragment {
 
     private View root;
@@ -99,7 +102,6 @@ public class fragmentSetting extends Fragment {
         editor.putInt("risk_level", 0);
         editor.commit();
 
-//        task.addOnSuccessListener((Void aVoid) -> Toast.makeText(getContext(), "Data Cleared", Toast.LENGTH_SHORT).show());
     }
 
     void restarContactShield(){

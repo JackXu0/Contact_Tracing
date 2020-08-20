@@ -38,6 +38,9 @@ import java.util.*;
 
 import static android.content.Context.MODE_PRIVATE;
 
+/**
+ * This is the fragment for the Home page
+ */
 public class FragmentHome extends Fragment {
 
     Context context;

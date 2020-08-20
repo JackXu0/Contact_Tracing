@@ -27,6 +27,12 @@ import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 
+/**
+ * This class is the handler for uploading Periodic Keys
+ * Step 1: fetch Registration key using QR code or TeleTAN
+ * Step 2: fetch TAN using Registration key
+ * Step 3: uploading Periodic Key with TAN
+ */
 public class UploadHandler extends Handler {
 
     Context context;
@@ -60,13 +66,11 @@ public class UploadHandler extends Handler {
             ((Activity)context).finish();
             return;
         }
-        //TODO: whether to put this here
-        //TODO: whether to display detail errors
+
         else if (responseCode == 2){
             String error_msg = responseBody;
             Log.e(TAG, error_msg);
             Toast.makeText(context, error_msg, Toast.LENGTH_SHORT).show();
-//            context.startActivity(new Intent(context, SubmissionUnsuccessActivity.class));
             ((Activity)context).finish();
             return;
         }
@@ -104,7 +108,7 @@ public class UploadHandler extends Handler {
                 editor.putString(REGISTRATION_KEY, registration_key);
                 editor.commit();
 
-                //use the registration key to fet ch the TAN
+                //use the registration key to fetch the TAN
                 new GetTan(context, handler, registration_key).start();
 
                 break;

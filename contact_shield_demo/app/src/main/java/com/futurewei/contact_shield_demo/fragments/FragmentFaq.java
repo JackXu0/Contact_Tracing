@@ -11,6 +11,9 @@ import androidx.annotation.Nullable;
 
 import com.futurewei.contact_shield_demo.R;
 
+/**
+ * This is the fragment for FAQ page
+ */
 public class FragmentFaq extends Fragment {
 
     @Nullable

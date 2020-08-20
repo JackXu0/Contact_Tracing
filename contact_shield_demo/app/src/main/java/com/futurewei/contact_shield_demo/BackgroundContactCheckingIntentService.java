@@ -30,6 +30,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This service will be activated after putShareKeyFile method has been executed successfully
+ */
 public class BackgroundContactCheckingIntentService extends IntentService {
 
     String token = "3bdd528fd98947bcaffa0d8fda68ca54";
@@ -121,6 +124,9 @@ public class BackgroundContactCheckingIntentService extends IntentService {
             });
     }
 
+    /**
+     * A notification will be sent to users if the risk level is greater than or equal to medium
+     */
     void makeAlertWindow(){
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);

@@ -15,13 +15,15 @@ import java.util.List;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
-
+/**
+ * This class is used to upload periodic keys
+ * This class takes two parameters: a list of periodic keys and a valid TAN
+ */
 public class UploadPeriodicKey extends NetworkTemplate {
 
     public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
     public UploadPeriodicKey(Context context, Handler handler, List<PeriodicKey> periodicKeyList, String tan){
-//        super("Upload Periodic Keys", context, handler, 4, "https://us-central1-contact-tracing-demo-281120.cloudfunctions.net/uploadPeriodicKeys");
         super("Upload Periodic Keys", context, handler, 4, "https://us-central1-contact-shield-demo.cloudfunctions.net/uploadPeriodicKeys");
         this.requestBody = makeRequestBody(periodicKeyList, tan);
     }

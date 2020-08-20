@@ -10,7 +10,7 @@ import android.widget.Button;
 import com.futurewei.contact_shield_demo.R;
 
 /**
- * This Activity appears after use click on the notification, the notification is prompted out when the risk level is greater than medium.
+ * This Activity appears after use click on the notification, the notification is prompted out when the risk level is greater than or equal to medium.
  * It basically tells user that he may be in danger, please practice self quarantine and go to see a doctor if not feeling fine.
  */
 public class NotificationsActivity extends Activity {

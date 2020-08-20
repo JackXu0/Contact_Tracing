@@ -9,6 +9,9 @@ import org.json.JSONObject;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
+/**
+ * This network gets the registration key using GUID. GUID is the result after scanning a valid QR code
+ */
 public class GetRegistrationKeyQRCode extends NetworkTemplate {
 
 
@@ -16,7 +19,6 @@ public class GetRegistrationKeyQRCode extends NetworkTemplate {
 
 
     public GetRegistrationKeyQRCode(Context context, Handler handler, String guid){
-//        super("Get Registration Key QR Code", context, handler, 1, "https://us-central1-contact-tracing-demo-281120.cloudfunctions.net/getRegistrationKeyGUID");
         super("Get Registration Key QR Code", context, handler, 1, "https://us-central1-contact-shield-demo.cloudfunctions.net/getRegistrationKeyGUID");
         this.requestBody = makeRequestBody(guid);
 
