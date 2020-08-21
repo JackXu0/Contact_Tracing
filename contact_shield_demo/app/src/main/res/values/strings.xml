@@ -17,11 +17,11 @@
     <string name="info4">"Respect physical distancing measures if you have to leave the house."</string>
     <string name="info5">"Staying connect with your friends during this difficult time is important, but please do so without physical contact."</string>
     <string name="FAQ1">"What are Contact Shield APIs?"</string>
-    <string name="answer1">"Contact Shield is a basic BLE-based contact tracing service provided by HMS Core. By calling Contact Shield APIs, you can access Contact Shield capabilities."</string>
+    <string name="answer1">"Contact Shield is a basic BLE-based contact tracing service provided by HMS Core."</string>
     <string name="FAQ2">"What are the permissions that needs to be allowed for the app to work?"</string>
-    <string name="answer2">"In order for the application to work properly, you need to make sure the “Storage”, “Location”, “Phone”, and “Camera” are allowed. Also, for HMS Core, the permissions “Storage” and “Location” needs to be allowed. Note that “Location” needs to be activated, however, our app does not track your location. The reason for this is an Android requirement: Bluetooth devices in close proximity to your device can only be detected if “Location” is activated on your phone."</string>
+    <string name="answer2">"Storage permission for this app is required. Also, for HMS Core, Storage and Location permissions need to be allowed. This Location permission will be used for Bluetooth only not GPS."</string>
     <string name="FAQ3">"What version of HMS Core is needed for Contact Shield to work?"</string>
-    <string name="answer3">"HMS Core 5.0.1.307"</string>
+    <string name="answer3">"HMS Core 5.0.1.307 or later"</string>
     <string name="FAQ4">"How is privacy guaranteed with HMS Core Contact Shield?"</string>
     <string name="answer4">"The following measures are taken to protect user privacy:
 
@@ -50,7 +50,7 @@
 
         &#8226; Clear data: Once you click the clear data button in the settings page, you removed all the data related to contact shield before and restart the contact shield engine."</string>
     <string name="FAQ9">"When will I get alerted?"</string>
-    <string name="answer9">"The device will generate an alert if when the risk level of a user is greater than or equal to medium high."</string>
+    <string name="answer9">"The device will generate an alert if when the risk level of a user is greater than or equal to medium."</string>
     <string name="report_results"> <u> "Report your results >>" </u></string>
     <string name="report_positive_heading"> <b>"Share Your Positive Test Result"</b></string>
     <string name="report_positive_body">"If you have been tested positive for COVID-19, you can share your test results to help notify others who may have been in contact with you. This will let others know they should monitor for symptoms. Only those who have been exposed will receive a notification."</string>
