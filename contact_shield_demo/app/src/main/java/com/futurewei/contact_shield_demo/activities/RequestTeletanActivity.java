@@ -46,14 +46,14 @@ public class RequestTeletanActivity extends Activity {
 
         callButton.setOnClickListener((View v) -> {
 
-                if (ContextCompat.checkSelfPermission(getApplicationContext(),
-                        Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED){
-                    String uri = "tel:" + verificationCenterPhone.trim();
-                    Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse(uri));
-                    startActivity(intent);
-                }else{
-                    ActivityCompat.requestPermissions(activity, new String[] {Manifest.permission.CALL_PHONE}, 940);
-                }
+            if (ContextCompat.checkSelfPermission(getApplicationContext(),
+                Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED){
+                String uri = "tel:" + verificationCenterPhone.trim();
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse(uri));
+                startActivity(intent);
+            }else{
+                ActivityCompat.requestPermissions(activity, new String[] {Manifest.permission.CALL_PHONE}, 940);
+            }
         });
 
 
