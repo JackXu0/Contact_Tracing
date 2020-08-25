@@ -29,6 +29,7 @@ import com.futurewei.contact_shield_demo.handlers.DownloadHandler;
 import com.futurewei.contact_shield_demo.network.GeneratePKZip;
 import com.futurewei.contact_shield_demo.network.GetTan;
 import com.google.android.material.card.MaterialCardView;
+import com.huawei.hmf.tasks.OnFailureListener;
 import com.huawei.hmf.tasks.Task;
 import com.huawei.hms.contactshield.ContactShield;
 import com.huawei.hms.contactshield.ContactShieldSetting;
@@ -159,15 +160,18 @@ public class FragmentHome extends Fragment {
 
         //EventListener for report your results button
         reportButton.setOnClickListener((View v) -> {
-                sharedPreferences = getContext().getSharedPreferences(SETTINGS, MODE_PRIVATE);
-                boolean isAppDisabled = sharedPreferences.getBoolean(IS_APP_DISABLED, false);
-                // report is only supported when contact shield API is running
-                if(!isAppDisabled){
+            Task<Boolean> isRunningTask = ContactShield.getContactShieldEngine(context).isContactShieldRunning();
+            isRunningTask.addOnSuccessListener(aBoolean -> {
+                if(aBoolean){
                     Intent intent = new Intent(context, ReportTestResultPreActivity.class);
                     startActivity(intent);
                 }else{
                     Toast.makeText(context, "Please enable the app before reporting", Toast.LENGTH_SHORT).show();
                 }
+            });
+            isRunningTask.addOnFailureListener(e -> {
+                Toast.makeText(context, "Please enable the app before reporting", Toast.LENGTH_SHORT).show();
+            });
         });
 
         //EventListener for refresh button
@@ -228,18 +232,16 @@ public class FragmentHome extends Fragment {
     void refreshIsScanning(){
         sharedPreferences = getContext().getSharedPreferences(SETTINGS,MODE_PRIVATE);
         boolean isAppDisabled = sharedPreferences.getBoolean(IS_APP_DISABLED, false);
+
         if(!isAppDisabled){
-            scanningTv.setVisibility(View.VISIBLE);
             engineStartPreCheck();
             Log.e(TAG, "contact shielding should be running");
         }else{
-            scanningTv.setVisibility(View.INVISIBLE);
             Task<Void> stopContactShield = ContactShield.getContactShieldEngine(context).stopContactShield();
             stopContactShield.addOnSuccessListener( (Void v) -> Log.e(TAG, "stop contact shield >> Succeeded"));
             stopContactShield.addOnFailureListener( (Exception e) -> Log.e(TAG, "stop contact shield "+ e.getMessage()));
             Log.e(TAG, "contact shielding should not be running");
         }
-
     }
 
     void engineStartPreCheck(){
@@ -250,6 +252,7 @@ public class FragmentHome extends Fragment {
                 engineStart();
                 Log.e(TAG, "isContactShieldRunning >> NO");
             }else{
+                scanningTv.setVisibility(View.VISIBLE);
                 Log.e(TAG, "isContactShieldRunning >> YES");
             }
         });
@@ -263,8 +266,14 @@ public class FragmentHome extends Fragment {
 
 
         ContactShield.getContactShieldEngine(context).startContactShield(pendingIntent, ContactShieldSetting.DEFAULT)
-                .addOnSuccessListener(aVoid -> Log.d(TAG, "startContactShield >> Success"))
-                .addOnFailureListener(e -> { Log.e(TAG, "startContactShield >> Failure"); });
+                .addOnSuccessListener(aVoid -> {
+                    Log.d(TAG, "startContactShield >> Success");
+                    scanningTv.setVisibility(View.VISIBLE);
+                })
+                .addOnFailureListener(e -> {
+                    Log.e(TAG, "startContactShield >> Failure");
+                    scanningTv.setVisibility(View.INVISIBLE);
+                });
     }
 
 }

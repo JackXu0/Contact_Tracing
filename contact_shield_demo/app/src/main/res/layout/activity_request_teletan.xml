@@ -122,7 +122,7 @@
                 android:layout_marginBottom="20dp"
                 android:backgroundTint="@color/colorPrimaryDark"
                 android:textColor="@color/ButtonTextColor"
-                android:text="ENTER TAN"
+                android:text="ENTER TELETAN"
                 android:textSize="18dp"
                 app:layout_constraintStart_toStartOf="@id/guideline_content_start"
                 app:layout_constraintEnd_toEndOf="@id/guideline_content_end"
