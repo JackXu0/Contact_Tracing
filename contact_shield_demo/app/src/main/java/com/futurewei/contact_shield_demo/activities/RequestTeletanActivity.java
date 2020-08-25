@@ -27,14 +27,6 @@ public class RequestTeletanActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.request_teletan_activity);
 
-        //TODO:: Call number
-
-        if (ContextCompat.checkSelfPermission(getApplicationContext(),
-                Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(activity, new String[] {Manifest.permission.CALL_PHONE},
-                    940);
-        }
-
         initView();
 
     }
@@ -45,15 +37,9 @@ public class RequestTeletanActivity extends Activity {
         enterTANButton = (Button) findViewById(R.id.enter_TAN_button);
 
         callButton.setOnClickListener((View v) -> {
-
-            if (ContextCompat.checkSelfPermission(getApplicationContext(),
-                Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED){
-                String uri = "tel:" + verificationCenterPhone.trim();
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse(uri));
-                startActivity(intent);
-            }else{
-                ActivityCompat.requestPermissions(activity, new String[] {Manifest.permission.CALL_PHONE}, 940);
-            }
+            String uri = "tel:" + verificationCenterPhone.trim();
+            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse(uri));
+            startActivity(intent);
         });
 
 
