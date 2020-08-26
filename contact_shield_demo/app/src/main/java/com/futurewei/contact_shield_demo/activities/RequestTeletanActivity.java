@@ -1,3 +1,31 @@
+/**
+ * Copyright © 2020  Futurewei Technologies, Inc. All rights reserved.
+ *
+ *
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ *
+ * you may not use this file except in compliance with the License.
+ *
+ * You may obtain a copy of the License at
+ *
+ *
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ *
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ *
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *
+ * See the License for the specific language governing permissions and
+ *
+ * limitations under the License.
+ */
+
 package com.futurewei.contact_shield_demo.activities;
 
 import androidx.core.app.ActivityCompat;
@@ -20,8 +48,7 @@ import com.futurewei.contact_shield_demo.R;
  */
 public class RequestTeletanActivity extends Activity {
 
-    String verificationCenterPhone = "2134258730";
-    Activity activity = this;
+    String verificationCenterPhone = "3322078569";
     Button callButton;
     Button enterTANButton;
 
@@ -30,20 +57,8 @@ public class RequestTeletanActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request_teletan);
 
-        requestPermission();
         initView();
 
-    }
-
-    /**
-     * This method request the permission for phone call. This permission will be used to call the health authority so that users can get a TeleTAN
-     */
-    void requestPermission(){
-        if (ContextCompat.checkSelfPermission(getApplicationContext(),
-                Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(activity, new String[] {Manifest.permission.CALL_PHONE},
-                    940);
-        }
     }
 
     /**
@@ -55,15 +70,9 @@ public class RequestTeletanActivity extends Activity {
         enterTANButton = (Button) findViewById(R.id.enter_TAN_button);
 
         callButton.setOnClickListener((View v) -> {
-
-                if (ContextCompat.checkSelfPermission(getApplicationContext(),
-                        Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED){
-                    String uri = "tel:" + verificationCenterPhone.trim();
-                    Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse(uri));
-                    startActivity(intent);
-                }else{
-                    ActivityCompat.requestPermissions(activity, new String[] {Manifest.permission.CALL_PHONE}, 940);
-                }
+                String uri = "tel:" + verificationCenterPhone.trim();
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse(uri));
+                startActivity(intent);
         });
 
 
