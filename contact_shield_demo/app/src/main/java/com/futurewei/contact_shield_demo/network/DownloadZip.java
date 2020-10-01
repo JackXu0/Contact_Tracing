@@ -1,3 +1,31 @@
+/**
+ * Copyright © 2020  Futurewei Technologies, Inc. All rights reserved.
+ *
+ *
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ *
+ * you may not use this file except in compliance with the License.
+ *
+ * You may obtain a copy of the License at
+ *
+ *
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ *
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ *
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *
+ * See the License for the specific language governing permissions and
+ *
+ * limitations under the License.
+ */
+
 package com.futurewei.contact_shield_demo.network;
 
 
@@ -19,15 +47,18 @@ import java.nio.file.Path;
 
 import static android.content.Context.MODE_PRIVATE;
 
+/**
+ * This downloader is used to download ZIP file from Google Storage. This ZIP file will then be put into contact shield SDK
+ */
 public class DownloadZip extends Thread {
     private static final String TAG = "download ZIP";
     Context context;
     Handler handler;
     Message msg=new Message();
     String userId;
-    String projectId = "contact-tracing-demo-281120";
-    String bucketName = "zip001_futurewei";
-    String objectName = "";
+    String projectId = "contact-shield-demo";
+    String bucketName = "contact_shield_demo";
+    String objectName = "zips/";
 
     // The path to which the file should be downloaded
     Path destFilePath;
@@ -36,9 +67,9 @@ public class DownloadZip extends Thread {
         this.context = context;
         this.handler = handler;
         userId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
-        objectName = userId +".zip";
+        objectName = objectName+userId +".zip";
 
-        destFilePath = Paths.get(new File(context.getExternalCacheDir(),objectName).getAbsolutePath());
+        destFilePath = Paths.get(new File(context.getExternalCacheDir(),userId +".zip").getAbsolutePath());
         File myFile = new File(destFilePath.toString());
 
         Log.e(TAG, "path: "+destFilePath.toString());

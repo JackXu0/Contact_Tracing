@@ -1,20 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    ~ Copyright © 2020  Futurewei Technologies, Inc. All rights reserved.
+    ~
+    ~
+    ~
+    ~ Licensed under the Apache License, Version 2.0 (the "License");
+    ~
+    ~ you may not use this file except in compliance with the License.
+    ~
+    ~You may obtain a copy of the License at
+    ~
+    ~
+    ~
+    ~ http://www.apache.org/licenses/LICENSE-2.0
+    ~
+    ~
+    ~
+    ~ Unless required by applicable law or agreed to in writing, software
+    ~
+    ~ distributed under the License is distributed on an "AS IS" BASIS,
+    ~
+    ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    ~
+    ~ See the License for the specific language governing permissions and
+    ~
+    ~ limitations under the License.
+    -->
+
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.futurewei.contact_shield_demo" >
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- File reading permission -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_MEDIA_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- Camera permission -->
-    <uses-permission android:name="android.permission.CAMERA" /> <!-- File reading permission -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
@@ -24,13 +43,12 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
-        android:roundIcon="@drawable/round_coronavirus_24"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.App"
         android:usesCleartextTraffic="true" >
 
         <activity android:name=".activities.InternetConnectionErrorActivity" />
-        <activity android:name=".activities.SubmissionUnsuccessActivity" />
         <activity android:name=".activities.PushNotificationsActivity" >
             <intent-filter>
                 <action android:name="com.contactshield.click" />
@@ -39,7 +57,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.NewMainActivity" >
+        <activity android:name=".activities.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -58,6 +76,7 @@
             android:name=".BackgroundContactCheckingIntentService"
             android:enabled="true"
             android:exported="true" />
+
         <service
             android:name=".activities.MyPushService"
             android:exported="false" >

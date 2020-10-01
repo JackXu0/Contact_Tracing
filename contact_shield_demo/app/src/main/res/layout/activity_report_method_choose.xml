@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    ~ Copyright © 2020  Futurewei Technologies, Inc. All rights reserved.
+    ~
+    ~
+    ~
+    ~ Licensed under the Apache License, Version 2.0 (the "License");
+    ~
+    ~ you may not use this file except in compliance with the License.
+    ~
+    ~You may obtain a copy of the License at
+    ~
+    ~
+    ~
+    ~ http://www.apache.org/licenses/LICENSE-2.0
+    ~
+    ~
+    ~
+    ~ Unless required by applicable law or agreed to in writing, software
+    ~
+    ~ distributed under the License is distributed on an "AS IS" BASIS,
+    ~
+    ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    ~
+    ~ See the License for the specific language governing permissions and
+    ~
+    ~ limitations under the License.
+    -->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.ReportMethodChooseActivity">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/guideline_start" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/guideline_end" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="@dimen/guideline_top" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="@dimen/guideline_bottom" />
+
+    <TextView
+        android:id="@+id/heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/verification_methods_heading"
+        android:textAppearance="?attr/textAppearanceHeadline6"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toTopOf="@id/guideline_top" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/heading"
+        app:strokeWidth="1dp"
+        app:strokeColor="@color/colorPrimaryDark"
+        app:cardElevation="1dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/first_method_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_content_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/guideline_content_start" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_content_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="@dimen/guideline_content_end" />
+
+            <TextView
+                android:id="@+id/first_method"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="@string/verification_method1_heading"
+                android:textAppearance="?attr/textAppearanceHeadline6"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <TextView
+                android:id="@+id/first_method_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/verification_method1_description"
+                android:textSize="16dp"
+                app:layout_constraintEnd_toEndOf="@id/guideline_content_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_content_start"
+                app:layout_constraintTop_toBottomOf="@id/first_method"/>
+
+            <Button
+                android:id="@+id/select_qrcode_Button"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:textColor="@color/ButtonTextColor"
+                android:text="SELECT"
+                android:textSize="18dp"
+                app:layout_constraintStart_toStartOf="@id/guideline_content_start"
+                app:layout_constraintEnd_toEndOf="@id/guideline_content_end"
+                app:layout_constraintTop_toBottomOf="@id/first_method_description" />
+
+            <TextView
+                android:id="@+id/blank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="10sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/select_qrcode_Button"
+                app:layout_constraintVertical_bias="0.311" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/card1"
+        app:strokeWidth="1dp"
+        app:strokeColor="@color/colorPrimaryDark"
+        app:cardElevation="1dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/second_method_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_content2_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/guideline_content_start" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_content2_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="@dimen/guideline_content_end" />
+
+            <TextView
+                android:id="@+id/second_method"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="@string/verification_method2_heading"
+                android:textAppearance="?attr/textAppearanceHeadline6"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/second_method_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/verification_method2_description"
+                android:textSize="16dp"
+                app:layout_constraintEnd_toEndOf="@id/guideline_content2_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_content2_start"
+                app:layout_constraintTop_toBottomOf="@id/second_method" />
+
+            <Button
+                android:id="@+id/select_teleTAN_Button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:text="SELECT"
+                android:textColor="@color/ButtonTextColor"
+                android:textSize="18dp"
+                app:layout_constraintEnd_toEndOf="@id/guideline_content2_end"
+                app:layout_constraintStart_toStartOf="@id/guideline_content2_start"
+                app:layout_constraintTop_toBottomOf="@id/second_method_description" />
+
+            <TextView
+                android:id="@+id/blank2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/select_teleTAN_Button"
+                app:layout_constraintVertical_bias="0.311" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <Button
+        android:id="@+id/cancelButton"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:textSize="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimaryDark"
+        android:backgroundTint="@color/ButtonTextColor"
+        android:text="CANCEL"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintTop_toBottomOf="@id/card2" />
+</androidx.constraintlayout.widget.ConstraintLayout>

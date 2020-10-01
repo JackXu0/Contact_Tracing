@@ -1,3 +1,32 @@
+/**
+ * Copyright © 2020  Futurewei Technologies, Inc. All rights reserved.
+ *
+ *
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ *
+ * you may not use this file except in compliance with the License.
+ *
+ * You may obtain a copy of the License at
+ *
+ *
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ *
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ *
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *
+ * See the License for the specific language governing permissions and
+ *
+ * limitations under the License.
+ */
+
+
 package com.futurewei.contact_shield_demo.activities;
 
 import android.app.Activity;
@@ -8,6 +37,10 @@ import android.widget.Button;
 
 import com.futurewei.contact_shield_demo.R;
 
+/**
+ * This Activity appears when a user chooses to report his status
+ * It tells user what will happen next and allows the user to choose whether he want to continue.
+ */
 public class ReportTestResultPreActivity extends Activity {
 
     Button continueButton;
@@ -22,20 +55,20 @@ public class ReportTestResultPreActivity extends Activity {
         initView();
     }
 
+    /**
+     * This method initializes the views and sets on click listener for all buttons
+     */
     void initView(){
 
         continueButton = (Button) findViewById(R.id.continueButton);
         cancelButton = (Button) findViewById(R.id.cancelButton);
 
-        //EventListener for continue button
         continueButton.setOnClickListener((View v) -> {
-                //next page
                 Intent intent = new Intent(getApplicationContext(), ReportMethodChooseActivity.class);
                 startActivity(intent);
                 finish();
         });
 
-        //EventListener for cancel button
         cancelButton.setOnClickListener((View v) -> finish());
     }
 }

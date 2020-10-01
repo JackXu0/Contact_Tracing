@@ -1,3 +1,31 @@
+/**
+ * Copyright © 2020  Futurewei Technologies, Inc. All rights reserved.
+ *
+ *
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ *
+ * you may not use this file except in compliance with the License.
+ *
+ * You may obtain a copy of the License at
+ *
+ *
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ *
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ *
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *
+ * See the License for the specific language governing permissions and
+ *
+ * limitations under the License.
+ */
+
 package com.futurewei.contact_shield_demo.handlers;
 
 import android.app.Activity;
@@ -8,13 +36,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.futurewei.contact_shield_demo.activities.InternetConnectionErrorActivity;
 import com.futurewei.contact_shield_demo.activities.SubmissionSuccessActivity;
-import com.futurewei.contact_shield_demo.activities.SubmissionUnsuccessActivity;
 import com.futurewei.contact_shield_demo.network.GetTan;
 import com.futurewei.contact_shield_demo.network.UploadPeriodicKey;
 import com.huawei.hmf.tasks.Task;
@@ -26,21 +55,29 @@ import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 
+/**
+ * This class is the handler for uploading Periodic Keys
+ * Step 1: fetch Registration key using QR code or TeleTAN
+ * Step 2: fetch TAN using Registration key
+ * Step 3: uploading Periodic Key with TAN
+ */
 public class UploadHandler extends Handler {
 
     Context context;
     String TAG;
     SharedPreferences sharedPreferences;
     Handler handler;
+    ProgressBar progressBar;
     private static final String UPLOAD_PK_HISTORY = "upload_pk_history";
     private static final String TIMESTAMP = "timestamp";
     private static final String REGISTRATION_KEY = "registration_key";
 
 
-    public UploadHandler(Context context, String tag){
+    public UploadHandler(Context context, String tag, ProgressBar progressBar){
         this.context = context;
         this.TAG = tag;
         this.handler = this;
+        this.progressBar = progressBar;
     }
 
     @Override
@@ -55,16 +92,15 @@ public class UploadHandler extends Handler {
         if(responseCode == 0){
             context.startActivity(new Intent(context, InternetConnectionErrorActivity.class));
             ((Activity)context).finish();
-//                Toast.makeText(getApplicationContext(), "No Internet Connection!", Toast.LENGTH_SHORT).show();
+            return;
         }
-        //TODO: whether to put this here
-        //TODO: whether to display detail errors
+
         else if (responseCode == 2){
             String error_msg = responseBody;
             Log.e(TAG, error_msg);
             Toast.makeText(context, error_msg, Toast.LENGTH_SHORT).show();
-            context.startActivity(new Intent(context, SubmissionUnsuccessActivity.class));
             ((Activity)context).finish();
+            return;
         }
 
         switch (msg.what){
@@ -100,7 +136,7 @@ public class UploadHandler extends Handler {
                 editor.putString(REGISTRATION_KEY, registration_key);
                 editor.commit();
 
-                //use the registration key to fet ch the TAN
+                //use the registration key to fetch the TAN
                 new GetTan(context, handler, registration_key).start();
 
                 break;
@@ -129,10 +165,14 @@ public class UploadHandler extends Handler {
                 editor.putInt(TIMESTAMP, (int) (System.currentTimeMillis()/1000/600));
                 editor.commit();
 
+                if(progressBar != null)
+                    progressBar.setVisibility(View.INVISIBLE);
 
                 //jump to submit success activity
                 Toast.makeText(context,"Thanks for reporting", Toast.LENGTH_LONG).show();
                 context.startActivity(new Intent(context, SubmissionSuccessActivity.class));
+
+                ((Activity) context).finish();
 
                 break;
 
@@ -152,5 +192,7 @@ public class UploadHandler extends Handler {
 
                 (new UploadPeriodicKey(context, handler, periodicKeys, tan)).start();
         });
+
+        task_pk.addOnFailureListener((Exception e) -> Log.e(TAG, e.getMessage()));
     }
 }

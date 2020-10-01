@@ -1,3 +1,31 @@
+/**
+ * Copyright © 2020  Futurewei Technologies, Inc. All rights reserved.
+ *
+ *
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ *
+ * you may not use this file except in compliance with the License.
+ *
+ * You may obtain a copy of the License at
+ *
+ *
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ *
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ *
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *
+ * See the License for the specific language governing permissions and
+ *
+ * limitations under the License.
+ */
+
 package com.futurewei.contact_shield_demo.handlers;
 
 import android.app.Activity;
@@ -19,6 +47,11 @@ import com.huawei.hms.contactshield.DiagnosisConfiguration;
 import java.io.File;
 import java.util.ArrayList;
 
+/**
+ * This class functions as the download handler
+ * Step 1: Request the server to generate corresponding ZIP file and upload this ZIP file to Google Storage
+ * Step 2: Use Google Storage APIs to download this ZIP, and put to contact shield SDK
+ */
 public class DownloadHandler extends Handler {
 
     String token = "3bdd528fd98947bcaffa0d8fda68ca54";
@@ -42,12 +75,13 @@ public class DownloadHandler extends Handler {
         if(responseCode == 0){
             context.startActivity(new Intent(context, InternetConnectionErrorActivity.class));
             ((Activity)context).finish();
-//                Toast.makeText(getApplicationContext(), "No Internet Connection!", Toast.LENGTH_SHORT).show();
+            return;
         }
-        //TODO: whether to put this here
-        //TODO: whether to display detail errors
+
         else if (responseCode == 2){
             Toast.makeText(context, "Download Failed!", Toast.LENGTH_SHORT).show();
+            ((Activity)context).finish();
+            return;
         }
 
         switch (msg.what){
@@ -83,7 +117,14 @@ public class DownloadHandler extends Handler {
         Log.e(TAG, "if file exists: "+file.exists());
         ArrayList<File> putList = new ArrayList<>();
         putList.add(file);
-        DiagnosisConfiguration config = new DiagnosisConfiguration.Builder().build();
+        DiagnosisConfiguration config = new DiagnosisConfiguration.Builder()
+                .setInitialRiskLevelRiskValues(1,2,3,4,5,6,7,8)
+                .setDurationRiskValues(1,2,3,4,5,6,7,8)
+                .setDaysAfterContactedRiskValues(1,2,3,4,5,6,7,8)
+                .setAttenuationRiskValues(1,2,3,4,5,6,7,8)
+                .build();
+
+
         ContactShield.getContactShieldEngine(context).putSharedKeyFiles(putList, config, token)
                 .addOnSuccessListener(aVoid -> {
                     Log.e(TAG, "putSharedKeyFiles succeeded.");

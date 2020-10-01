@@ -1,3 +1,31 @@
+/**
+ * Copyright © 2020  Futurewei Technologies, Inc. All rights reserved.
+ *
+ *
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ *
+ * you may not use this file except in compliance with the License.
+ *
+ * You may obtain a copy of the License at
+ *
+ *
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ *
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ *
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *
+ * See the License for the specific language governing permissions and
+ *
+ * limitations under the License.
+ */
+
 package com.futurewei.contact_shield_demo.activities;
 
 import android.Manifest;
@@ -9,8 +37,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
+import android.widget.ProgressBar;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -25,51 +52,37 @@ import com.huawei.hms.ml.scan.HmsScanBase;
 
 import java.util.regex.Pattern;
 
+/**
+ * This Activity allows user to upload their periodic keys by scanning QR Code
+ * GUID is the result we get after scanning the QR Code. It is a String of length 32. It is used as ID for each testing report.
+ */
 public class SubmitViaGuidActivity extends Activity {
 
-    private static final String TAG = "submit_via_guid_activity";
+    private static final String TAG = "activity_submit_via_guid";
     public static final int DEFAULT_VIEW = 0x22;
     private static final int REQUEST_CODE_SCAN = 0X01;
     Context context;
+    boolean scanned = false;
 
-    TextView guidTv;
-    Button submitButton;
+    ProgressBar progressBar;
     Handler handler;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.submit_via_guid_activity);
+        setContentView(R.layout.activity_submit_via_guid);
 
         context = this;
-        handler = new UploadHandler(context, TAG);
 
         initView();
+
+        handler = new UploadHandler(context, TAG, progressBar);
 
         beginScanning();
     }
 
     void initView(){
-        guidTv = findViewById(R.id.guid_tv);
-        submitButton = findViewById(R.id.submit_button);
-
-        submitButton.setOnClickListener(
-                //TODO: may need a change here
-                (View v) -> {
-                String guid = guidTv.getText().toString();
-                if(!Pattern.matches("[a-zA-Z0-9]{32}", guid)){
-                    Intent intent = new Intent(getApplicationContext(), SubmissionUnsuccessActivity.class);
-                    startActivity(intent);
-                    finish();
-//                    Toast.makeText(getApplicationContext(), "GUID NOT VALID", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                new GetRegistrationKeyQRCode(getApplicationContext(), handler, guid).start();
-
-//                finish();
-
-        });
+        progressBar = findViewById(R.id.progress_bar);
     }
 
     void beginScanning(){
@@ -99,16 +112,19 @@ public class SubmitViaGuidActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //receive result after your activity finished scanning
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != RESULT_OK || data == null) {
+        if (resultCode != RESULT_OK || data == null || scanned) {
             return;
         }
         // Obtain the return value of HmsScan from the value returned by the onActivityResult method by using ScanUtil.RESULT as the key value.
         if (requestCode == REQUEST_CODE_SCAN) {
             Object obj = data.getParcelableExtra(ScanUtil.RESULT);
-            if (obj instanceof HmsScan) {
-                if (!TextUtils.isEmpty(((HmsScan) obj).getOriginalValue())) {
-                    guidTv.setText(((HmsScan) obj).getOriginalValue());
-//                    guid_tv.setText("Scan Success!");
+            if (obj instanceof HmsScan && !TextUtils.isEmpty(((HmsScan) obj).getOriginalValue())) {
+                String guid = ((HmsScan) obj).getOriginalValue();
+                if(Pattern.matches("[a-zA-Z0-9]{32}", guid)){
+                    progressBar.setVisibility(View.VISIBLE);
+                    scanned = true;
+                    new GetRegistrationKeyQRCode(getApplicationContext(), handler, guid).start();
+
                 }
             }
         }

@@ -1,23 +1,541 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<!--
+    ~ Copyright © 2020  Futurewei Technologies, Inc. All rights reserved.
+    ~
+    ~
+    ~
+    ~ Licensed under the Apache License, Version 2.0 (the "License");
+    ~
+    ~ you may not use this file except in compliance with the License.
+    ~
+    ~You may obtain a copy of the License at
+    ~
+    ~
+    ~
+    ~ http://www.apache.org/licenses/LICENSE-2.0
+    ~
+    ~
+    ~
+    ~ Unless required by applicable law or agreed to in writing, software
+    ~
+    ~ distributed under the License is distributed on an "AS IS" BASIS,
+    ~
+    ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    ~
+    ~ See the License for the specific language governing permissions and
+    ~
+    ~ limitations under the License.
+    -->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".activities.ui.home.HomeFragment" >
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/text_home"
-        android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_start"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/guideline_start" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/guideline_end" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="@dimen/guideline_top" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="@dimen/guideline_bottom" />
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/guideline_bottom"
+        app:layout_constraintStart_toStartOf="@+id/guideline_start"
+        app:layout_constraintEnd_toEndOf="@+id/guideline_end"
+        app:layout_constraintTop_toTopOf="@+id/guideline_top">
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="20dp">
+
+            <TextView
+                android:id="@+id/scanning_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginRight="20dp"
+                android:text="Scanning.."
+                android:visibility="invisible"
+                android:textSize="19dp"
+                android:textStyle="bold|italic" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        app:srcCompat="@drawable/heading_image"
+                        android:scaleType="centerCrop"
+                        android:contentDescription="@string/media_home"
+                        />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/Heading"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center">
+
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/guideline_content_start"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintGuide_begin="@dimen/guideline_home_content_start" />
+
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/guideline_content_end"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintGuide_end="@dimen/guideline_home_content_end" />
+
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/guideline_content_top"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            app:layout_constraintGuide_begin="@dimen/guideline_home_content_end" />
+
+                        <TextView
+                            android:id="@+id/heading_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="My Status"
+                            android:textAppearance="?attr/textAppearanceHeadline6"
+                            android:textSize="23sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="@+id/guideline_content_start"
+                            app:layout_constraintTop_toTopOf="@+id/guideline_content_top" />
+
+                        <Button
+                            android:id="@+id/reportResults"
+                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minHeight="0dp"
+                            android:text="@string/report_results"
+                            android:textSize="10dp"
+                            android:textStyle="italic"
+                            android:visibility="gone"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/guideline_content_top" />
+
+                        <RadioGroup
+                            android:id="@+id/radioGroup"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            app:layout_constraintStart_toStartOf="@id/guideline_content_start"
+                            app:layout_constraintTop_toBottomOf="@+id/heading_tv">
+
+                            <RadioButton
+                                android:id="@+id/radioNegative"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:buttonTint="@color/colorPrimary"
+                                android:text="@string/notPositiveStatus"
+                                android:textSize="18sp" />
+
+                            <RadioButton
+                                android:id="@+id/radioPositive"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:buttonTint="@color/colorPrimary"
+                                android:text="@string/positiveStatus"
+                                android:textSize="18sp" />
+                        </RadioGroup>
+
+                        <TextView
+                            android:id="@+id/blank"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textSize="10sp"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="@+id/guideline_content_start"
+                            app:layout_constraintTop_toBottomOf="@id/radioGroup"
+                            app:layout_constraintVertical_bias="0.311" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </LinearLayout>
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="15dp">
+                
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        app:strokeWidth="1dp"
+                        app:strokeColor="@color/colorPrimary"
+                        app:cardElevation="1dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_gravity="center">
+                            <TextView
+                                android:id="@+id/numberOfHitsText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:layout_marginTop="5dp"
+                                android:textAppearance="?attr/textAppearanceListItemSecondary"
+                                android:text="NUMBER OF HITS"
+                                android:textAlignment="center"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_gravity="center">
+
+                                <TextView
+                                    android:id="@+id/number_of_hits_tv"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:layout_marginTop="5dp"
+                                    android:text="4"
+                                    android:textAlignment="center"
+                                    android:textSize="40sp"
+                                    android:textColor="@color/colorPrimaryDark"
+                                    android:textStyle="bold|italic" />
+
+
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1">
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card3"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:strokeWidth="1dp"
+                        app:strokeColor="@color/colorPrimary"
+                        android:layout_margin="5dp"
+                        app:cardElevation="1dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_gravity="center">
+
+                            <TextView
+                                android:id="@+id/riskLevelText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?attr/textAppearanceListItemSecondary"
+                                android:text="RISK LEVEL"
+                                android:textSize="15sp"
+                                android:layout_marginTop="5dp"
+                                android:gravity="center"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/risk_level_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="10dp"
+                                android:text="High"
+                                android:layout_gravity="center"
+                                android:textColor="@color/colorPrimaryDark"
+                                android:textSize="30sp"
+                                android:textStyle="italic" />
+
+                        </LinearLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardbottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="30dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/colorPrimary"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/info"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="20dp">
+
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/guideline_content_start_1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintGuide_begin="@dimen/guideline_home_content_start" />
+
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/guideline_content_end_1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintGuide_end="@dimen/guideline_home_content_end" />
+
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/guideline_content_top_1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            app:layout_constraintGuide_begin="@dimen/guideline_home_content_end" />
+
+                        <TextView
+                            android:id="@+id/heading_info"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:text="What You Can Do To Protect Yourself"
+                            android:textAppearance="?attr/textAppearanceHeadline6"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="@+id/guideline_content_start_1"
+                            app:layout_constraintTop_toTopOf="@+id/guideline_content_top_1" />
+
+                        <LinearLayout
+                            android:id="@+id/infolayout1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="10dp"
+                            app:layout_constraintStart_toStartOf="@id/guideline_content_start_1"
+                            app:layout_constraintEnd_toEndOf="@id/guideline_content_end_1"
+                            app:layout_constraintTop_toBottomOf="@id/heading_info">
+
+                            <ImageView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_marginLeft="20dp"
+                                app:srcCompat="@drawable/clean_hands"
+                                android:layout_gravity="center_vertical"
+                                android:scaleType="centerCrop"
+                                android:contentDescription="@string/media_home"
+                                />
+
+                            <TextView
+                                android:id="@+id/info1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:text="@string/info1"
+                                android:textSize="14dp"
+                                android:textAppearance="?attr/textAppearanceHeadline6" />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/infolayout2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="10dp"
+                            app:layout_constraintStart_toStartOf="@id/guideline_content_start_1"
+                            app:layout_constraintEnd_toEndOf="@id/guideline_content_end_1"
+                            app:layout_constraintTop_toBottomOf="@id/infolayout1">
+
+                            <ImageView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_marginLeft="20dp"
+                                app:srcCompat="@drawable/location_city"
+                                android:layout_gravity="center_vertical"
+                                android:scaleType="centerCrop"
+                                android:contentDescription="@string/media_home"
+                                />
+
+                            <TextView
+                                android:id="@+id/info2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/info2"
+                                android:textSize="14dp"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginTop="10dp"
+                                android:textAppearance="?attr/textAppearanceHeadline6" />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/infolayout3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="10dp"
+                            app:layout_constraintStart_toStartOf="@id/guideline_content_start_1"
+                            app:layout_constraintEnd_toEndOf="@id/guideline_content_end_1"
+                            app:layout_constraintTop_toBottomOf="@id/infolayout2">
+
+                            <ImageView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_marginLeft="20dp"
+                                app:srcCompat="@drawable/masks"
+                                android:layout_gravity="center_vertical"
+                                android:scaleType="centerCrop"
+                                android:contentDescription="@string/media_home"
+                                />
+
+                            <TextView
+                                android:id="@+id/info3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:text="@string/info3"
+                                android:textSize="14dp"
+                                android:textAppearance="?attr/textAppearanceHeadline6" />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/infolayout4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="10dp"
+                            app:layout_constraintStart_toStartOf="@id/guideline_content_start_1"
+                            app:layout_constraintEnd_toEndOf="@id/guideline_content_end_1"
+                            app:layout_constraintTop_toBottomOf="@id/infolayout3">
+
+                            <ImageView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_marginLeft="20dp"
+                                app:srcCompat="@drawable/six_ft_apart_black_18dp"
+                                android:layout_gravity="center_vertical"
+                                android:scaleType="centerCrop"
+                                android:contentDescription="@string/media_home"
+                                />
+
+                            <TextView
+                                android:id="@+id/info4"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/info4"
+                                android:textSize="14dp"
+                                android:layout_marginLeft="10dp"
+                                android:textAppearance="?attr/textAppearanceHeadline6" />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/infolayout5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="10dp"
+                            app:layout_constraintStart_toStartOf="@id/guideline_content_start_1"
+                            app:layout_constraintEnd_toEndOf="@id/guideline_content_end_1"
+                            app:layout_constraintTop_toBottomOf="@id/infolayout4">
+
+                            <ImageView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_marginLeft="20dp"
+                                app:srcCompat="@drawable/connect_without_contact"
+                                android:layout_gravity="center_vertical"
+                                android:scaleType="centerCrop"
+                                android:contentDescription="@string/media_home"
+                                />
+
+                            <TextView
+                                android:id="@+id/info5"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/info5"
+                                android:textSize="14dp"
+                                android:layout_marginLeft="10dp"
+                                android:textAppearance="?attr/textAppearanceHeadline6" />
+                        </LinearLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/refreshButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Refresh"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:textColor="@color/ButtonTextColor"
+        app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>

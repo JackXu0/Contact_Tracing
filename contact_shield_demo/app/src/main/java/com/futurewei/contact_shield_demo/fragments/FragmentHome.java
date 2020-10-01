@@ -1,3 +1,31 @@
+/**
+ * Copyright © 2020  Futurewei Technologies, Inc. All rights reserved.
+ *
+ *
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ *
+ * you may not use this file except in compliance with the License.
+ *
+ * You may obtain a copy of the License at
+ *
+ *
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ *
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ *
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *
+ * See the License for the specific language governing permissions and
+ *
+ * limitations under the License.
+ */
+
 package com.futurewei.contact_shield_demo.fragments;
 
 import androidx.fragment.app.Fragment;
@@ -29,19 +57,22 @@ import com.futurewei.contact_shield_demo.handlers.DownloadHandler;
 import com.futurewei.contact_shield_demo.network.GeneratePKZip;
 import com.futurewei.contact_shield_demo.network.GetTan;
 import com.google.android.material.card.MaterialCardView;
+import com.huawei.hmf.tasks.OnFailureListener;
 import com.huawei.hmf.tasks.Task;
 import com.huawei.hms.contactshield.ContactShield;
 import com.huawei.hms.contactshield.ContactShieldSetting;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+
 
 import static android.content.Context.MODE_PRIVATE;
 
+/**
+ * This is the fragment for the Home page
+ */
 public class FragmentHome extends Fragment {
 
     Context context;
-    String token = "3bdd528fd98947bcaffa0d8fda68ca54";
     private View root;
     MaterialCardView myStatusCard;
     ConstraintLayout heading;
@@ -80,7 +111,7 @@ public class FragmentHome extends Fragment {
 
         this.context = getActivity();
 
-        root= inflater.inflate(R.layout.home_fragment, container, false);
+        root= inflater.inflate(R.layout.fragment_home, container, false);
 
         initRiskLevelMap();
 
@@ -111,9 +142,15 @@ public class FragmentHome extends Fragment {
         scanningTv = root.findViewById(R.id.scanning_tv);
 
         //init dashboard
-        sharedPreferences = context.getSharedPreferences("dashboard_info",MODE_PRIVATE);
-        numberOfHitsTv.setText(""+sharedPreferences.getInt("number_of_hits",0));
-        riskLevelTv.setText(riskLevelMap.get(sharedPreferences.getInt("risk_level", 0)));
+        sharedPreferences = context.getSharedPreferences("my staus choice", MODE_PRIVATE);
+        boolean choice = sharedPreferences.getBoolean("choice", false);
+        radioNegtiveBtn.setChecked(!choice);
+        radioPositiveBtn.setChecked(choice);
+
+        if(choice)
+            reportButton.setVisibility(View.VISIBLE);
+        else
+            reportButton.setVisibility(View.INVISIBLE);
 
         // Check is manually upload is needed
         if(FLEXIBLE_MY_STATUS_ENABLED && !checkIfAllowsManualUpload()){
@@ -151,20 +188,26 @@ public class FragmentHome extends Fragment {
 
         //EventListener for report your results button
         reportButton.setOnClickListener((View v) -> {
-                sharedPreferences = getContext().getSharedPreferences(SETTINGS, MODE_PRIVATE);
-                boolean isAppDisabled = sharedPreferences.getBoolean(IS_APP_DISABLED, false);
-                // report is only supported when contact shield API is running
-                if(!isAppDisabled){
+            Task<Boolean> isRunningTask = ContactShield.getContactShieldEngine(context).isContactShieldRunning();
+            isRunningTask.addOnSuccessListener(aBoolean -> {
+                if(aBoolean){
                     Intent intent = new Intent(context, ReportTestResultPreActivity.class);
                     startActivity(intent);
                 }else{
                     Toast.makeText(context, "Please enable the app before reporting", Toast.LENGTH_SHORT).show();
                 }
+            });
+            isRunningTask.addOnFailureListener(e -> {
+                Toast.makeText(context, "Please enable the app before reporting", Toast.LENGTH_SHORT).show();
+            });
         });
 
         //EventListener for refresh button
         refresh_btn.setOnClickListener((View v) -> new GeneratePKZip(context, handler).start());
+
+
     }
+
 
     void initRiskLevelMap(){
         riskLevelMap = new HashMap<>();
@@ -208,27 +251,25 @@ public class FragmentHome extends Fragment {
 
     void refreshDashboard(){
         //refresh my status choices
-        sharedPreferences = context.getSharedPreferences("my staus choice", MODE_PRIVATE);
-        boolean choice = sharedPreferences.getBoolean("choice", false);
-        radioNegtiveBtn.setChecked(!choice);
-        radioPositiveBtn.setChecked(choice);
+        sharedPreferences = context.getSharedPreferences("dashboard_info",MODE_PRIVATE);
+        numberOfHitsTv.setText(""+sharedPreferences.getInt("number_of_hits",0));
+        riskLevelTv.setText(riskLevelMap.get(sharedPreferences.getInt("risk_level", 0)));
+
     }
 
     void refreshIsScanning(){
         sharedPreferences = getContext().getSharedPreferences(SETTINGS,MODE_PRIVATE);
         boolean isAppDisabled = sharedPreferences.getBoolean(IS_APP_DISABLED, false);
+
         if(!isAppDisabled){
-            scanningTv.setVisibility(View.VISIBLE);
             engineStartPreCheck();
             Log.e(TAG, "contact shielding should be running");
         }else{
-            scanningTv.setVisibility(View.INVISIBLE);
             Task<Void> stopContactShield = ContactShield.getContactShieldEngine(context).stopContactShield();
-            stopContactShield.addOnSuccessListener( (Void v) -> Log.e(TAG, "stop contact shield >> NO"));
+            stopContactShield.addOnSuccessListener( (Void v) -> Log.e(TAG, "stop contact shield >> Succeeded"));
             stopContactShield.addOnFailureListener( (Exception e) -> Log.e(TAG, "stop contact shield "+ e.getMessage()));
             Log.e(TAG, "contact shielding should not be running");
         }
-
     }
 
     void engineStartPreCheck(){
@@ -239,6 +280,7 @@ public class FragmentHome extends Fragment {
                 engineStart();
                 Log.e(TAG, "isContactShieldRunning >> NO");
             }else{
+                scanningTv.setVisibility(View.VISIBLE);
                 Log.e(TAG, "isContactShieldRunning >> YES");
             }
         });
@@ -252,8 +294,14 @@ public class FragmentHome extends Fragment {
 
 
         ContactShield.getContactShieldEngine(context).startContactShield(pendingIntent, ContactShieldSetting.DEFAULT)
-                .addOnSuccessListener(aVoid -> Log.d(TAG, "startContactShield >> Success"))
-                .addOnFailureListener(e -> { Log.e(TAG, "startContactShield >> Failure"); });
+                .addOnSuccessListener(aVoid -> {
+                    Log.d(TAG, "startContactShield >> Success");
+                    scanningTv.setVisibility(View.VISIBLE);
+                })
+                .addOnFailureListener(e -> {
+                    Log.e(TAG, "startContactShield >> Failure");
+                    scanningTv.setVisibility(View.INVISIBLE);
+                });
     }
 
 }
