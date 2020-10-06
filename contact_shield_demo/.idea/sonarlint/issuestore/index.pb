@@ -16,8 +16,6 @@ Qapp/src/main/java/com/futurewei/contact_shield_demo/handlers/DownloadHandler.ja
 Ç
 Rapp/src/main/java/com/futurewei/contact_shield_demo/network/UploadPeriodicKey.java,c/2/c2537456e66204f5aa39e622f4ffb858980505f0
 è
-_app/src/main/java/com/futurewei/contact_shield_demo/activities/SubmissionUnsuccessActivity.java,9/8/9851d07aaf71b0cc644f5e380af659553b66d603
-è
 _app/src/main/java/com/futurewei/contact_shield_demo/activities/ReportTestResultPreActivity.java,6/4/6485d46eaac729ca1b1d1ce3d39ddd36ed3ffc4f
 ç
 ]app/src/main/java/com/futurewei/contact_shield_demo/activities/PushNotificationsActivity.java,d/2/d2b76c82c8348fe7f4ff8e55b99e46e65b015b67
@@ -35,3 +33,21 @@ Qapp/src/main/java/com/futurewei/contact_shield_demo/activities/MyPushService.ja
 capp/src/main/java/com/futurewei/contact_shield_demo/activities/InternetConnectionErrorActivity.java,b/1/b13c07655cb4595ac47272a89c6b2d2c216d23e0
 
 Oapp/src/main/java/com/futurewei/contact_shield_demo/fragments/FragmentHome.java,8/0/8028e9d502e04ee0e5cf5d719949722f0da8343f
+@
+app/build.gradle,f/4/f4a01d6a4fcb971362ec00a83903fd3902f52164
+F
+app/proguard-rules.pro,9/e/9e08934d811afe28fbc77aaa3c0d747b94348db9
+A
+gradle.properties,2/a/2afbb999f001938c88fa43fc2ef52abf0f8213e4
+P
+ app/src/main/AndroidManifest.xml,8/c/8c55c3ccc257e5907959013f99656e4c8ec3903e
+~
+Napp/src/main/java/com/futurewei/contact_shield_demo/fragments/FragmentFaq.java,9/0/9000839653fe4d3d847bb13cdd1734c052c3daee
+â
+Yapp/src/main/java/com/futurewei/contact_shield_demo/network/GetRegistrationKeyQRCode.java,4/9/491ba41a45f466e8c44fee920576cdad03c2d05b
+ä
+Zapp/src/main/java/com/futurewei/contact_shield_demo/network/GetRegistrationKeyTeleTAN.java,f/d/fdf97cb7f89c3e8428b1bf62139471bf4291e1fb
+w
+Gapp/src/main/java/com/futurewei/contact_shield_demo/network/GetTan.java,6/1/611ce95d5f2f26a515c425b3b840ae93a51d23c0
+Ä
+Papp/src/main/java/com/futurewei/contact_shield_demo/network/NetworkTemplate.java,2/6/26150cea984ddaf390578bff5f6a92c9ed8a510b

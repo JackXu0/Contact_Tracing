@@ -1,12 +1,4 @@
 
-Z
-java:S1854\"8Remove this useless assignment to local variable "task".(âÑ’Åúÿÿÿÿ8Õ¼íÔ½.
-N
-java:S1602x",Remove useless curly braces around statement(¼°õ­şÿÿÿÿ8ø¶ÙÔ½.
-n
-java:S1450!"SRemove the "root" field and declare it as a local variable in the relevant methods.(˜ñŸúÿÿÿÿ
-j	java:S116'"NRename this field "TAG" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(«‰Åü8ø¶ÙÔ½.
-b	java:S101"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(²‚î
-K
-java:S1481\")Remove this unused "task" local variable.(âÑ’Åúÿÿÿÿ8Õ¼íÔ½.
-]	java:S125f"<This block of commented-out lines of code should be removed.(äÙˆüûÿÿÿÿ8Õ¼íÔ½.
+i	java:S101"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(²‚î8÷ã¢’Î.
+u
+java:S1450"SRemove the "root" field and declare it as a local variable in the relevant methods.(˜ñŸúÿÿÿÿ8÷ã¢’Î.

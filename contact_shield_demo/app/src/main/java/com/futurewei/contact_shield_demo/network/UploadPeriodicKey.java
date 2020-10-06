@@ -52,7 +52,7 @@ public class UploadPeriodicKey extends NetworkTemplate {
     public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
     public UploadPeriodicKey(Context context, Handler handler, List<PeriodicKey> periodicKeyList, String tan){
-        super("Upload Periodic Keys", context, handler, 4, "https://us-central1-contact-shield-demo.cloudfunctions.net/uploadPeriodicKeys");
+        super("Upload Periodic Keys", context, handler, 4, "https://c4erz3jwr3.execute-api.us-east-2.amazonaws.com/uploadPeriodicKeys");
         this.requestBody = makeRequestBody(periodicKeyList, tan);
     }
 

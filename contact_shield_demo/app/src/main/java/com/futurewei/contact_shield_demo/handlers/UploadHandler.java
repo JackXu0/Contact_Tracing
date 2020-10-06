@@ -51,6 +51,9 @@ import com.huawei.hms.contactshield.ContactShield;
 import com.huawei.hms.contactshield.PeriodicKey;
 
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -95,7 +98,7 @@ public class UploadHandler extends Handler {
             return;
         }
 
-        else if (responseCode == 2){
+        if (responseCode == 2){
             String error_msg = responseBody;
             Log.e(TAG, error_msg);
             Toast.makeText(context, error_msg, Toast.LENGTH_SHORT).show();

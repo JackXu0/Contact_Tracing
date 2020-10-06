@@ -112,7 +112,7 @@ public class DownloadHandler extends Handler {
     }
 
     void putSharedKey(String destFilePath){
-        File file = new File(destFilePath.toString());
+        File file = new File(destFilePath);
         Log.e(TAG, file.getAbsolutePath());
         Log.e(TAG, "if file exists: "+file.exists());
         ArrayList<File> putList = new ArrayList<>();

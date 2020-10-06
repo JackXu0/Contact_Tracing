@@ -1,12 +1,12 @@
 
-f	java:S117B"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ß­‘Ï
-H
-java:S1135@"2Complete the task associated to this TODO comment.(ÅøÌ
-k	java:S1178"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‡Æì¿ıÿÿÿÿ
-X	java:S125E"<This block of commented-out lines of code should be removed.(ä¸øæ8›ƒÕ½.
-7
-java:S11165"Remove this empty statement.(š×·ïüÿÿÿÿ
-c	java:S116!"NRename this field "TAG" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ë˜³Æ
-H
-java:S1135?"2Complete the task associated to this TODO comment.(˜ÏİÉ
-l	java:S117›"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¶ÅŠŸûÿÿÿÿ
+r	java:S1175"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‡Æì¿ıÿÿÿÿ8ñï¢’Î.
+m	java:S117?"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ß­‘Ï8ñï¢’Î.
+s	java:S117“"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¶ÅŠŸûÿÿÿÿ8ñï¢’Î.
+j	java:S116 "NRename this field "TAG" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ë˜³Æ8ñï¢’Î.
+>
+java:S11162"Remove this empty statement.(š×·ïüÿÿÿÿ8ñï¢’Î.
+O
+java:S1135<"2Complete the task associated to this TODO comment.(˜ÏİÉ8ñï¢’Î.
+O
+java:S1135="2Complete the task associated to this TODO comment.(ÅøÌ8ñï¢’Î.
+]	java:S125:"<This block of commented-out lines of code should be removed.(ƒ×şÿÿÿÿ8ñï¢’Î.

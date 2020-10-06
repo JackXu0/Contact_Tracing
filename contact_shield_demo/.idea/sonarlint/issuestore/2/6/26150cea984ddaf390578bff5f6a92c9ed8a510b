@@ -1,0 +1,17 @@
+
+k	java:S117g"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(âÿ‘›úÿÿÿÿ
+e
+java:S11044"OMake TAG a static final constant or non-public and provide accessors if needed.(˜Òµ¦
+n
+java:S11045"SMake context a static final constant or non-public and provide accessors if needed.(±¹ï±úÿÿÿÿ
+d
+java:S11046"OMake msg a static final constant or non-public and provide accessors if needed.(¾°
+i
+java:S11047"SMake handler a static final constant or non-public and provide accessors if needed.(Öı£
+k
+java:S11048"PMake what a static final constant or non-public and provide accessors if needed.(Ğ•”üÿÿÿÿ
+e
+java:S11049"OMake url a static final constant or non-public and provide accessors if needed.(…åØ
+m
+java:S1104:"WMake requestBody a static final constant or non-public and provide accessors if needed.(çô´„
+c	java:S1164"NRename this field "TAG" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(˜Òµ¦

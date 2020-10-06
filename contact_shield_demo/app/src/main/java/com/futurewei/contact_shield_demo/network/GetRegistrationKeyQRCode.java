@@ -47,7 +47,7 @@ public class GetRegistrationKeyQRCode extends NetworkTemplate {
 
 
     public GetRegistrationKeyQRCode(Context context, Handler handler, String guid){
-        super("Get Registration Key QR Code", context, handler, 1, "https://us-central1-contact-shield-demo.cloudfunctions.net/getRegistrationKeyGUID");
+        super("Get Registration Key QR Code", context, handler, 1, "https://8md2fn42xg.execute-api.us-east-2.amazonaws.com/getRegistrationKeyGUID");
         this.requestBody = makeRequestBody(guid);
 
     }

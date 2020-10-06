@@ -99,9 +99,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     implementation 'com.squareup.okhttp3:okhttp:4.7.2'
-    // for okhttp conscrypt issues
     implementation 'org.conscrypt:conscrypt-android:2.2.1'
-//    implementation 'com.huawei.hms:contactshield:4.1.0.302'
     implementation 'com.huawei.hms:contactshield:5.0.1.300'
     implementation 'com.huawei.agconnect:agconnect-core:1.0.0.300'
     implementation 'com.huawei.hms:push:5.0.0.300'

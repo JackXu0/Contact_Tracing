@@ -45,7 +45,7 @@ public class GetTan extends NetworkTemplate {
     public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
     public GetTan(Context context, Handler handler, String registration_key){
-        super("Get TAN", context, handler, 3, "https://us-central1-contact-shield-demo.cloudfunctions.net/getTAN");
+        super("Get TAN", context, handler, 3, "https://k14s6lpjj8.execute-api.us-east-2.amazonaws.com/getTAN");
         this.requestBody = makeRequestBody(registration_key);
     }
 
