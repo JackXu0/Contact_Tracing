@@ -115,16 +115,13 @@ dependencies {
 
 sonarqube {
     properties {
-        //Sonar服务器地址
         property "sonar.host.url", "http://localhost:9000/"
 
-        //账号密码模式
         property "sonar.login","admin"
         property "sonar.password","admin"
         property "sonar.sourceEncoding", "UTF-8"
         property "sonar.projectKey", "contact_shield_demo"
         property "sonar.projectName", project.name
-        //需要扫描的上传检测代码的模块，可以选择也可以配置哪一些需要或者不需要上传的模块(这里指APP模块下面的java包里面的全部)
         property "sonar.sources", "src/main/java"
         property "sonar.projectVersion", project.version
     }

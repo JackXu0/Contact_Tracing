@@ -48,10 +48,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.file.Paths;
-import com.google.cloud.storage.Blob;
-import com.google.cloud.storage.BlobId;
-import com.google.cloud.storage.Storage;
-import com.google.cloud.storage.StorageOptions;
 import java.nio.file.Path;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -81,27 +77,6 @@ public class DownloadZip extends Thread {
         objectName = objectName+userId +".zip";
 
         destFilePath = Paths.get(new File(context.getExternalCacheDir(),userId +".zip").getAbsolutePath());
-//        File myFile = new File(destFilePath.toString());
-//
-//        Log.e(TAG, "path: "+destFilePath.toString());
-//        Log.e(TAG, "is directory: "+ myFile.isDirectory());
-//
-//        if(myFile.exists()){
-//            if(myFile.delete())
-//                Log.e(TAG, destFilePath+" delete success");
-//            else
-//                Log.e(TAG, destFilePath+" delete failed");
-//        }
-//
-//        try {
-//            if(myFile.createNewFile())
-//                Log.e(TAG, destFilePath+" creation success");
-//            else
-//                Log.e(TAG, destFilePath+" creation failed");
-//
-//        } catch (IOException e) {
-//            Log.e(TAG, e.toString());
-//        }
     }
 
     @Override
@@ -114,24 +89,6 @@ public class DownloadZip extends Thread {
             String zip_url = "https://contact-tracing-demo.s3.us-east-2.amazonaws.com/zips/"+userId +".zip";
             File destination_file = new File(context.getExternalCacheDir(),userId +".zip");
             downloadFile(zip_url, destination_file);
-
-//            DownloadManager downloadmanager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
-//            Uri uri = Uri.parse("https://contact-tracing-demo.s3.us-east-2.amazonaws.com/zips/"+userId +".zip");
-//
-//            DownloadManager.Request request = new DownloadManager.Request(uri);
-//            request.setTitle("My File");
-//            request.setDescription("Downloading");
-//            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-//            request.setDestinationInExternalPublicDir("/Android/data/com.futurewei.contact_shield_demo/cache", userId +".zip");
-//            downloadmanager.enqueue(request);
-//            Log.e("external dir path", context.getExternalCacheDir().getAbsolutePath());
-
-//            Log.e(TAG, "try to download from google");
-//            Storage storage = StorageOptions.newBuilder().setProjectId(projectId).build().getService();
-//
-//            Blob blob = storage.get(BlobId.of(bucketName, objectName));
-//            blob.downloadTo(destFilePath);
-//            Log.e(TAG, destFilePath.toString());
 
             final SharedPreferences sharedPreferences = context.getSharedPreferences("last_download_timeStamp",MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -164,9 +121,9 @@ public class DownloadZip extends Thread {
             fos.flush();
             fos.close();
         } catch(FileNotFoundException e) {
-            return; // swallow a 404
+            return;
         } catch (IOException e) {
-            return; // swallow a 404
+            return;
         }
     }
 }
