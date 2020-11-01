@@ -7,15 +7,15 @@ import org.json.JSONObject;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
+/**
+ * This network request gets the registration key using TeleTAN
+ */
 public class GetRegistrationKeyTeleTAN extends NetworkTemplate {
 
     public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
     public GetRegistrationKeyTeleTAN(Context context, Handler handler, JSONObject jsonObject){
-
-//        super("Get Registration Key TELETAN", context, handler, 2, "https://us-central1-contact-tracing-demo-281120.cloudfunctions.net/getRegistrationKeyTELETAN");
-//        super("Get Registration Key TELETAN", context, handler, 2, "https://us-central1-contact-shield-demo.cloudfunctions.net/getRegistrationKeyTELETAN");
-        super("Get Registration Key TELETAN", context, handler, 2, "http://34.69.249.103:5000/getRegistrationKeyTeleTAN");
+        super("Get Registration Key TELETAN", context, handler, 2, "https://vc7nfpujef.execute-api.us-east-2.amazonaws.com/getRegistrationKeyTELETAN");
         this.requestBody = makeRequestBody(jsonObject);
     }
 

@@ -9,14 +9,15 @@ import org.json.JSONObject;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
+/**
+ * This network gets the TAN using the registration key
+ */
 public class GetTan extends NetworkTemplate {
 
     public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
     public GetTan(Context context, Handler handler, String registration_key){
-//        super("Get TAN", context, handler, 3, "https://us-central1-contact-tracing-demo-281120.cloudfunctions.net/getTAN");
-//        super("Get TAN", context, handler, 3, "https://us-central1-contact-shield-demo.cloudfunctions.net/getTAN");
-        super("Get TAN", context, handler, 3, "http://34.69.249.103:5000/getTan");
+        super("Get TAN", context, handler, 3, "https://k14s6lpjj8.execute-api.us-east-2.amazonaws.com/getTAN");
         this.requestBody = makeRequestBody(registration_key);
     }
 
