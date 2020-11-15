@@ -18,7 +18,7 @@ public class ReportOperation extends NetworkTemplate{
     public ReportOperation(Context context, Handler handler, String operation, boolean is_cskit_running){
 
 //        super("Report Operation", context, handler, 8, "https://us-central1-contact-shield-demo.cloudfunctions.net/reportOperation" );
-        super("Report Operation", context, handler, 8, "http://34.69.249.103:5000/reportOperation" );
+        super("Report Operation", context, handler, 8, "https://0whq2imdbc.execute-api.us-east-2.amazonaws.com/reportOperations" );
         this.requestBody = makeRequestBody(operation, is_cskit_running);
     }
 

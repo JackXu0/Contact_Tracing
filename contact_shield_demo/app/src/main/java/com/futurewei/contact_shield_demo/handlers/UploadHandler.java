@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.futurewei.contact_shield_demo.activities.InternetConnectionErrorActivity;
 import com.futurewei.contact_shield_demo.activities.SubmissionSuccessActivity;
 import com.futurewei.contact_shield_demo.network.GetTan;
 import com.futurewei.contact_shield_demo.network.UploadPeriodicKey;
@@ -56,8 +55,9 @@ public class UploadHandler extends Handler {
         String registration_key;
 
         if(responseCode == 0){
-            context.startActivity(new Intent(context, InternetConnectionErrorActivity.class));
-            ((Activity)context).finish();
+//            context.startActivity(new Intent(context, InternetConnectionErrorActivity.class));
+//            ((Activity)context).finish();
+            Log.e(TAG, "NO INTERNET CONNECTION");
             return;
         }
         //TODO: whether to put this here

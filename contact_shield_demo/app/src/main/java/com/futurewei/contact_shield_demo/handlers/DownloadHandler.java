@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.futurewei.contact_shield_demo.activities.InternetConnectionErrorActivity;
 import com.futurewei.contact_shield_demo.network.DownloadZip;
 import com.huawei.hms.contactshield.ContactShield;
 import com.huawei.hms.contactshield.DiagnosisConfiguration;
@@ -40,8 +39,9 @@ public class DownloadHandler extends Handler {
         String responseBody = b.getString("response_body");
 
         if(responseCode == 0){
-            context.startActivity(new Intent(context, InternetConnectionErrorActivity.class));
-            ((Activity)context).finish();
+            //            context.startActivity(new Intent(context, InternetConnectionErrorActivity.class));
+//            ((Activity)context).finish();
+            Log.e(TAG, "NO INTERNET CONNECTION");
             return;
         }
         //TODO: whether to put this here

@@ -24,7 +24,7 @@ public class ReportContactDetail extends NetworkTemplate {
 
     public ReportContactDetail(Context context, Handler handler, List<ContactDetail> contactDetailList){
 //        super("report contact detail", context, handler, 7, "https://us-central1-contact-shield-demo.cloudfunctions.net/reportContactDetail");
-        super("report contact detail", context, handler, 7, "http://34.69.249.103:5000/reportContactDetail");
+        super("report contact detail", context, handler, 7, "https://eu7g87pfdd.execute-api.us-east-2.amazonaws.com/reportContactDetails");
         this.requestBody = makeRequestBody(contactDetailList);
     }
 
