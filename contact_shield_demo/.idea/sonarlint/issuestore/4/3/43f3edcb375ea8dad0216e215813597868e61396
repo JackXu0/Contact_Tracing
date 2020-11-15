@@ -1,4 +1,11 @@
 
-i	java:S101"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(²‚î8÷ã¢’Î.
-u
-java:S1450"SRemove the "root" field and declare it as a local variable in the relevant methods.(˜ñŸúÿÿÿÿ8÷ã¢’Î.
+L
+java:S1602",Remove useless curly braces around statement(¼°õ­şÿÿÿÿ8­ßÍ¥Ò.
+I
+java:S1481")Remove this unused "task" local variable.(âÑ’Åúÿÿÿÿ8­ßÍ¥Ò.
+X
+java:S1854"8Remove this useless assignment to local variable "task".(âÑ’Åúÿÿÿÿ8­ßÍ¥Ò.
+s
+java:S1450"SRemove the "root" field and declare it as a local variable in the relevant methods.(˜ñŸúÿÿÿÿ8÷ã¢’Î.
+h	java:S116"NRename this field "TAG" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(«‰Åü8­ßÍ¥Ò.
+g	java:S101"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(²‚î8÷ã¢’Î.

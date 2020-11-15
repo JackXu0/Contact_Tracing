@@ -1,25 +1,29 @@
 
+P
+java:S1874"0Remove this use of "getColor"; it is deprecated.(Ë¿‰¯ùÿÿÿÿ8´è¢’Î.
+w
+java:S1104"WMake riskLevelTv a static final constant or non-public and provide accessors if needed.(Ñ®²Äÿÿÿÿÿ8´è¢’Î.
+T
+java:S1444"4Make this "public static numberOfHitsTv" field final(§²ÙÈıÿÿÿÿ8´è¢’Î.
+u	java:S116"VRename this field "refresh_btn" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ùïöøÿÿÿÿ8´è¢’Î.
+c
+java:S1128"CRemove this unused import 'com.huawei.hmf.tasks.OnFailureListener'.(Ü°Ôüÿÿÿÿ8¥í‡­Ğ.
+E
+java:S5411"*Use the primitive boolean expression here.(Ë¿à8¥í‡­Ğ.
+s
+java:S1450"SRemove the "root" field and declare it as a local variable in the relevant methods.(˜ñŸúÿÿÿÿ8´è¢’Î.
+Q
+java:S1444"1Make this "public static riskLevelTv" field final(Ñ®²Äÿÿÿÿÿ8´è¢’Î.
+E
+java:S5411"*Use the primitive boolean expression here.(ò›ß˜8´è¢’Î.
+k	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‰È»â8´è¢’Î.
+G
+java:S1602",Remove useless curly braces around statement(ÆĞİ8¥í‡­Ğ.
+z
+java:S1104"ZMake numberOfHitsTv a static final constant or non-public and provide accessors if needed.(§²ÙÈıÿÿÿÿ8´è¢’Î.
 V
-java:S14447"4Make this "public static numberOfHitsTv" field final(§²ÙÈıÿÿÿÿ8´è¢’Î.
-S
-java:S14448"1Make this "public static riskLevelTv" field final(Ñ®²Äÿÿÿÿÿ8´è¢’Î.
-e
-java:S1192"GDefine a constant instead of duplicating this literal "choice" 3 times.(‰Ç¸²8´è¢’Î.
-n	java:S117¹"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‰È»â8´è¢’Î.
-H
-java:S5411î"*Use the primitive boolean expression here.(ò›ß˜8´è¢’Î.
-|
-java:S11047"ZMake numberOfHitsTv a static final constant or non-public and provide accessors if needed.(§²ÙÈıÿÿÿÿ8´è¢’Î.
-y
-java:S11048"WMake riskLevelTv a static final constant or non-public and provide accessors if needed.(Ñ®²Äÿÿÿÿÿ8´è¢’Î.
-u
-java:S1450-"SRemove the "root" field and declare it as a local variable in the relevant methods.(˜ñŸúÿÿÿÿ8´è¢’Î.
-w	java:S1166"VRename this field "refresh_btn" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ùïöøÿÿÿÿ8´è¢’Î.
-X
-java:S2696m"6Make the enclosing method "static" or remove this set.(åŠ™şÿÿÿÿ8´è¢’Î.
-S
-java:S2696n"6Make the enclosing method "static" or remove this set.(¢¯­‡8´è¢’Î.
-S
-java:S1874‚"0Remove this use of "getColor"; it is deprecated.(Ë¿‰¯ùÿÿÿÿ8´è¢’Î.
-O
-java:S1602€",Remove useless curly braces around statement(¼°õ­şÿÿÿÿ8´è¢’Î.
+java:S2696"6Make the enclosing method "static" or remove this set.(åŠ™şÿÿÿÿ8´è¢’Î.
+Q
+java:S2696"6Make the enclosing method "static" or remove this set.(¢¯­‡8´è¢’Î.
+b
+java:S1192"GDefine a constant instead of duplicating this literal "choice" 3 times.(ş¡áì8¥í‡­Ğ.

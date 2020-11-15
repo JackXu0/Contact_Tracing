@@ -1,3 +1,21 @@
 
-i
-java:S4042Y"NUse "java.nio.file.Files#delete" here for better messages on error conditions.(ßÑŠëşÿÿÿÿ
+8
+java:S3626~"Remove this redundant jump.(ûÁİ…8æÌÇ‘Ø.
+o
+java:S2095q"MUse try-with-resources or close this "DataInputStream" in a "finally" clause.(¼Íöƒıÿÿÿÿ8æÌÇ‘Ø.
+8
+java:S3626|"Remove this redundant jump.(ûÁİ…8æÌÇ‘Ø.
+k
+java:S2095w"NUse try-with-resources or close this "DataOutputStream" in a "finally" clause.(Şƒ©ó8æÌÇ‘Ø.
+D
+java:S1068;"'Remove this unused "TAG" private field.(¡ÓóÂ8æÌÇ‘Ø.
+U
+java:S1128 "8Remove this unused import 'android.app.DownloadManager'.(åşÓÎ8æÌÇ‘Ø.
+b
+java:S2147}"ECombine this catch with the one at line 123, which has the same body.(ï­£Ä8æÌÇ‘Ø.
+O
+java:S1128("-Remove this unused import 'android.util.Log'.(Ô¦Ø²øÿÿÿÿ8æÌÇ‘Ø.
+N
+java:S1128#",Remove this unused import 'android.net.Uri'.(òêû‘ıÿÿÿÿ8æÌÇ‘Ø.
+r	java:S117Z"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ğ„Ï–ıÿÿÿÿ8æÌÇ‘Ø.
+r	java:S117Y"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‚àç ûÿÿÿÿ8æÌÇ‘Ø.

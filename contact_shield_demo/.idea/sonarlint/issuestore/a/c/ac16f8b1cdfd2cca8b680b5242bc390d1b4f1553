@@ -1,13 +1,6 @@
 
-B
-java:S1602X",Remove useless curly braces around statement(§ÀÇ
-G
-java:S1602[",Remove useless curly braces around statement(ÕÊ¾øÿÿÿÿ
-o	java:S116"NRename this field "TAG" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(è°×ÿÿÿÿÿÿ8®ó¢’Î.
-O
-java:S1135/"2Complete the task associated to this TODO comment.(˜ÏİÉ8®ó¢’Î.
-O
-java:S11350"2Complete the task associated to this TODO comment.(ÅøÌ8®ó¢’Î.
-l
-java:S1858Q"O"destFilePath" is already a string, there's no need to call "toString()" on it.(Ğ¹»º8®ó¢’Î.
-]	java:S125-"<This block of commented-out lines of code should be removed.(ƒ×şÿÿÿÿ8®ó¢’Î.
+m	java:S116"NRename this field "TAG" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(è°×ÿÿÿÿÿÿ8®ó¢’Î.
+H
+java:S1602„",Remove useless curly braces around statement(ÕÊ¾øÿÿÿÿ
+C
+java:S1602",Remove useless curly braces around statement(§ÀÇ

@@ -1,12 +1,11 @@
 
-r	java:S1175"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‡Æì¿ýÿÿÿÿ8ñï¢’Î.
-m	java:S117?"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ß­‘Ï8ñï¢’Î.
-s	java:S117“"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¶ÅŠŸûÿÿÿÿ8ñï¢’Î.
-j	java:S116 "NRename this field "TAG" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ë˜³Æ8ñï¢’Î.
->
-java:S11162"Remove this empty statement.(š×·ïüÿÿÿÿ8ñï¢’Î.
-O
-java:S1135<"2Complete the task associated to this TODO comment.(˜ÏÝÉ8ñï¢’Î.
-O
-java:S1135="2Complete the task associated to this TODO comment.(ÅøÌ8ñï¢’Î.
-]	java:S125:"<This block of commented-out lines of code should be removed.(ƒ×þÿÿÿÿ8ñï¢’Î.
+S
+java:S1128"3Remove this unused import 'org.json.JSONException'.(¹Ó·úÿÿÿÿ8§í‡­Ð.
+s	java:S117¾"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¶ÅŠŸûÿÿÿÿ8ñï¢’Î.
+h	java:S116"NRename this field "TAG" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ë˜³Æ8ñï¢’Î.
+k	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ß­‘Ï8ñï¢’Î.
+P
+java:S1128"0Remove this unused import 'org.json.JSONObject'.(œÖ´üþÿÿÿÿ8§í‡­Ð.
+<
+java:S1116"Remove this empty statement.(š×·ïüÿÿÿÿ8ñï¢’Î.
+p	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‡Æì¿ýÿÿÿÿ8ñï¢’Î.

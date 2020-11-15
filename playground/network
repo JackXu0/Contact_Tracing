@@ -1,7 +1,0 @@
-import json
-import requests
-
-create_teletan_url = 'https://us-central1-contact-tracing-demo-281120.cloudfunctions.net/createTeleTAN'
-r = requests.post(create_teletan_url, json={})
-
-print(r.text)
