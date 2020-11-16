@@ -36,6 +36,7 @@ public class UploadHandler extends Handler {
     private static final String UPLOAD_PK_HISTORY = "upload_pk_history";
     private static final String TIMESTAMP = "timestamp";
     private static final String REGISTRATION_KEY = "registration_key";
+    int periodicKeyNum = 0;
 
 
     public UploadHandler(Context context, String tag, ProgressBar progressBar){
@@ -53,6 +54,7 @@ public class UploadHandler extends Handler {
         String responseBody = b.getString("response_body");
         SharedPreferences.Editor editor;
         String registration_key;
+
 
         if(responseCode == 0){
 //            context.startActivity(new Intent(context, InternetConnectionErrorActivity.class));
@@ -137,7 +139,8 @@ public class UploadHandler extends Handler {
                     progressBar.setVisibility(View.INVISIBLE);
 
                 //jump to submit success activity
-                Toast.makeText(context,"Thanks for reporting", Toast.LENGTH_LONG).show();
+//                Toast.makeText(context,"Thanks for reporting", Toast.LENGTH_LONG).show();
+                Toast.makeText(context,"Reported " +periodicKeyNum+" periodic keys", Toast.LENGTH_LONG).show();
                 context.startActivity(new Intent(context, SubmissionSuccessActivity.class));
 
                 ((Activity) context).finish();
@@ -157,6 +160,7 @@ public class UploadHandler extends Handler {
         task_pk.addOnSuccessListener((List<PeriodicKey> periodicKeys) -> {
                 Log.e(TAG,"get periodical key success");
                 Log.e(TAG, "periodic key list length: "+periodicKeys.size()+"");
+                periodicKeyNum = periodicKeys.size();
 
                 (new UploadPeriodicKey(context, handler, periodicKeys, tan)).start();
         });
