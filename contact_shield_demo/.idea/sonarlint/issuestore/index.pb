@@ -16,8 +16,6 @@ Qapp/src/main/java/com/futurewei/contact_shield_demo/handlers/DownloadHandler.ja
 Ç
 Rapp/src/main/java/com/futurewei/contact_shield_demo/network/UploadPeriodicKey.java,c/2/c2537456e66204f5aa39e622f4ffb858980505f0
 è
-_app/src/main/java/com/futurewei/contact_shield_demo/activities/SubmissionUnsuccessActivity.java,9/8/9851d07aaf71b0cc644f5e380af659553b66d603
-è
 _app/src/main/java/com/futurewei/contact_shield_demo/activities/ReportTestResultPreActivity.java,6/4/6485d46eaac729ca1b1d1ce3d39ddd36ed3ffc4f
 ç
 ]app/src/main/java/com/futurewei/contact_shield_demo/activities/PushNotificationsActivity.java,d/2/d2b76c82c8348fe7f4ff8e55b99e46e65b015b67
@@ -31,7 +29,11 @@ _app/src/main/java/com/futurewei/contact_shield_demo/BackgroundContactCheckingIn
 Zapp/src/main/java/com/futurewei/contact_shield_demo/activities/RequestTeletanActivity.java,8/b/8b84c17ebe3b25f29159b7c4f13119e3f20fc7fc
 Å
 Qapp/src/main/java/com/futurewei/contact_shield_demo/activities/MyPushService.java,a/3/a3924253cf99e4bab0b92fa4ad23748d6cfb27cf
-ì
-capp/src/main/java/com/futurewei/contact_shield_demo/activities/InternetConnectionErrorActivity.java,b/1/b13c07655cb4595ac47272a89c6b2d2c216d23e0
 
 Oapp/src/main/java/com/futurewei/contact_shield_demo/fragments/FragmentHome.java,8/0/8028e9d502e04ee0e5cf5d719949722f0da8343f
+É
+Sapp/src/main/java/com/futurewei/contact_shield_demo/activities/NewMainActivity.java,a/d/adf5fed83643133f16081697a8adf66307505e72
+â
+Yapp/src/main/java/com/futurewei/contact_shield_demo/activities/NotificationsActivity.java,3/9/39e5dacb01126125bb1a8872273d7114ebe9fff9
+ä
+Zapp/src/main/java/com/futurewei/contact_shield_demo/network/GetRegistrationKeyTeleTAN.java,f/d/fdf97cb7f89c3e8428b1bf62139471bf4291e1fb

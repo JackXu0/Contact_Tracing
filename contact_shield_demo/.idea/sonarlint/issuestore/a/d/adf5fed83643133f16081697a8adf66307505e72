@@ -1,0 +1,10 @@
+
+Q	java:S110"<This class has 9 parents which is greater than 5 authorized.(¿µ”Š
+@
+java:S5411F"*Use the primitive boolean expression here.(ò›ß˜
+P
+java:S1854˜"9Remove this useless assignment to local variable "token".(Äç¹Ç
+A
+java:S1481˜"*Remove this unused "token" local variable.(Äç¹Ç
+V	java:S125("<This block of commented-out lines of code should be removed.(“Øòıÿÿÿÿ
+W	java:S125™"<This block of commented-out lines of code should be removed.(ÊÜûùÿÿÿÿ
