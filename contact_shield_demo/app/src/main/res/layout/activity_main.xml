@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:visibility="visible">
+    android:visibility="visible"
+    tools:context="com.huawei.hms.nearby.ContactShieldDemo.MainActivity">
 
     <TextView
         android:id="@+id/detailResult"

@@ -1,46 +1,37 @@
 package com.futurewei.contact_shield_demo.activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.futurewei.contact_shield_demo.BackgroundContactCheckingIntentService;
-import com.futurewei.contact_shield_demo.R;
-import com.huawei.hmf.tasks.OnCompleteListener;
-import com.huawei.hmf.tasks.OnFailureListener;
-import com.huawei.hmf.tasks.OnSuccessListener;
-import com.huawei.hmf.tasks.Task;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
 import com.huawei.hms.contactshield.ContactDetail;
 import com.huawei.hms.contactshield.ContactShield;
 import com.huawei.hms.contactshield.ContactShieldEngine;
 import com.huawei.hms.contactshield.ContactShieldSetting;
-import com.huawei.hms.contactshield.ContactSketch;
 import com.huawei.hms.contactshield.DiagnosisConfiguration;
 import com.huawei.hms.contactshield.PeriodicKey;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import com.futurewei.contact_shield_demo.utils.BackgroundContackCheckingIntentService;
+import com.futurewei.contact_shield_demo.R;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "ContactShield_MainActivity";
     // token
-    private static String token = "3bdd528fd98947bcaffa0d8fda68ca54";
+    private static String token = "TOKEN_FOR_INDIVIDUAL";
 
     private ContactShieldEngine mEngine;
 
@@ -127,73 +118,95 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void startContactCtrl(boolean onOff) {
         if (onOff) {
             mStatusButton.setText("ON");
-            PendingIntent pendingIntent = PendingIntent.getService(this, 0,
-                    new Intent(this, BackgroundContactCheckingIntentService.class),
-                    PendingIntent.FLAG_UPDATE_CURRENT);
-            mEngine.startContactShield(pendingIntent, ContactShieldSetting.DEFAULT)
-                    .addOnSuccessListener(aVoid -> Log.e(TAG, "startContactShield succeed."))
+            mEngine.startContactShield(ContactShieldSetting.DEFAULT)
+                    .addOnSuccessListener(aVoid -> Log.d(TAG, "startContactShield succeed."))
                     .addOnFailureListener(e ->
-                            Log.e(TAG, "startContactShield failed, cause: " + e.getMessage()));
+                            Log.d(TAG, "startContactShield failed, cause: " + e.getMessage()));
         } else {
             mStatusButton.setText("OFF");
-            Log.e(TAG, "Stop ContactShield.");
+            Log.d(TAG, "Stop ContactShield.");
             mEngine.stopContactShield();
         }
     }
 
     public void reportPeriodicKeys() {
-        getKeysButtonOnClick();
+
+        mEngine.getPeriodicKey().addOnCompleteListener(
+                task -> task.addOnSuccessListener(
+                        periodicKeys -> {
+                            Log.d(TAG, "getPeriodicKey succeeded, getKeySize: " + periodicKeys.size());
+                            Toast.makeText(this, "GET "+periodicKeys.size()+" periodic keys", Toast.LENGTH_LONG).show();
+                            for (PeriodicKey key : periodicKeys) {
+                                Log.d(TAG, "key: " + Arrays.toString(key.getContent()) + ", " + key.toString());
+                            }
+                        })
+                        .addOnFailureListener(e -> {
+                            Log.d(TAG, "getPeriodicKey failed, cause: " + e.getMessage());
+                        }));
+
     }
 
     public void putKeysButtonOnClick() {
         // Shared key list file, Please configure according to the actual situation
-        String destFilePath = "/storage/emulated/0/Android/data/periodic_key.zip";
-        File file = new File(destFilePath);
-        Log.e(TAG, "is exist: "+file.exists());
+        String filename = Environment.getExternalStorageDirectory().toString()
+                + File.separator + "sdcard" + File.separator + "Download" + File.separator + "xx.zip";
+        File file = new File(filename);
         ArrayList<File> putList = new ArrayList<>();
         putList.add(file);
         DiagnosisConfiguration config = new DiagnosisConfiguration.Builder().build();
-        mEngine.putSharedKeyFiles(putList, config, token)
+
+        PendingIntent pendingIntent = PendingIntent.getService(this, 0,
+                new Intent(this, BackgroundContackCheckingIntentService.class),
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+        mEngine.putSharedKeyFiles(pendingIntent, putList, config, token)
                 .addOnSuccessListener(aVoid -> {
-                    Log.e(TAG, "putSharedKeyFiles succeeded.");
+                    Log.d(TAG, "putSharedKeyFiles succeeded.");
                 })
                 .addOnFailureListener(e -> {
-                    Log.e(TAG, "putSharedKeyFiles failed, cause: " + e.getMessage());
+                    Log.d(TAG, "putSharedKeyFiles failed, cause: " + e.getMessage());
                 });
     }
 
     public void getKeysButtonOnClick() {
-        mEngine.getPeriodicKey().addOnCompleteListener(
-                task -> task.addOnSuccessListener(
-                        periodicKeys -> {
-                            Log.e(TAG, "getPeriodicKey succeeded, getKeySize: " + periodicKeys.size());
-                            for (PeriodicKey key : periodicKeys) {
-                                Log.e(TAG, "key: " + Arrays.toString(key.getContent()) + ", " + key.toString());
-                            }
-                        })
-                        .addOnFailureListener(e -> {
-                            Log.e(TAG, "getPeriodicKey failed, cause: " + e.getMessage());
-                        }));
+        switch (token) {
+            case "TOKEN_WINDOW_MODE":
+                mEngine.getContactWindow(token).addOnCompleteListener(
+                        task -> task.addOnSuccessListener(
+                                contactSketch -> Log.d(TAG, "getContactWindow succeeded, summary: " + contactSketch.toString()))
+                                .addOnFailureListener(
+                                        e -> {
+                                            Log.d(TAG, "getContactWindow failed, cause: " + e.getMessage());
+                                        }));
+                break;
+            default:
+                mEngine.getContactSketch(token).addOnCompleteListener(
+                        task -> task.addOnSuccessListener(
+                                contactSketch -> Log.d(TAG, "getContactSketch succeeded, summary: " + contactSketch.toString()))
+                                .addOnFailureListener(
+                                        e -> {
+                                            Log.d(TAG, "getContactSketch failed, cause: " + e.getMessage());
+                                        }));
+        }
     }
 
     public void getSketchButtonOnClick() {
         mEngine.getContactSketch(token).addOnCompleteListener(
                 task -> task.addOnSuccessListener(
-                        contactSketch -> Log.e(TAG, "getContactSketch succeeded, summary: " + contactSketch.toString()))
+                        contactSketch -> Log.d(TAG, "getContactSketch succeeded, summary: " + contactSketch.toString()))
                         .addOnFailureListener(
                                 e -> {
-                                    Log.e(TAG, "getContactSketch failed, cause: " + e.getMessage());
+                                    Log.d(TAG, "getContactSketch failed, cause: " + e.getMessage());
                                 }));
     }
 
     public void getDetailButtonOnClick() {
         mEngine.getContactDetail(token).addOnCompleteListener(
                 task -> task.addOnSuccessListener(contactDetails -> {
-                    Log.e(TAG, "getContactDetail succeeded.");
+                    Log.d(TAG, "getContactDetail succeeded.");
                     for (ContactDetail detail : contactDetails) {
-                        Log.e(TAG, "getContactDetail, detail: " + detail.toString());
+                        Log.d(TAG, "getContactDetail, detail: " + detail.toString());
                     }
-                }).addOnFailureListener(e -> Log.e(TAG, "getContactDetail failed, cause: " + e.getMessage())));
+                }).addOnFailureListener(e -> Log.d(TAG, "getContactDetail failed, cause: " + e.getMessage())));
     }
 }
-

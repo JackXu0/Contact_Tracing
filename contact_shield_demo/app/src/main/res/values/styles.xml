@@ -1,38 +1,11 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="Theme.App" parent="Theme.MaterialComponents.Light.DarkActionBar">
-        <item name="materialCardViewStyle">@style/Widget.App.CardView</item>
-        <item name="switchStyle">@style/Widget.App.Switch</item>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-    </style>
-
-    <style name="Widget.App.CardView" parent="Widget.MaterialComponents.CardView">
-        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Card</item>
-        <item name="shapeAppearance">@style/ShapeAppearance.App.MediumComponent</item>
-    </style>
-
-    <style name="ShapeAppearance.App.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
-        <item name="cornerFamily">cut</item>
-        <item name="cornerSize">8dp</item>
-    </style>
-
-    <style name="ThemeOverlay.App.Card" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/cardPrimary</item>
-        <item name="colorSurface">@color/cardSurface</item>
-        <item name="colorOnSurface">@color/cardSurface</item>
-    </style>
-
-    <style name="Widget.App.Switch" parent="Widget.MaterialComponents.CompoundButton.Switch">
-        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Switch</item>
-    </style>
-
-    <style name="ThemeOverlay.App.Switch" parent="">
-        <item name="colorSurface">@color/colorSurface</item>
-        <item name="colorOnSurface">@color/colorPrimary</item>
-        <item name="colorSecondary">@color/colorSecondary</item>
     </style>
 
 </resources>
