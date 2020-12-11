@@ -281,7 +281,7 @@ public class FragmentHome extends Fragment {
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
 
-        ContactShield.getContactShieldEngine(context).startContactShield(pendingIntent, ContactShieldSetting.DEFAULT)
+        ContactShield.getContactShieldEngine(context).startContactShield(ContactShieldSetting.DEFAULT)
                 .addOnSuccessListener(aVoid -> Log.d(TAG, "startContactShield >> Success"))
                 .addOnFailureListener(e -> { Log.e(TAG, "startContactShield >> Failure"); });
     }

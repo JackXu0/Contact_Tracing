@@ -8,12 +8,14 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -37,6 +39,7 @@ public class fragmentSetting extends Fragment {
     SwitchMaterial disableAppBtn;
     SwitchMaterial disableNotificationBtn;
     SwitchMaterial disablePkBtn;
+    TextView android_id_tv;
     Button clearDataBtn;
     String TAG = "fragment settings";
 
@@ -62,10 +65,13 @@ public class fragmentSetting extends Fragment {
         disableNotificationBtn = root.findViewById(R.id.disableNotificationsButton);
         disablePkBtn = root.findViewById(R.id.disablePKUploadButton);
         clearDataBtn = root.findViewById(R.id.clearDataButton);
+        android_id_tv = root.findViewById(R.id.android_id);
 
         disableAppBtn.setChecked(isAppDisabled);
         disableNotificationBtn.setChecked(isNotificationDisabled);
         disablePkBtn.setChecked(isPKUploadDisabled);
+        android_id_tv.setText(Settings.Secure.getString(getActivity().getContentResolver(),
+                Settings.Secure.ANDROID_ID));
 
         disableAppBtn.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> {
             SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -142,7 +148,7 @@ public class fragmentSetting extends Fragment {
                             PendingIntent.FLAG_UPDATE_CURRENT);
 
 
-                    ContactShield.getContactShieldEngine(getActivity()).startContactShield(pendingIntent, ContactShieldSetting.DEFAULT)
+                    ContactShield.getContactShieldEngine(getActivity()).startContactShield(ContactShieldSetting.DEFAULT)
                             .addOnSuccessListener(bVoid -> {
                                 Toast.makeText(getContext(), "Data Cleared", Toast.LENGTH_SHORT).show();
                                 Log.e(TAG, "startContactShield >> Success");

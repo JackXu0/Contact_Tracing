@@ -55,20 +55,20 @@
             android:enabled="true"
             android:exported="true" />
 
-        <service
-            android:name=".activities.MyPushService"
-            android:exported="false" >
-            <intent-filter>
-                <action android:name="com.huawei.push.action.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
+<!--        <service-->
+<!--            android:name=".activities.MyPushService"-->
+<!--            android:exported="false" >-->
+<!--            <intent-filter>-->
+<!--                <action android:name="com.huawei.push.action.MESSAGING_EVENT" />-->
+<!--            </intent-filter>-->
+<!--        </service>-->
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-        <meta-data
-            android:name="push_kit_auto_init_enabled"
-            android:value="true" />
+<!--        <meta-data-->
+<!--            android:name="push_kit_auto_init_enabled"-->
+<!--            android:value="true" />-->
     </application>
 
 </manifest>

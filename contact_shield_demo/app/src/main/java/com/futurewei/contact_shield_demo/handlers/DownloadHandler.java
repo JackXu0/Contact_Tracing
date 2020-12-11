@@ -1,6 +1,7 @@
 package com.futurewei.contact_shield_demo.handlers;
 
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.futurewei.contact_shield_demo.BackgroundContactCheckingIntentService;
 import com.futurewei.contact_shield_demo.network.DownloadZip;
 import com.huawei.hms.contactshield.ContactShield;
 import com.huawei.hms.contactshield.DiagnosisConfiguration;
@@ -92,8 +94,12 @@ public class DownloadHandler extends Handler {
                 .setAttenuationRiskValues(1,2,3,4,5,6,7,8)
                 .build();
 
+        PendingIntent pendingIntent = PendingIntent.getService(context, 0,
+                new Intent(context, BackgroundContactCheckingIntentService.class),
+                PendingIntent.FLAG_UPDATE_CURRENT);
 
-        ContactShield.getContactShieldEngine(context).putSharedKeyFiles(putList, config, token)
+
+        ContactShield.getContactShieldEngine(context).putSharedKeyFiles(pendingIntent, putList, config, token)
                 .addOnSuccessListener(aVoid -> {
                     Log.e(TAG, "putSharedKeyFiles succeeded.");
                 })

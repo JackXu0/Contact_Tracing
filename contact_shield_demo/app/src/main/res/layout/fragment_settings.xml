@@ -105,6 +105,21 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <TextView
+        android:id="@+id/android_id"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_marginTop="50dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:text="Android ID"
+        android:textIsSelectable="true"
+        android:gravity="center_horizontal"
+        android:textSize="28dp"
+        android:layout_marginBottom="100dp"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintBottom_toTopOf="@id/clearDataButton" />
+
     <Button
         android:id="@+id/clearDataButton"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"

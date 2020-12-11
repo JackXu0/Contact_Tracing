@@ -84,7 +84,7 @@ public class NewMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_main_activity);
 
         permissonRequest();
-        registerPush();
+//        registerPush();
 
         fm = getSupportFragmentManager();
         ft = fm.beginTransaction();
@@ -137,21 +137,21 @@ public class NewMainActivity extends AppCompatActivity {
 
     }
 
-    void registerPush(){
-        NewMainActivity.MyReceiver receiver = new NewMainActivity.MyReceiver();
-        IntentFilter filter=new IntentFilter();
-        filter.addAction("com.huawei.codelabpush.ON_NEW_TOKEN");
-        NewMainActivity.this.registerReceiver(receiver,filter);
-    }
-
-    //push kit
-    public class MyReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if ("com.huawei.codelabpush.ON_NEW_TOKEN".equals(intent.getAction())) {
-                String token = intent.getStringExtra("token");
-//                tvToken.setText(token);
-            }
-        }
-    }
+//    void registerPush(){
+//        NewMainActivity.MyReceiver receiver = new NewMainActivity.MyReceiver();
+//        IntentFilter filter=new IntentFilter();
+//        filter.addAction("com.huawei.codelabpush.ON_NEW_TOKEN");
+//        NewMainActivity.this.registerReceiver(receiver,filter);
+//    }
+//
+//    //push kit
+//    public class MyReceiver extends BroadcastReceiver {
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            if ("com.huawei.codelabpush.ON_NEW_TOKEN".equals(intent.getAction())) {
+//                String token = intent.getStringExtra("token");
+////                tvToken.setText(token);
+//            }
+//        }
+//    }
 }
